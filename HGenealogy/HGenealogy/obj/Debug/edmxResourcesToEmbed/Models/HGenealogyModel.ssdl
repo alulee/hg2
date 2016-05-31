@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="HGenealogyModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Family">
+    <Key>
+      <PropertyRef Name="FId" />
+    </Key>
+    <Property Name="FId" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="FName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="GId" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="FatherId" Type="nvarchar" MaxLength="20" />
+    <Property Name="MotherId" Type="nvarchar" MaxLength="20" />
+    <Property Name="BirthDay" Type="date" />
+    <Property Name="Address" Type="nvarchar" MaxLength="50" />
+    <Property Name="AddressLongitude" Type="numeric" Precision="18" Scale="8" />
+    <Property Name="AddressLatitude" Type="numeric" Precision="18" Scale="8" />
+    <Property Name="Phone1" Type="nvarchar" MaxLength="30" />
+    <Property Name="Phone2" Type="nvarchar" MaxLength="30" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" />
+    <Property Name="FatherName" Type="nvarchar" MaxLength="50" />
+    <Property Name="MoterName" Type="nvarchar" MaxLength="50" />
+    <Property Name="GFatherName" Type="nvarchar" MaxLength="50" />
+    <Property Name="GGFatherName" Type="nvarchar" MaxLength="50" />
+    <Property Name="Gender" Type="nchar" MaxLength="10" />
+    <Property Name="Mate" Type="nvarchar" MaxLength="50" />
+    <Property Name="GenerationNo" Type="int" />
+    <Property Name="Job" Type="nvarchar" MaxLength="50" />
+    <Property Name="Notes" Type="nvarchar" MaxLength="50" />
+    <Property Name="Childrens" Type="nvarchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="GenealogyMeta">
+    <Key>
+      <PropertyRef Name="GID" />
+    </Key>
+    <Property Name="GID" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="GName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="IsPublic" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Menu">
+    <Key>
+      <PropertyRef Name="MenuId" />
+    </Key>
+    <Property Name="MenuId" Type="int" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="20" />
+    <Property Name="Controller" Type="nvarchar" MaxLength="20" />
+    <Property Name="Action" Type="nvarchar" MaxLength="20" />
+    <Property Name="Url" Type="nvarchar" MaxLength="250" />
+    <Property Name="Description" Type="nvarchar" MaxLength="250" />
+    <Property Name="ParentId" Type="int" />
+    <Property Name="Status" Type="int" />
+    <Property Name="RouteValues" Type="nvarchar" MaxLength="20" />
+    <Property Name="OrderSerial" Type="int" />
+  </EntityType>
+  <EntityType Name="TaiwanZipCode">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="Zip" Type="int" Nullable="false" />
+    <Property Name="CityName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Town" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Sequence" Type="int" Nullable="false" />
+    <Property Name="CreateDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityContainer Name="HGenealogyModelStoreContainer">
+    <EntitySet Name="Family" EntityType="Self.Family" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="GenealogyMeta" EntityType="Self.GenealogyMeta" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Menu" EntityType="Self.Menu" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TaiwanZipCode" EntityType="Self.TaiwanZipCode" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

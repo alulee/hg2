@@ -1,0 +1,57 @@
+﻿@model IEnumerable<HGenealogy.Data.FamilyMember>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h4>Members of Pedigree</h4>
+<hr />
+
+@{ ViewData["SelectedPedigreeSecondMenu"] = "MemberList";}
+
+<div class="pedigreecontainer container-fluid">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#pedigreecontent">族譜名稱：謝氏族譜(全譜)</a></li>
+    </ul>
+
+    <div class="container-fluid" id="pedigreecontent">
+        @Html.Partial("_PedigreeSecondMenu", @ViewData)
+    </div>
+
+    <hr />
+
+    <h4>通訊錄</h4>
+
+    <div class="newfm float-right">
+        <p>
+            @Html.ActionLink("建立新會員", "Create")
+        </p>
+    </div>
+    <div class="clearfix"></div>
+
+    @foreach (var item in Model)
+    {
+        <div class="container-fluid memberbox">
+            <div class="member_img">
+                <img src="/Content/Images/indis.gif" />
+            </div>
+            <div class="member_intro">
+                <div>
+                    <h4><strong>@Html.DisplayFor(modelItem => item.GivenName)</strong></h4>
+                    <div class="member_intro_content">
+
+                        <p>個人摘要：@Html.DisplayFor(modelItem => item.Description)</p>
+
+                        <p>現居地址：@Html.DisplayFor(modelItem => item.Description)</p>
+                    </div>
+                </div>
+            </div>
+            <div class="editor-btn">
+                @Html.ActionLink("編輯", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("詳細資料", "Details", new { id = item.Id }) |
+                @Html.ActionLink("刪除", "Delete", new { id = item.Id })
+            </div>
+        </div>
+    }
+
+</div>

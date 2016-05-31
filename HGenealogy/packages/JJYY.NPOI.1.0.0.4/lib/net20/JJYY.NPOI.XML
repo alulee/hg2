@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JJYY.NPOI</name>
+    </assembly>
+    <members>
+        <member name="T:JJYY.NPOI.ReportUtils">
+            <summary>
+            NPOI输入Excel工具类 base on NPOI 1.2.4
+            </summary>
+        </member>
+        <member name="M:JJYY.NPOI.ReportUtils.CreateRowCell(NPOI.SS.UserModel.ISheet,System.Int32,System.Int32)">
+            <summary>
+            创建一行（包括单元格）
+            </summary>
+            <param name="sheet">工作表</param>
+            <param name="rowIdx">行索引</param>
+            <param name="toColIdx">结束列索引</param>
+            <returns></returns>
+        </member>
+        <member name="M:JJYY.NPOI.ReportUtils.CreateRowCell(NPOI.SS.UserModel.ISheet,System.Int32,System.Int32,NPOI.SS.UserModel.ICellStyle)">
+            <summary>
+            创建一行（包括单元格）
+            </summary>
+            <param name="sheet">工作表</param>
+            <param name="rowIdx">行索引</param>
+            <param name="toColIdx">结束列索引</param>
+            <param name="cellStyle">单元格样式</param>
+            <returns></returns>
+        </member>
+        <member name="M:JJYY.NPOI.ReportUtils.CreateRowCell(NPOI.SS.UserModel.ISheet,System.Int32,System.Int32,System.Int32,NPOI.SS.UserModel.ICellStyle)">
+            <summary>
+            创建一行（包括单元格）
+            </summary>
+            <param name="sheet">工作表</param>
+            <param name="rowIdx">行索引</param>
+            <param name="fromColIdx">开始列索引，默认为0</param>
+            <param name="toColIdx">结束列索引</param>
+            <param name="cellStyle">单元格样式</param>
+            <returns></returns>
+        </member>
+        <member name="M:JJYY.NPOI.ReportUtils.CreateBorderCellStyle(NPOI.HSSF.UserModel.HSSFWorkbook)">
+            <summary>
+            边框样式
+            </summary>
+            <param name="wb"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

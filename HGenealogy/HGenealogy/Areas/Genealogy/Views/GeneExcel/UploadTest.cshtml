@@ -1,0 +1,71 @@
+﻿@using PagedList.Mvc
+@model PagedList.IPagedList<HGenealogy.Entities.Family>
+
+@{
+    ViewBag.Title = "Excel 族譜資料批次匯入";
+}
+
+<h2>族譜資料批次匯入</h2>
+
+@*<div>
+    <input id="file" type="file" class="form-control" name="file" />
+    <br />
+    <button id="submit" type="submit" class="btn btn-primary">匯入族譜資料檔</button>
+</div>
+*@
+
+<div>
+    <button class="btn btn-primary" data-toggle="modal" data-target="#UploadModal">
+        匯入資料
+    </button>    
+</div>
+
+ 
+    <script type="text/javascript">
+
+        function updateMonitor(taskId, status) {
+            $("#" + taskId).html("Task [" + taskId + "]: " + status);
+            $("#monitors").append($("<p>" + status + "</p>"));
+        }
+
+        $(function () {
+            $("#submit").click(function (e) {
+                e.preventDefault();
+
+                var requestData = new FormData();
+                var files = $("#file").get(0).files;
+                if (files.length > 0) {
+                    requestData.append(files[0].name, files[0]);
+                }
+
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "/Genealogy/GeneExcelUpload/UploadStart", true);
+                xhr.addEventListener("load", function () { startMonitor("aaa"); }, false);
+                xhr.addEventListener("error", function (xhr) {
+                    alert('族譜資料匯入錯誤: ' + xhr.statusText);
+                }, false);
+                xhr.send(requestData);
+
+                function startMonitor(taskId) {
+
+                    // Init monitors
+                    $("#monitors").append($("<p id='" + taskId + "'/>"));
+                    updateMonitor(taskId, "Started");
+
+                    // Periodically update monitors
+                    var intervalId = setInterval(function () {
+                        $.post("/Genealogy/GeneExcelUpload/Progress", { id: taskId }, function (message) {
+                            if (message.indexOf("done") >= 0) {
+                                updateMonitor(taskId, "Completed");
+                                clearInterval(intervalId);
+                            } else {
+                                updateMonitor(taskId, message);
+                            }
+                        });
+                    }, 100);
+                };
+            });
+        });
+    </script>
+    <br />
+    <div id="monitors"></div>

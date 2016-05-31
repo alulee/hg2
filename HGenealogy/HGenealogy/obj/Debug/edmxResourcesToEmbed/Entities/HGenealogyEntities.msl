@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="HDatabaseModelStoreContainer" CdmEntityContainer="HDatabaseEntities">
+    <EntitySetMapping Name="Families">
+      <EntityTypeMapping TypeName="HDatabaseModel.Family">
+        <MappingFragment StoreEntitySet="Family">
+          <ScalarProperty Name="FId" ColumnName="FId" />
+          <ScalarProperty Name="FName" ColumnName="FName" />
+          <ScalarProperty Name="GId" ColumnName="GId" />
+          <ScalarProperty Name="FatherId" ColumnName="FatherId" />
+          <ScalarProperty Name="MotherId" ColumnName="MotherId" />
+          <ScalarProperty Name="BirthDay" ColumnName="BirthDay" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="AddressLongitude" ColumnName="AddressLongitude" />
+          <ScalarProperty Name="AddressLatitude" ColumnName="AddressLatitude" />
+          <ScalarProperty Name="Phone1" ColumnName="Phone1" />
+          <ScalarProperty Name="Phone2" ColumnName="Phone2" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="FatherName" ColumnName="FatherName" />
+          <ScalarProperty Name="MoterName" ColumnName="MoterName" />
+          <ScalarProperty Name="GFatherName" ColumnName="GFatherName" />
+          <ScalarProperty Name="GGFatherName" ColumnName="GGFatherName" />
+          <ScalarProperty Name="Gender" ColumnName="Gender" />
+          <ScalarProperty Name="Mate" ColumnName="Mate" />
+          <ScalarProperty Name="GenerationNo" ColumnName="GenerationNo" />
+          <ScalarProperty Name="Job" ColumnName="Job" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+          <ScalarProperty Name="Childrens" ColumnName="Childrens" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GenealogyMetas">
+      <EntityTypeMapping TypeName="HDatabaseModel.GenealogyMeta">
+        <MappingFragment StoreEntitySet="GenealogyMeta">
+          <ScalarProperty Name="GID" ColumnName="GID" />
+          <ScalarProperty Name="GName" ColumnName="GName" />
+          <ScalarProperty Name="IsPublic" ColumnName="IsPublic" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Menus">
+      <EntityTypeMapping TypeName="HDatabaseModel.Menu">
+        <MappingFragment StoreEntitySet="Menu">
+          <ScalarProperty Name="MenuId" ColumnName="MenuId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Controller" ColumnName="Controller" />
+          <ScalarProperty Name="Action" ColumnName="Action" />
+          <ScalarProperty Name="Url" ColumnName="Url" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="RouteValues" ColumnName="RouteValues" />
+          <ScalarProperty Name="OrderSerial" ColumnName="OrderSerial" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TaiwanZipCodes">
+      <EntityTypeMapping TypeName="HDatabaseModel.TaiwanZipCode">
+        <MappingFragment StoreEntitySet="TaiwanZipCode">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Zip" ColumnName="Zip" />
+          <ScalarProperty Name="CityName" ColumnName="CityName" />
+          <ScalarProperty Name="Town" ColumnName="Town" />
+          <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

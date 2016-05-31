@@ -1,0 +1,4 @@
+2015-04-11 11:18:03.1635 | TRACE | HGenealogy.MvcApplication | Trace 
+2015-04-11 11:18:03.8536 | DEBUG | HGenealogy.MvcApplication | Debug 
+2015-04-11 11:18:04.0436 | INFO | HGenealogy.MvcApplication | Info 
+2015-04-11 11:18:04.2296 | WARN | HGenealogy.MvcApplication | Warn 

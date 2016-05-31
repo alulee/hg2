@@ -1,0 +1,178 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<!--<div class="jumbotron" style="background-image: url(../../Content/hakkageneology.jpg); background-repeat:no-repeat;">-->
+<div class="jumbotron">
+    <h1>客家族譜平台</h1>
+    <p class="lead"></p>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>族譜編目</h2>
+        <table>
+            <tr>
+                <td>
+                    @Html.ActionLink("瀏覽族譜列表", "Index", "GenealogyMeta", new { area = "Genealogy" }, new { @class = "navbar-brand" })
+                </td>
+                <td>
+                    <a class="btn btn-default" href="/Genealogy/GenealogyMeta">前往族譜列表&raquo;</a>
+                 </td>
+             </tr>
+
+            <tr>
+                <td>
+                    @Html.ActionLink("建立您的族譜", "Create", "GenealogyMeta", new { area = "Genealogy" }, new { @class = "navbar-brand" })
+                </td>
+                <td>
+                    <a class="btn btn-default" href="/Genealogy/GenealogyMeta/Create">建立新族譜&raquo;</a>
+                </td>
+            </tr>
+         </table>
+    </div>
+    <div class="col-md-4">
+        <h2>世系表</h2>
+        <table>
+            <tr>
+                <td>
+                    @Html.ActionLink("瀏覽世系列表", "Index", "Families", new { area = "Genealogy" }, new { @class = "navbar-brand" })
+                </td>
+                <td>
+                    <a class="btn btn-default" href="/Genealogy/Families">前往世系列表&raquo;</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.ActionLink("系譜資料匯入匯出", "Upload", "GeneExcel", new { area = "Genealogy" }, new { @class = "navbar-brand" })
+                </td>
+                <td>
+                    <a class="btn btn-default" href="/Genealogy/GeneExcel/Upload">系譜資料匯入匯出&raquo;</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-md-4">
+        <h2>視覺化族譜</h2>
+        <table>
+            <tr>
+                <td>
+                    @Html.ActionLink("視覺化族譜", "Index", "VisualGenealogy", new { area = "Genealogy" }, new { @class = "navbar-brand" })
+                </td>
+                <td>
+                    <a class="btn btn-default" href="/Genealogy/VisualGenealogy">視覺化族譜&raquo;</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<hr />
+
+<p><a id="showroute" class="btn btn-primary btn-lg">新竹張氏遷移路徑圖</a></p>
+<div id="mapfull" style="width: 100%; height: 600px"></div>
+<script src="/Scripts//Map/leaflet/leaflet-src.js"></script>
+<script src="/Scripts/Map/AnimatedMarker.js"></script>
+<script src="/Scripts//Map/raphael/raphael-src.js"></script>
+<script src="/Scripts/Map/raphael/rlayer-src.js"></script>
+<script src="/Scripts/Map/raphael/adelaide.js"></script>
+<script src="/Scripts/project.visualgenealogy.js"></script>
+
+<script>
+    
+        
+        //map.on('click', function (e) {
+ 
+        //    points.push(e.latlng);
+        //    if (points.length == 1) {
+        //        showPoint();
+        //    }
+        //    if (points.length >= 2) {
+        //        // var p = new R.Polygon(points);
+        //        // map.addLayer(p);
+        //        //p.hover(function () {
+
+        //        //},
+        //        //function () {
+        //        //    p.animate({ opacity: 0 }, 1000, function () { map.removeLayer(p); });
+
+        //        //});
+
+
+        //        startPoint = points[points.length - 2];
+        //        //points = [];
+        //        var b = new R.BezierAnim([startPoint, e.latlng], {}, showPoint);
+
+        //        map.addLayer(b);
+        //    }
+        //});
+ 
+    $(document).ready(function () {
+        
+        var map = new L.Map('mapfull');
+        var tiles = new L.TileLayer('http://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '',
+            maxZoom: 18
+        });
+
+        var adelaide = new L.LatLng(24.729170, 120.964310);
+        var startPoint;
+        var m = new R.Marker(adelaide);
+
+        map.setView(adelaide, 7).addLayer(tiles);
+        map.addLayer(m);
+
+        setTimeout(function () {
+            map.removeLayer(m);
+        }, 5000);
+
+        initailmap(map);
+
+
+        $('#showroute').click(function () {
+            initailmap(map);
+        });
+ 
+    });
+
+    function initailmap(map) {
+        var points = [];
+        points.push(new L.LatLng(23.955039, 117.269802));
+        points.push(new L.LatLng(22.790238, 114.457449));
+        points.push(new L.LatLng(24.718309, 121.141861));
+
+        showRouteMap(points, map, true);
+
+    } 
+</script>
+
+
+<script>
+
+    /*
+    var map = L.map('map').setView([29.114, 107.358], 4);
+    L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
+        maxZoom: 13,
+        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+            '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+            'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+        id: 'examples.map-i875mjb7'
+    }).addTo(map);
+
+
+    $(document).ready(function(){
+        $("#showroute").click(showroute);
+    });
+
+    var popup = L.popup();
+    function onMapClick(e) {
+        popup
+            .setLatLng(e.latlng)
+            .setContent("You clicked the map at " + e.latlng.toString())
+            .openOn(map);
+    }
+
+    map.on('click', onMapClick);
+    */
+
+</script>

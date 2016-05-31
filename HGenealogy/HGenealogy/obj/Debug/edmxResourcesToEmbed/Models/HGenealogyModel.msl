@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="HGenealogyModelStoreContainer" CdmEntityContainer="HGenealogyEntities">
+    <EntitySetMapping Name="GenealogyMetas">
+      <EntityTypeMapping TypeName="HGenealogyModel.GenealogyMeta">
+        <MappingFragment StoreEntitySet="GenealogyMeta">
+          <ScalarProperty Name="GID" ColumnName="GID" />
+          <ScalarProperty Name="GName" ColumnName="GName" />
+          <ScalarProperty Name="IsPublic" ColumnName="IsPublic" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Menus">
+      <EntityTypeMapping TypeName="HGenealogyModel.Menu">
+        <MappingFragment StoreEntitySet="Menu">
+          <ScalarProperty Name="OrderSerial" ColumnName="OrderSerial" />
+          <ScalarProperty Name="RouteValues" ColumnName="RouteValues" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Url" ColumnName="Url" />
+          <ScalarProperty Name="Action" ColumnName="Action" />
+          <ScalarProperty Name="Controller" ColumnName="Controller" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="MenuId" ColumnName="MenuId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TaiwanZipCodes">
+      <EntityTypeMapping TypeName="HGenealogyModel.TaiwanZipCode">
+        <MappingFragment StoreEntitySet="TaiwanZipCode">
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+          <ScalarProperty Name="Town" ColumnName="Town" />
+          <ScalarProperty Name="CityName" ColumnName="CityName" />
+          <ScalarProperty Name="Zip" ColumnName="Zip" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

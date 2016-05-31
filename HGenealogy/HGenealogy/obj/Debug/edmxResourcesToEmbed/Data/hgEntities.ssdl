@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="hDatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Family">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FNo" Type="nvarchar" MaxLength="20" />
+    <Property Name="FName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="GId" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="FatherId" Type="nvarchar" MaxLength="20" />
+    <Property Name="MotherId" Type="nvarchar" MaxLength="20" />
+    <Property Name="BirthYear" Type="nvarchar" MaxLength="10" />
+    <Property Name="BirthDay" Type="date" />
+    <Property Name="Address" Type="nvarchar" MaxLength="50" />
+    <Property Name="AddressLongitude" Type="numeric" Precision="18" Scale="8" />
+    <Property Name="AddressLatitude" Type="numeric" Precision="18" Scale="8" />
+    <Property Name="Phone1" Type="nvarchar" MaxLength="30" />
+    <Property Name="Phone2" Type="nvarchar" MaxLength="30" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" />
+    <Property Name="FatherName" Type="nvarchar" MaxLength="50" />
+    <Property Name="MoterName" Type="nvarchar" MaxLength="50" />
+    <Property Name="GFatherName" Type="nvarchar" MaxLength="50" />
+    <Property Name="GGFatherName" Type="nvarchar" MaxLength="50" />
+    <Property Name="Gender" Type="nchar" MaxLength="10" />
+    <Property Name="Mate" Type="nvarchar" MaxLength="50" />
+    <Property Name="GenerationNo" Type="int" />
+    <Property Name="Job" Type="nvarchar" MaxLength="50" />
+    <Property Name="Notes" Type="nvarchar" MaxLength="50" />
+    <Property Name="Childrens" Type="nvarchar" MaxLength="500" />
+    <Property Name="LungName" Type="nvarchar" MaxLength="50" />
+    <Property Name="HakkaName" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="FamilyMember">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FamilyName" Type="nvarchar" MaxLength="30" Nullable="false" />
+    <Property Name="GivenName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="FatherMemberId" Type="int" Nullable="false" />
+    <Property Name="MotherMemberId" Type="int" Nullable="false" />
+    <Property Name="BirthYear" Type="nvarchar" MaxLength="30" Nullable="false" />
+    <Property Name="BirthMonth" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="BirthDate" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="CurrentAddressId" Type="int" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="500" Nullable="false" />
+    <Property Name="Phone" Type="nvarchar" MaxLength="30" Nullable="false" />
+    <Property Name="MobilePhone" Type="nvarchar" MaxLength="30" Nullable="false" />
+    <Property Name="Gender" Type="nvarchar" MaxLength="1" Nullable="false" />
+    <Property Name="LungName" Type="nvarchar" MaxLength="30" Nullable="false" />
+    <Property Name="HakkaName" Type="nvarchar" MaxLength="30" Nullable="false" />
+    <Property Name="JobDescription" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="IsPublic" Type="bit" Nullable="false" />
+    <Property Name="IsPublished" Type="bit" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+    <Property Name="DisplayOrder" Type="int" Nullable="false" />
+    <Property Name="CreatedOnUtc" Type="datetime2" Precision="7" Nullable="false" />
+    <Property Name="UpdatedOnUtc" Type="datetime2" Precision="7" Nullable="false" />
+    <Property Name="CreatedWho" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="UpdatedWho" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="LastChanged" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+  </EntityType>
+  <EntityType Name="GenealogyMeta">
+    <Key>
+      <PropertyRef Name="GID" />
+    </Key>
+    <Property Name="GID" Type="nvarchar" MaxLength="120" Nullable="false" />
+    <Property Name="GName" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="IsPublic" Type="bit" Nullable="false" />
+    <Property Name="Editor" Type="nvarchar" MaxLength="50" />
+    <Property Name="PublishDate" Type="nvarchar" MaxLength="50" />
+    <Property Name="Volumes" Type="nvarchar" MaxLength="50" />
+    <Property Name="Pages" Type="int" />
+    <Property Name="Interviewer" Type="nvarchar" MaxLength="50" />
+    <Property Name="FamilyName" Type="nvarchar" MaxLength="50" />
+    <Property Name="OriginalAncestor" Type="nvarchar" MaxLength="50" />
+    <Property Name="DateMoveToTaiwan" Type="nvarchar" MaxLength="50" />
+    <Property Name="AncestorToTaiwan" Type="nvarchar" MaxLength="50" />
+    <Property Name="OriginalAddress" Type="nvarchar" MaxLength="50" />
+    <Property Name="Generations" Type="int" />
+    <Property Name="GenerationToTaiwan" Type="nvarchar" MaxLength="50" />
+    <Property Name="LivingAreaInTaiwan" Type="nvarchar" MaxLength="50" />
+    <Property Name="Collector" Type="nvarchar" MaxLength="50" />
+    <Property Name="ContentNotes" Type="nvarchar" MaxLength="50" />
+    <Property Name="ZhaoMu" Type="nvarchar" MaxLength="100" />
+    <Property Name="TangName" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Menu">
+    <Key>
+      <PropertyRef Name="MenuId" />
+    </Key>
+    <Property Name="MenuId" Type="int" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="20" />
+    <Property Name="Controller" Type="nvarchar" MaxLength="20" />
+    <Property Name="Action" Type="nvarchar" MaxLength="20" />
+    <Property Name="Url" Type="nvarchar" MaxLength="250" />
+    <Property Name="Description" Type="nvarchar" MaxLength="250" />
+    <Property Name="ParentId" Type="int" />
+    <Property Name="Status" Type="int" />
+    <Property Name="RouteValues" Type="nvarchar" MaxLength="20" />
+    <Property Name="OrderSerial" Type="int" />
+  </EntityType>
+  <EntityType Name="PedigreeEvent">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PedigreeID" Type="int" Nullable="false" />
+    <Property Name="EventTitle" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="EventContent" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="EventDateOnUtc" Type="datetime" Nullable="false" />
+    <Property Name="EventPlace" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="Longitude" Type="decimal" Precision="18" Scale="5" />
+    <Property Name="Latitude" Type="decimal" Precision="18" Scale="5" />
+    <Property Name="MetaKeywords" Type="nvarchar" MaxLength="400" />
+    <Property Name="CreatedOnUtc" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedOnUtc" Type="datetime" Nullable="false" />
+    <Property Name="CreatedWho" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="UpdatedWho" Type="nvarchar" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PedigreeInfo">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PedigreeID" Type="int" Nullable="false" />
+    <Property Name="InfoType" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="InfoTitle" Type="nvarchar" MaxLength="30" Nullable="false" />
+    <Property Name="InfoContent" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CreatedOnUtc" Type="datetime2" Precision="7" Nullable="false" />
+    <Property Name="UpdatedOnUtc" Type="datetime2" Precision="7" Nullable="false" />
+    <Property Name="CreatedWho" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="UpdatedWho" Type="nvarchar" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PedigreeMeta">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Editor" Type="nvarchar" MaxLength="100" />
+    <Property Name="Description" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Image" Type="image" />
+    <Property Name="PublishDate" Type="datetime2" Precision="7" />
+    <Property Name="Volumes" Type="int" Nullable="false" />
+    <Property Name="Pages" Type="int" Nullable="false" />
+    <Property Name="FamilyName" Type="nvarchar" MaxLength="30" Nullable="false" />
+    <Property Name="OriginalAncestor" Type="nvarchar" MaxLength="30" />
+    <Property Name="DateMoveToTaiwan" Type="nvarchar" MaxLength="10" />
+    <Property Name="AncestorToTaiwan" Type="nvarchar" MaxLength="30" />
+    <Property Name="OriginalAddress" Type="nvarchar" MaxLength="30" />
+    <Property Name="TotalGenerations" Type="int" Nullable="false" />
+    <Property Name="GenerationToTaiwan" Type="int" Nullable="false" />
+    <Property Name="LivingAreaInTaiwan" Type="nvarchar" MaxLength="255" />
+    <Property Name="OriginalCollector" Type="nvarchar" MaxLength="50" />
+    <Property Name="ContentNotes" Type="nvarchar(max)" />
+    <Property Name="TangName" Type="nvarchar" MaxLength="50" />
+    <Property Name="IsPublic" Type="bit" Nullable="false" />
+    <Property Name="IsPublished" Type="bit" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+    <Property Name="CreatedOnUtc" Type="datetime2" Precision="7" Nullable="false" />
+    <Property Name="UpdatedOnUtc" Type="datetime2" Precision="7" Nullable="false" />
+    <Property Name="CreatedWho" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="UpdatedWho" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="LastChanged" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TaiwanZipCode">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="Zip" Type="int" Nullable="false" />
+    <Property Name="CityName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Town" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Sequence" Type="int" Nullable="false" />
+    <Property Name="CreateDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UserGeneMeta">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserID" Type="nvarchar" MaxLength="120" Nullable="false" />
+    <Property Name="GeneMetaID" Type="nvarchar" MaxLength="120" Nullable="false" />
+    <Property Name="IsAdministrator" Type="bit" Nullable="false" />
+    <Property Name="IsEditable" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityContainer Name="hDatabaseModelStoreContainer">
+    <EntitySet Name="Family" EntityType="Self.Family" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FamilyMember" EntityType="Self.FamilyMember" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="GenealogyMeta" EntityType="Self.GenealogyMeta" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Menu" EntityType="Self.Menu" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PedigreeEvent" EntityType="Self.PedigreeEvent" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PedigreeInfo" EntityType="Self.PedigreeInfo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PedigreeMeta" EntityType="Self.PedigreeMeta" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TaiwanZipCode" EntityType="Self.TaiwanZipCode" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserGeneMeta" EntityType="Self.UserGeneMeta" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,131 @@
+﻿@using PagedList.Mvc
+@model PagedList.IPagedList<HGenealogy.Entities.Family>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>族譜資料批次匯入匯出</h2>
+
+<div class="well">
+    <button class="btn btn-primary" data-toggle="modal" data-target="#UploadModal">
+        匯入資料
+    </button>    
+    @*<button class="btn btn-primary" id="ButtonExport" name="ButtonExport">
+        匯出資料
+    </button>*@
+</div>
+
+@Html.PagedListPager(Model, page => Url.Action("Upload", new { page }))
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().GId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().FNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().GenerationNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().FName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().FatherName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().MoterName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().AddressLongitude)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().AddressLatitude)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Phone1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Phone2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Email)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.GId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GenerationNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FName)
+            </td>           
+            <td>
+                @Html.DisplayFor(modelItem => item.FatherName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MoterName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AddressLongitude)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AddressLatitude)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", "Families", new { id = item.Id }, new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", "Families", new { id = item.Id }, new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", "Families", new { id = item.Id }, new { id = item.Id })
+            </td>
+        </tr>
+    }
+</table>
+
+
+@Html.Partial("_UploadFile")
+
+@section scripts
+{
+    <script src="~/Scripts/bootbox.js"></script>
+    <script src="~/Scripts/jquery.form.js"></script>
+    <script src="~/Scripts/project.js"></script>
+    <script src="~/Scripts/project.extends.js"></script>
+    <script src="~/Scripts/project.ZipCode.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var actionUrls = {
+                Upload: '@Url.Action("UploadConfirm", "GeneExcel")',
+                Import: '@Url.Action("Import", "GeneExcel")',
+                HasData: '@Url.Action("HasData", "GeneExcel")',
+                ExportData: '@Url.Action("Export", "GeneExcel")'
+            };
+            project.ZipCode.Initialize(actionUrls);
+        });
+    </script>
+}

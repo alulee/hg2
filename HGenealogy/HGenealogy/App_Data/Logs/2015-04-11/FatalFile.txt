@@ -1,0 +1,4 @@
+2015-04-11 11:18:04.3946 | ERROR | HGenealogy.MvcApplication | Error |  
+
+2015-04-11 11:18:04.5176 | FATAL | HGenealogy.MvcApplication | Fatal |  
+
