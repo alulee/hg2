@@ -1,0 +1,162 @@
+﻿
+
+.center-2 {
+	float: right;
+	width: 85%;
+}
+.side-2 {
+	float: left;
+	width: 15%;
+}
+
+a {
+	color: inherit;
+	cursor: pointer;
+}
+
+a:active {
+	outline: none;
+}
+
+th{
+    background-color:#eff5f5;
+    font-weight:bold;
+}
+
+/*********** GLOBAL STYLES **********/
+.page {
+	min-height: 300px;
+}
+
+.page-title {
+	min-height: 50px;
+	margin: 0 0 25px;
+	/*border-bottom: 1px solid #ddd;*/
+	border-bottom: 3px solid #990073;
+	padding: 6px 10px;
+}
+
+.pedigree-info-list-page
+{
+    min-height: 200px;
+	border: 1px solid #ddd;
+	margin: 0 0 25px;
+	padding: 6px 10px;
+}
+
+/*** COLUMN ***/
+
+
+.block {
+	float: none;
+	width: auto;
+	margin: 0 0 20px;
+}
+.block .title {
+	margin: 0;
+	border-bottom: 1px solid #ddd;
+	background: none;
+	cursor: auto;
+}
+.block .title strong {
+	font-weight: bold;
+}
+.block .listbox {
+	display: block;
+	border-bottom: none;
+}
+.block a.product-picture {
+	display: inline-block;
+	position: relative;
+	width: 30%;
+	margin: 0 0 0 -15px;
+	vertical-align: middle;
+}
+
+
+/*********** SIDE COLUMN ***********/
+.block {
+	max-width: 600px; /*width limit in mobile*/
+	min-height: 50px;
+	margin: auto;
+	text-align: left;
+}
+.block .title {
+	position: relative;
+	margin: 0 0 10px;
+	border-bottom: 1px solid #ddd;
+	padding: 12px 30px 12px 10px;
+	font-size: 20px;
+	color: #444;
+}
+.block .title strong {
+	font-weight: bold;
+}
+
+
+.block .listbox {
+	/*display: none;*/
+	border-bottom: 1px solid #ddd;
+	padding: 10px 0px;
+}
+.block .list li {
+	padding: 3px 0 3px 5px;
+    list-style-type:none;   /*去除點*/
+}
+
+
+.block .list a {
+	display: inline-block;
+	position: relative;
+	padding: 5px 0;
+	font-size: 16px;
+    font-weight:bold;
+	/*color: #444;*/
+    color: #4ab2f1;
+    -webkit-transition: all 0.1s ease;
+	transition: all 0.1s ease;
+}
+/*.block .list a:before {
+	content: "";
+	position: absolute;
+	top: 12px;
+	left: -15px;
+	width: 5px;
+	height: 5px;
+	background-color: #ddd;
+}*/
+
+.block .list .active {
+    background-color:white;
+}
+.block .list .active > a {
+	/*color: #4ab2f1;*/
+    color: green;
+}
+.block .list a:hover {
+	color: #00cc00;
+	/*color: #4ab2f1;*/
+}
+
+/*********** PedigreeMeta **********/
+/*.pedigree-meta-query-page{
+}
+
+.pedigree-meta-query-page .block{
+    background-color:white;
+}*/
+
+/*********** PedigreeInfo **********/
+.block-pedigree-info-navigation{
+    /*background-color: #f9f9f9;*/
+    background-color:#cccccc;
+}
+
+.pedigree-info-list-page .info{
+	margin: 0 0 10px;
+	border-top: 1px solid #e6e6e6;
+	background-color: #f9f9f9;
+    padding: 20px;
+	line-height: 26px;
+	color: #444;
+}

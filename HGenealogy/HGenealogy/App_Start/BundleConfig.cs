@@ -30,7 +30,9 @@ namespace HGenealogy
                       "~/Content/bootstrap.css",
                       "~/Content/jasny-bootstrap.css",                     
                       "~/Content/leaflet.css",
-                       "~/Content/site.css"));
+                       "~/Content/site.css",
+                      "~/Content/siteAllen.css"
+                       ));
         }
     }
 }

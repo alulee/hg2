@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace HGenealogy.Models.PedigreeMeta
 {
-    public class PedigreeMetaModel
+    public class PedigreeMetaQueryModel
     {
         [DisplayName("族譜編號")]
         public int Id { get; set; }
@@ -15,16 +15,12 @@ namespace HGenealogy.Models.PedigreeMeta
         public string Title { get; set; }
         [DisplayName("編纂者")]
         public string Editor { get; set; }
-        [DisplayName("簡述")]
-        public string Description { get; set; }
-        [DisplayName("族譜圖片")]
-        public byte[] Image { get; set; }
         [DisplayName("出版日期")]
         public DateTime PublishDate { get; set; }
-        [DisplayName("卷數（冊）")]
-        public int Volumes { get; set; }
-        [DisplayName("頁數")]
-        public int Pages { get; set; }
+        public int? PublishDateYY { get; set; }
+        public int? PublishDateMM { get; set; }
+        public int? PublishDateDD { get; set; }
+
         [DisplayName("姓氏")]
         public string FamilyName { get; set; }
         [DisplayName("始祖")]
@@ -43,15 +39,9 @@ namespace HGenealogy.Models.PedigreeMeta
         public string LivingAreaInTaiwan { get; set; }
         [DisplayName("原件珍藏者(單位)")]
         public string OriginalCollector { get; set; }
-        [DisplayName("附註")]
-        public string ContentNotes { get; set; }
         [DisplayName("堂號")]
         public string TangName { get; set; }
         [DisplayName("是否公開")]
         public bool IsPublic { get; set; }
-        public DateTime CreatedOnUtc { get; set; }
-        public DateTime UpdatedOnUtc { get; set; }
-        public string CreatedWho { get; set; }
-        public string UpdatedWho { get; set; }
     }
 }

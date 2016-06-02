@@ -5,6 +5,8 @@ using System.Linq.Expressions;
 using System.Data.Entity.Core.Objects;
 using HGenealogy.Data;
 using HGenealogy.Data.DbContextFactory;
+using System.Collections.Generic;
+using LinqKit;
 
 namespace HGenealogy.Data.Repository
 {
@@ -43,7 +45,7 @@ namespace HGenealogy.Data.Repository
                 throw new ArgumentNullException("instance");
             }
             else
-            {
+            {                
                 this._context.Set<TEntity>().Add(instance);
                 //this.SaveChanges();
             }
@@ -100,10 +102,25 @@ namespace HGenealogy.Data.Repository
         /// Gets all.
         /// </summary>
         /// <returns></returns>
+        public IQueryable<TEntity> GetRows(Expression<Func<TEntity, bool>> predicate)
+        {
+            //IQueryable<TEntity> query = this._context.Set<TEntity>().AsQueryable();
+            //var query2 = query.Where(predicate.Compile()).AsQueryable();
+
+            return GetAll().AsExpandable().Where(predicate);
+
+            //return this._context.Set<TEntity>().Where(predicate.Compile()).AsQueryable();
+        }
+
+        /// <summary>
+        /// Gets all.
+        /// </summary>
+        /// <returns></returns>
         public IQueryable<TEntity> GetAll()
         {
             return this._context.Set<TEntity>().AsQueryable();
         }
+
 
         public void SaveChanges()
         {
