@@ -1,0 +1,29 @@
+﻿SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+IF OBJECT_ID('City') IS NOT NULL
+BEGIN
+	PRINT '<<<DROP TABLE City>>>'
+	DROP TABLE City
+END
+GO
+CREATE TABLE [dbo].[City](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[LanguageID] Int NOT NULL Default 0,
+	[CountryId] Int NOT NULL Default 0,
+	[StateProviceName] [nvarchar](100) NOT NULL,	
+	[CityName] [nvarchar](100) NOT NULL,	
+	[ZipCode] [nvarchar](10) NULL,
+	[Published] [bit] NOT NULL,
+	[DisplayOrder] [int] NOT NULL
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+

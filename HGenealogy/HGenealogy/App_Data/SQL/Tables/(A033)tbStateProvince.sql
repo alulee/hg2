@@ -1,0 +1,27 @@
+﻿SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+IF OBJECT_ID('StateProvince') IS NOT NULL
+BEGIN
+	PRINT '<<<DROP TABLE StateProvince>>>'
+	DROP TABLE StateProvince
+END
+GO
+CREATE TABLE [dbo].[StateProvince](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[CountryId] Int NOT NULL Default 0,
+	[Name] [nvarchar](100) NOT NULL,
+	[LanguageId] Int NOT NULL Default 0,
+	[Published] [bit] NOT NULL,
+	[DisplayOrder] [int] NOT NULL
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+
