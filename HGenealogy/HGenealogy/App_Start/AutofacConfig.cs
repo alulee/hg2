@@ -42,6 +42,7 @@ namespace HGenealogy.App_Start
             builder.RegisterType<PedigreeInfoService>().As<IPedigreeInfoService>().InstancePerLifetimeScope();
             builder.RegisterType<FamilyService>().As<IFamilyService>().InstancePerLifetimeScope();
             builder.RegisterType<GeneMetaService>().As<IGeneMetaService>().InstancePerLifetimeScope();
+            builder.RegisterType<FamilyMemberService>().As<IFamilyMemberService>().InstancePerLifetimeScope();
 
 
             //builder.RegisterControllers(Assembly.GetExecutingAssembly());           //注冊MVC容器

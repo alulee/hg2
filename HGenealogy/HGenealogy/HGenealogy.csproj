@@ -297,6 +297,15 @@
     </Compile>
     <Compile Include="Controllers\PedigreeInfoController.cs" />
     <Compile Include="Controllers\PedigreeMetaController.cs" />
+    <Compile Include="Data\Address.cs">
+      <DependentUpon>hgEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\City.cs">
+      <DependentUpon>hgEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Country.cs">
+      <DependentUpon>hgEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\DbContextFactory\DbContextFactory.cs" />
     <Compile Include="Data\DbContextFactory\IDbContextFactory.cs" />
     <Compile Include="Data\Family.cs">
@@ -325,6 +334,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>hgEntities.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Data\Language.cs">
+      <DependentUpon>hgEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\Menu.cs">
       <DependentUpon>hgEntities.tt</DependentUpon>
       <SubType>Code</SubType>
@@ -351,21 +363,25 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\CustomResults\ExportExcelResult.cs" />
+    <Compile Include="Infrastructure\Extensions\HtmlExtensions.cs" />
     <Compile Include="Infrastructure\Helpers\CheckResult.cs" />
     <Compile Include="Infrastructure\Helpers\ImportDataHelper.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Infrastructure\IdentityExtensions\ApplicationUserManager.cs" />
+    <Compile Include="Infrastructure\Extensions\ApplicationUserManager.cs" />
+    <Compile Include="Models\Common\AddressViewModel.cs" />
     <Compile Include="Models\PedigreeInfo\PedigreeInfoModel.cs" />
     <Compile Include="Models\PedigreeMeta\PedigreeMetaModel.cs" />
     <Compile Include="Services\Acc\MenuService.cs" />
+    <Compile Include="Services\FamilyMemberService.cs" />
     <Compile Include="Services\Genealogy\FamilyService.cs" />
     <Compile Include="Services\Genealogy\GeneMetaService.cs" />
+    <Compile Include="Services\Interface\IFamilyMemberService.cs" />
     <Compile Include="Services\Interface\IFamilyService.cs" />
     <Compile Include="Services\Interface\IGeneMetaService.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\FamilyMetaData.cs" />
-    <Compile Include="Models\FamilyMemberViewModels.cs" />
+    <Compile Include="Models\FamilyMember\FamilyMemberViewModels.cs" />
     <Compile Include="Models\FamilyViewModels.cs" />
     <Compile Include="Models\GeneMetaViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -583,7 +599,7 @@
     <Content Include="Scripts\project.extends.js" />
     <Content Include="Scripts\project.visualgenealogy.js" />
     <Content Include="Views\Account\EditCurrentUser.cshtml" />
-    <Content Include="Views\FamilyMembers\Create.cshtml" />
+    <Content Include="Views\FamilyMembers\CreateOrUpdate.cshtml" />
     <Content Include="Views\FamilyMembers\Delete.cshtml" />
     <Content Include="Views\FamilyMembers\Details.cshtml" />
     <Content Include="Views\FamilyMembers\Edit.cshtml" />

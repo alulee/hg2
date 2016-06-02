@@ -226,8 +226,6 @@ namespace HGenealogy.Areas.Genealogy.Controllers
             return "";
             //return this.RedirectToAction("Upload");
 
-
-
         }
 
         [HttpPost]

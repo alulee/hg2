@@ -10,10 +10,14 @@
         <EntityTypeShape EntityType="hDatabaseModel.Menu" Width="1.5" PointX="0.75" PointY="7.75" IsExpanded="true" />
         <EntityTypeShape EntityType="hDatabaseModel.TaiwanZipCode" Width="1.5" PointX="2.75" PointY="7.75" IsExpanded="true" />
         <EntityTypeShape EntityType="hDatabaseModel.UserGeneMeta" Width="1.5" PointX="4.75" PointY="7.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="hDatabaseModel.FamilyMember" Width="1.5" PointX="6.75" PointY="7.75" />
-        <EntityTypeShape EntityType="hDatabaseModel.PedigreeEvent" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="hDatabaseModel.FamilyMember" Width="1.5" PointX="7.375" PointY="7.75" />
+        <EntityTypeShape EntityType="hDatabaseModel.PedigreeEvent" Width="1.5" PointX="4.625" PointY="0.75" />
         <EntityTypeShape EntityType="hDatabaseModel.PedigreeInfo" Width="1.5" PointX="7.375" PointY="0.75" />
         <EntityTypeShape EntityType="hDatabaseModel.PedigreeMeta" Width="1.5" PointX="9.375" PointY="0.75" />
+        <EntityTypeShape EntityType="hDatabaseModel.Address" Width="1.5" PointX="9.75" PointY="7.75" />
+        <EntityTypeShape EntityType="hDatabaseModel.City" Width="1.5" PointX="3.75" PointY="10.75" />
+        <EntityTypeShape EntityType="hDatabaseModel.Country" Width="1.5" PointX="11.125" PointY="0.75" />
+        <EntityTypeShape EntityType="hDatabaseModel.Language" Width="1.5" PointX="0.75" PointY="11.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -8,16 +8,18 @@ using System.Web;
 using System.Web.Mvc;
 using HGenealogy.Data;
 using AutoMapper;
-using HGenealogy.Models;
+using HGenealogy.Models.FamilyMember;
+using HGenealogy.Services.Interface;
 
 namespace HGenealogy.Controllers
 {
     public class FamilyMembersController : Controller
     {
         private hDatabaseEntities db = new hDatabaseEntities();
-
-        public FamilyMembersController()
-        {           
+        private readonly IFamilyMemberService _familyMemberService;
+        public FamilyMembersController(IFamilyMemberService familyMemberService)
+        {
+            this._familyMemberService = familyMemberService;
             Mapper.CreateMap<FamilyMemberViewModel, FamilyMember>();
             Mapper.CreateMap<FamilyMember, FamilyMemberViewModel>();
         }
@@ -69,37 +71,13 @@ namespace HGenealogy.Controllers
             {
             }
 
-            AddFamilyMemberViewModel newFamily = new AddFamilyMemberViewModel
-            {
-                familyMember = new FamilyMemberViewModel()
-            };            
+            FamilyMember familyMember = new FamilyMember();
+            var familyMemberViewModel = Mapper.Map<FamilyMember, FamilyMemberViewModel>(familyMember);
 
-            return View(newFamily); 
+            ViewBag.Title = "建立新的家族成員";
+            return View("CreateOrUpdate", familyMemberViewModel);
         }
-
-        // POST: FamilyMembers/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(AddFamilyMemberViewModel addfamilyMember)
-        {
-            if (ModelState.IsValid)
-            {
-                var newFamilyMember = Mapper.Map<FamilyMember>(addfamilyMember.familyMember);
-                db.FamilyMembers.Add(newFamilyMember);
-                try
-                {
-                    db.SaveChanges();
-                }catch(Exception ex)
-                {
-                    string s = ex.Message;
-                }
-                return RedirectToAction("Index");
-            }
-            return RedirectToAction("Index");
-        }
-
+ 
         // GET: FamilyMembers/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -107,12 +85,17 @@ namespace HGenealogy.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             FamilyMember familyMember = db.FamilyMembers.Find(id);
             if (familyMember == null)
             {
                 return HttpNotFound();
             }
-            return View(familyMember);
+
+            var familyMemberViewModel = Mapper.Map<FamilyMember, FamilyMemberViewModel>(familyMember);
+
+            ViewBag.Title = "修改家族成員資料";
+            return View("CreateOrUpdate", familyMemberViewModel);       
         }
 
         // POST: FamilyMembers/Edit/5
@@ -120,15 +103,29 @@ namespace HGenealogy.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,FamilyName,GivenName,Description,FatherMemberId,MotherMemberId,BirthDay,CurrentAddressId,Email,Phone,MobilePhone,Gender,LungName,HakkaName,JobDescription,IsPublic,IsPublished,IsDeleted,DisplayOrder,CreatedOnUtc,UpdatedOnUtc,CreatedWho,UpdatedWho,LastChanged")] FamilyMember familyMember)
+        public ActionResult SaveFamilyMember(FamilyMemberViewModel editfamilyMember)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(familyMember).State = System.Data.Entity.EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                var familyMember = Mapper.Map<FamilyMember>(editfamilyMember);
+
+                try
+                {
+                    if (familyMember.Id == 0)//新增
+                        _familyMemberService.Insert(familyMember);
+                    else
+                        _familyMemberService.Update(familyMember);
+
+
+                    return RedirectToAction("Index");
+                }
+                catch (Exception e)
+                {
+                    Console.Write(e.ToString());
+                }
+ 
             }
-            return View(familyMember);
+            return RedirectToAction("Index");
         }
 
         // GET: FamilyMembers/Delete/5

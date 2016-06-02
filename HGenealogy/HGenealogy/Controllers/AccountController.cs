@@ -464,8 +464,7 @@ namespace HGenealogy.Controllers
                     var user = db.Users.Find(myUser.Id);
                     if (user != null)
                     {
-                        //user.FirstName = myUser.FirstName;
-                        //user.FamilyName = myUser.FamilyName;
+                        user.UserName = myUser.FirstName;                        
                         try
                         {
                             db.SaveChanges();
