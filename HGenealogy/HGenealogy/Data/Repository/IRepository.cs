@@ -18,6 +18,7 @@ namespace HGenealogy.Data.Repository
         void Delete(TEntity instance);
 
         TEntity Get(Expression<Func<TEntity, bool>> predicate);
+        IQueryable<TEntity> GetRows(Expression<Func<TEntity, bool>> predicate);
         //TEntity Get(int primaryID);
 
         IQueryable<TEntity> GetAll();

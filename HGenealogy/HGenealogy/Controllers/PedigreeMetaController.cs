@@ -32,10 +32,25 @@ namespace HGenealogy.Controllers
             List<PedigreeMetaModel> modelList = new List<PedigreeMetaModel>();
             var result = _pedigreeMetaService.GetAll();
 
-            //Mapper.CreateMap<PedigreeMeta, PedigreeMetaModel>();
             Mapper.Initialize(p => p.CreateMap<PedigreeMeta, PedigreeMetaModel>());
             var models = Mapper.Map<List<PedigreeMeta>, List<PedigreeMetaModel>>(result.ToList());
             return View(models);
+        }
+
+        public ActionResult Query()
+        {
+            return View();
+        }
+
+        public ActionResult GetPedigreeMeta(PedigreeMetaQueryModel queryModel)
+        {
+            var result = _pedigreeMetaService.GetPedigreeMetaList(queryModel);
+            if (result==null)
+                result=new List<PedigreeMeta>();
+
+            Mapper.Initialize(p => p.CreateMap<PedigreeMeta, PedigreeMetaModel>());
+            var resultList = Mapper.Map<List<PedigreeMeta>, List<PedigreeMetaModel>>(result);
+            return View("Index", resultList);
         }
 
         //新增族譜基本資料
@@ -64,7 +79,6 @@ namespace HGenealogy.Controllers
         public ActionResult SaveHGPedigreeMeta(PedigreeMetaModel model)
         {
             PedigreeMeta pedigreeMeta = new PedigreeMeta();
-            //Mapper.CreateMap<PedigreeMetaModel, PedigreeMeta>();
             Mapper.Initialize(p => p.CreateMap<PedigreeMetaModel, PedigreeMeta>());
             pedigreeMeta = Mapper.Map<PedigreeMetaModel, PedigreeMeta>(model);
 

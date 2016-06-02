@@ -25,7 +25,7 @@ th{
 
 /*********** GLOBAL STYLES **********/
 .page {
-	min-height: 200px;
+	min-height: 300px;
 }
 
 .page-title {
@@ -138,6 +138,13 @@ th{
 	/*color: #4ab2f1;*/
 }
 
+/*********** PedigreeMeta **********/
+/*.pedigree-meta-query-page{
+}
+
+.pedigree-meta-query-page .block{
+    background-color:white;
+}*/
 
 /*********** PedigreeInfo **********/
 .block-pedigree-info-navigation{

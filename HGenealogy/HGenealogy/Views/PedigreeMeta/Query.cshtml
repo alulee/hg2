@@ -1,0 +1,78 @@
+﻿@using HGenealogy.Models.PedigreeMeta;
+@model PedigreeMetaQueryModel
+
+
+
+
+
+
+@using (Html.BeginForm("GetPedigreeMeta", "PedigreeMeta"))
+{
+    <div class="page">
+        <div class="page-title">
+            <h1>族譜查詢</h1>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <h2>請輸入查詢條件 </h2>
+                    <br />
+                </div>
+            </div>
+            <div class="row ">
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="row form-group">
+                                <div class="col-md-12">
+                                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", placeholder = "族譜名稱" } })
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-md-3 col-sm-3 col-xs-3">
+                                    <span class="help-block text-muted small-font"> 出版年</span>
+                                    @Html.EditorFor(model => model.PublishDateYY, new { htmlAttributes = new { @class = "form-control", placeholder = "YYYY" } })
+                                </div>
+                                <div class="col-md-3 col-sm-3 col-xs-3">
+                                    <span class="help-block text-muted small-font"> 出版月</span>
+                                    @Html.EditorFor(model => model.PublishDateMM, new { htmlAttributes = new { @class = "form-control", placeholder = "MM" } })
+                                </div>
+                                <div class="col-md-3 col-sm-3 col-xs-3">
+                                    <span class="help-block text-muted small-font"> 出版日</span>
+                                    @Html.EditorFor(model => model.PublishDateDD, new { htmlAttributes = new { @class = "form-control", placeholder = "DD" } })
+                                </div>
+                                <div class="col-md-3 col-sm-3 col-xs-3">
+                                </div>
+                            </div>
+                            <div class="row form-group ">
+                                <div class="col-md-12">
+                                    @Html.EditorFor(model => model.Editor, new { htmlAttributes = new { @class = "form-control", placeholder = "編纂者" } })
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-md-12">
+                                    @Html.CheckBoxFor(model => model.IsPublic, new { htmlAttributes = new { @class = "form-control" } })
+                                    <label for="IsPublic">
+                                        是否公開
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row form-group ">
+                                <div class="col-md-6 ">
+                                    <input type="submit" class="btn btn-danger btn-block" value="取消" />
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="submit" class="btn btn-warning btn-block" value="查詢" />
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- CREDIT CARD DIV END -->
+                </div>
+            </div>
+        </div>
+
+    </div>
+}

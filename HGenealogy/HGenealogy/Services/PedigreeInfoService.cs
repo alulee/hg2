@@ -4,6 +4,7 @@ using System.Linq;
 using HGenealogy.Data;
 using HGenealogy.Data.Repository;
 using HGenealogy.Services.Interface;
+using System.Linq.Expressions;
 
 namespace HGenealogy.Services
 {
@@ -19,6 +20,7 @@ namespace HGenealogy.Services
 
         public IQueryable<PedigreeInfo> GetAll()
         {
+            
             return _pedigreeInfoRepository.GetAll();
         }
 
