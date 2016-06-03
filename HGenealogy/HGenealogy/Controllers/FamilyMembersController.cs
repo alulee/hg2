@@ -17,9 +17,16 @@ namespace HGenealogy.Controllers
     {
         private hDatabaseEntities db = new hDatabaseEntities();
         private readonly IFamilyMemberService _familyMemberService;
-        public FamilyMembersController(IFamilyMemberService familyMemberService)
+        private readonly IAddressService _addressService;
+
+        public FamilyMembersController(
+                IFamilyMemberService familyMemberService,
+                IAddressService addressService
+            )
         {
             this._familyMemberService = familyMemberService;
+            this._addressService = addressService;
+
             Mapper.CreateMap<FamilyMemberViewModel, FamilyMember>();
             Mapper.CreateMap<FamilyMember, FamilyMemberViewModel>();
         }
@@ -94,6 +101,18 @@ namespace HGenealogy.Controllers
 
             var familyMemberViewModel = Mapper.Map<FamilyMember, FamilyMemberViewModel>(familyMember);
 
+            familyMemberViewModel.AvailableCountries.Add(new SelectListItem { Text = "請挑選國別", Value = "0" });
+            var allCountries = this._addressService.GetAllCountries();
+            if (allCountries != null)
+            {
+                foreach (var country in allCountries)
+                {
+                    familyMemberViewModel.AvailableCountries.Add(new SelectListItem { Text = country.Name, Value = country.Id.ToString() });
+                }
+            }
+
+
+
             ViewBag.Title = "修改家族成員資料";
             return View("CreateOrUpdate", familyMemberViewModel);       
         }
@@ -162,5 +181,26 @@ namespace HGenealogy.Controllers
             }
             base.Dispose(disposing);
         }
+
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult GetStateProvincesByCountryName(string countryName)
+        {
+            //this action method gets called via an ajax request
+            if (String.IsNullOrEmpty(countryName))
+                throw new ArgumentNullException("countryName");
+
+            var result = _addressService.GetAllStateProvincesByCountryName(countryName).ToList();
+            if (result != null)
+            {
+                var toReturn = (from s in result
+                                select new { stateProvinceName = s }).ToList();
+                return Json(toReturn, JsonRequestBehavior.AllowGet);
+            }
+
+            return null;
+
+        }
+    
     }
 }

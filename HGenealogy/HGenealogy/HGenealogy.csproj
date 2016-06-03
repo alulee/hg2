@@ -381,8 +381,10 @@
     <Compile Include="Services\FamilyMemberService.cs" />
     <Compile Include="Services\Genealogy\FamilyService.cs" />
     <Compile Include="Services\Genealogy\GeneMetaService.cs" />
+    <Compile Include="Services\AddressService.cs" />
     <Compile Include="Services\Interface\IFamilyMemberService.cs" />
     <Compile Include="Services\Interface\IFamilyService.cs" />
+    <Compile Include="Services\Interface\IAddressService.cs" />
     <Compile Include="Services\Interface\IGeneMetaService.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\FamilyMetaData.cs" />
@@ -609,9 +611,9 @@
     <Content Include="Views\FamilyMembers\Delete.cshtml" />
     <Content Include="Views\FamilyMembers\Details.cshtml" />
     <Content Include="Views\FamilyMembers\Edit.cshtml" />
-    <Content Include="Views\FamilyMembers\Index.cshtml" />
+    <Content Include="Views\FamilyMembers\Index2.cshtml" />
     <Content Include="Views\Shared\_PedigreeSecondMenu.cshtml" />
-    <Content Include="Views\FamilyMembers\IndexByPedigree.cshtml" />
+    <Content Include="Views\FamilyMembers\Index.cshtml" />
     <Content Include="Views\FamilyMembers\List.cshtml" />
     <Content Include="Views\PedigreeMeta\CreateOrUpdate.cshtml" />
     <Content Include="Views\PedigreeMeta\CreateOrUpdate2.cshtml" />

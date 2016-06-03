@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using HGenealogy.Data;
 using HGenealogy.Models.Common;
+using System.Web.Mvc;
 
 namespace HGenealogy.Models.FamilyMember
 {
@@ -40,6 +41,9 @@ namespace HGenealogy.Models.FamilyMember
             UpdatedWho = "";
 
             currentAddress = new AddressViewModel();
+            AvailableCountries = new List<SelectListItem>();
+            AvailableStateProvinces = new List<SelectListItem>();
+            AvailableCitis = new List<SelectListItem>();
         }
 
         public int Id { get; set; }
@@ -88,6 +92,9 @@ namespace HGenealogy.Models.FamilyMember
 
         public AddressViewModel currentAddress { get; set; }
         public HGenealogy.Data.PedigreeMeta pedigreeMeta { get; set; }
+        public IList<SelectListItem> AvailableCountries { get; set; }
+        public IList<SelectListItem> AvailableStateProvinces { get; set; }
+        public IList<SelectListItem> AvailableCitis { get; set; }
     }
 
 

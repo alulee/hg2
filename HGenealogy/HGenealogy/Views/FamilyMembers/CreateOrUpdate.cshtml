@@ -71,22 +71,29 @@
         <div class="form-group">
             <div class="inputs date-of-birth">
                 <label class="control-label col-md-2">生日</label>
-                <div class="birthday-input col-md-10">
-                    @Html.DatePickerDropDowns(Html.FieldNameFor(x => x.BirthDate),
-                                Html.FieldNameFor(x => x.BirthMonth),
-                                Html.FieldNameFor(x => x.BirthYear),
-                                DateTime.Now.Year - 110,
-                                DateTime.Now.Year,
-                         Model.BirthDate,
-                         Model.BirthMonth,
-                         Model.BirthYear)
-
-                    @Html.RequiredHint()
-                    @Html.ValidationMessageFor(model => model.BirthDate)
-                    @Html.ValidationMessageFor(model => model.BirthMonth)
-                    @Html.ValidationMessageFor(model => model.BirthYear)
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.BirthYear, new { htmlAttributes = new { @class = "birthday-input birthday-input-year", placeholder = "YYYY" } })
+                    <span> 年</span>
+                    @Html.EditorFor(model => model.BirthMonth, new { htmlAttributes = new { @class = "birthday-input birthday-input-month", placeholder = "MM" } })
+                    <span> 月</span>
+                    @Html.EditorFor(model => model.BirthDate, new { htmlAttributes = new { @class = "birthday-input birthday-input-date", placeholder = "DD" } })
+                    <span> 日</span>
                 </div>
             </div>
+        </div>
+        <hr />
+
+        <!--地址-->
+        <div class="form-group">
+            <div class="inputs address">
+                <label class="control-label col-md-2">目前居住地</label>
+                <div class="col-md-10">
+                    @Html.DropDownList("Country", (IEnumerable<SelectListItem>)Model.AvailableCountries, "", new { id = "Countries" })
+                    @Html.DropDownList("StateProvice", (IEnumerable<SelectListItem>)Model.AvailableStateProvinces, "", new { id = "StateProvinces" })
+                    @Html.DropDownList("City", (IEnumerable<SelectListItem>)Model.AvailableCitis, "", new { id = "Citis" })
+                </div>
+            </div>
+        
         </div>
 
         <div class="form-group">
@@ -104,3 +111,44 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $('#Countries').change(function () {
+
+            //alert("country change to " + $(this).val());
+
+
+        });
+    });
+
+    $(function () {
+        $("#Countries").change(function () {
+            var selectedItem = $(this).val();
+            var text = $(this).find('option:selected').text();
+            var ddlStates = $("#StateProvinces");
+            var statesProgress = $("#states-loading-progress");
+
+            $.ajax({
+                cache: false,
+                type: "GET",
+                url: "@(Url.Action("GetStateProvincesByCountryName", "FamilyMembers"))",
+                data: { "countryName": text},
+                success: function (data) {
+                    ddlStates.html('');
+                    $.each(data, function (id, option) {
+                        ddlStates.append($('<option></option>').val(option.stateProvinceName).html(option.stateProvinceName));
+                    });
+                    //statesProgress.hide();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to retrieve states.');
+                    //statesProgress.hide();
+                }
+            });
+        });
+    });
+
+</script>
