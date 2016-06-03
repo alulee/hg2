@@ -66,7 +66,7 @@ namespace HGenealogy.Data.Repository
             else
             {
                 this._context.Entry(instance).State = EntityState.Modified;
-                this.SaveChanges();
+                //this.SaveChanges();
             }
         }
 
