@@ -19,7 +19,14 @@
 
     <div class="tab-content pedigree-info-list-page">
         <div id="home" class="tab-pane fade in active">
-            <h3>@tilte</h3>
+            <div class="form-group row">
+                <div class="col-md-10">
+                    <h3>@tilte</h3>
+                </div>
+                <div class="col-md-2">
+                    <input type="button" value="新增" class="btn btn-default" onclick="location.href='@Url.Action("Create", new { pedigreeID = currentPedigreeID, infoType = currentInfoType })'" />
+                </div>
+            </div>
             @if (Model.Count > 0)
             {
                 <div class="pedigreeInfo-list">
@@ -27,16 +34,20 @@
                     {
                         var item = Model[i];
 
-                        <div class="section address-item">
-                            <div class="title">
-                                <strong>@item.InfoTitle </strong>
+                        <div class="section">
+                            <div class="title row">
+                                <div class="col-md-10">
+                                    <h4>@item.InfoTitle</h4>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="buttons">
+                                        <input type="button" class="btn-sm btn-info" onclick="location.href='@Url.Action("Edit", new { id = item .Id})'" value='修改' />
+                                        <input type="button" class="btn-sm btn-danger"  value='刪除' />
+                                    </div>
+                                </div>
                             </div>
                             <div class="info">
                                 @Html.Raw(item.InfoContent)
-                            </div>
-                            <div class="buttons">
-                                <input type="button" class="button-2 edit-address-button" onclick="location.href='@Url.Action("Edit", new { id = item .Id})'" value='修改' />
-                                @*<input type="button" class="button-2 delete-address-button" value="刪除" onclick='doDelete("@item.Id")' />*@
                             </div>
                         </div>
                     }
@@ -48,11 +59,6 @@
                         無資料可顯示
                     </div>*@
             }
-            <div class="form-group">
-                <div class="col-md-12">
-                    <input type="button" value="新增" class="btn btn-default" onclick="location.href='@Url.Action("Create", new { pedigreeID = currentPedigreeID, infoType = currentInfoType })'" />
-                </div>
-            </div>
         </div>
     </div>
 </div>
