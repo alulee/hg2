@@ -105,6 +105,7 @@ namespace HGenealogy.Controllers
         }
 
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult SavePedigreeInfo(PedigreeInfoModel model)
         {
 

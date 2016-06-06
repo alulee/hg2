@@ -12,6 +12,8 @@ using HGenealogy.Data.Repository;
 using HGenealogy.Services;
 using HGenealogy.Services.Interface;
 using HGenealogy.Services.Genealogy;
+using HGenealogy.Core;
+using HGenealogy.Fakes;
 
 namespace HGenealogy.App_Start
 {
@@ -44,7 +46,28 @@ namespace HGenealogy.App_Start
             builder.RegisterType<GeneMetaService>().As<IGeneMetaService>().InstancePerLifetimeScope();
             builder.RegisterType<FamilyMemberService>().As<IFamilyMemberService>().InstancePerLifetimeScope();
             builder.RegisterType<AddressService>().As<IAddressService>().InstancePerLifetimeScope();
+            builder.RegisterType<WebHelper>().As<IWebHelper>().InstancePerLifetimeScope();
 
+            //HTTP context and other related stuff
+            builder.Register(c =>
+                //register FakeHttpContext when HttpContext is not available
+                HttpContext.Current != null ?
+                (new HttpContextWrapper(HttpContext.Current) as HttpContextBase) :
+                (new FakeHttpContext("~/") as HttpContextBase))
+                .As<HttpContextBase>()
+                .InstancePerLifetimeScope();
+            builder.Register(c => c.Resolve<HttpContextBase>().Request)
+                .As<HttpRequestBase>()
+                .InstancePerLifetimeScope();
+            builder.Register(c => c.Resolve<HttpContextBase>().Response)
+                .As<HttpResponseBase>()
+                .InstancePerLifetimeScope();
+            builder.Register(c => c.Resolve<HttpContextBase>().Server)
+                .As<HttpServerUtilityBase>()
+                .InstancePerLifetimeScope();
+            builder.Register(c => c.Resolve<HttpContextBase>().Session)
+                .As<HttpSessionStateBase>()
+                .InstancePerLifetimeScope();
 
             //builder.RegisterControllers(Assembly.GetExecutingAssembly());           //注冊MVC容器
             builder.RegisterControllers(typeof(MvcApplication).Assembly)
