@@ -15,9 +15,10 @@ namespace HGenealogy.Controllers
 {
     public class FamilyMembersController : Controller
     {
-        private hDatabaseEntities db = new hDatabaseEntities();
         private readonly IFamilyMemberService _familyMemberService;
         private readonly IAddressService _addressService;
+
+        #region 建構 / 解構
 
         public FamilyMembersController(
                 IFamilyMemberService familyMemberService,
@@ -31,13 +32,119 @@ namespace HGenealogy.Controllers
             Mapper.CreateMap<FamilyMember, FamilyMemberViewModel>();
         }
 
+        protected override void Dispose(bool disposing)
+        {         
+            base.Dispose(disposing);
+        }
+
+        #endregion
+
+        
+        #region Utilities
+
+        [NonAction]
+        protected virtual void PrepareFamilyMemberViewModel(FamilyMemberViewModel model)
+        {
+
+            // 設定國家選單
+            model.AvailableCountries.Add(new SelectListItem { Text = "國別", Value = "" , Selected = true});
+            var allCountries = this._addressService.GetAllCountries();
+            if (allCountries != null)
+            {
+                foreach (var country in allCountries)
+                {
+                    model.AvailableCountries.Add(new SelectListItem 
+                    { 
+                        Text = country.Name,
+                        Value = country.Name,
+                        Selected = country.Name == model.currentAddress.address.Country
+                    });
+                }
+            }
+
+            //設定省洲清單
+            model.AvailableStateProvinces.Add(new SelectListItem { Text = "城市", Value = "0", Selected = true });
+            if(model.currentAddress != null && model.currentAddress.address.Country != "")
+            {
+                var countryName = model.currentAddress.address.Country;
+                var stateProvinceName = model.currentAddress.address.StateProvince;
+                var allStateProvinces = this._addressService.GetAllStateProvincesByCountryName(countryName);
+                
+                if (allStateProvinces != null)
+                {                    
+                    foreach (var loopStateProvince in allStateProvinces)
+                    {
+                        model.AvailableStateProvinces.Add(new SelectListItem
+                        {
+                            Text = loopStateProvince,
+                            Value = loopStateProvince,
+                            Selected = loopStateProvince == stateProvinceName
+                        });
+                    }
+                }
+
+                if (stateProvinceName != "" && !allStateProvinces.Contains(stateProvinceName))
+                {
+                    model.AvailableStateProvinces.Add(new SelectListItem
+                    {
+                        Text = stateProvinceName,
+                        Value = stateProvinceName,
+                        Selected = true
+                    });
+                }
+            }
+
+            // 設定城市清單
+            model.AvailableCities.Add(new SelectListItem { Text = "區域", Value = "0", Selected = true });
+            if (model.currentAddress != null && model.currentAddress.address.StateProvince != "")
+            {
+                var stateProvinceName = model.currentAddress.address.StateProvince;
+                var allcities = this._addressService.GetAllCityByStateProvinceName(stateProvinceName);
+                var cityName = model.currentAddress.address.City;
+                
+                bool currnetCityNameExistsInList = false;
+
+                if (allcities != null)
+                {
+                    foreach (var city in allcities)
+                    {
+                        model.AvailableCities.Add(new SelectListItem
+                        {
+                            Text = city.CityName,
+                            Value = city.CityName,
+                            Selected = city.CityName.Trim()  == cityName.Trim() 
+                        });
+
+                        if(cityName.Trim() == city.CityName.Trim())
+                        {
+                            currnetCityNameExistsInList = true;
+                        }
+                    }
+                }
+                if (!currnetCityNameExistsInList)
+                {
+                    model.AvailableCities.Add(new SelectListItem
+                    {
+                        Text = cityName,
+                        Value = cityName,
+                        Selected = true
+                    });
+                }
+            }
+        }
+        
+        #endregion
+ 
+
+        #region Actions
+
         // GET: FamilyMembers
         public ActionResult Index()
         {            
             if (Session["CurrentPedigreeId"] != null)
             {
             }
-            return View(db.FamilyMembers.ToList());
+            return View(this._familyMemberService.GetAll().ToList());
         }
 
         public ActionResult IndexByPedigree()
@@ -45,25 +152,22 @@ namespace HGenealogy.Controllers
             if (Session["CurrentPedigreeId"] != null)
             {
             }
-            return View(db.FamilyMembers.ToList());
+            return View(this._familyMemberService.GetAll().ToList());
         }
 
         public ActionResult List()
         {
-            if (Session["CurrentPedigreeId"] != null)
-            {
-            }
-            return View(db.FamilyMembers.ToList());
+            return null;
         }
 
         // GET: FamilyMembers/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            FamilyMember familyMember = db.FamilyMembers.Find(id);
+            FamilyMember familyMember = this._familyMemberService.GetById(id);
             if (familyMember == null)
             {
                 return HttpNotFound();
@@ -86,14 +190,14 @@ namespace HGenealogy.Controllers
         }
  
         // GET: FamilyMembers/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            FamilyMember familyMember = db.FamilyMembers.Find(id);
+            FamilyMember familyMember = this._familyMemberService.GetById(id); ;
             if (familyMember == null)
             {
                 return HttpNotFound();
@@ -101,17 +205,7 @@ namespace HGenealogy.Controllers
 
             var familyMemberViewModel = Mapper.Map<FamilyMember, FamilyMemberViewModel>(familyMember);
 
-            familyMemberViewModel.AvailableCountries.Add(new SelectListItem { Text = "請挑選國別", Value = "0" });
-            var allCountries = this._addressService.GetAllCountries();
-            if (allCountries != null)
-            {
-                foreach (var country in allCountries)
-                {
-                    familyMemberViewModel.AvailableCountries.Add(new SelectListItem { Text = country.Name, Value = country.Id.ToString() });
-                }
-            }
-
-
+            PrepareFamilyMemberViewModel(familyMemberViewModel);
 
             ViewBag.Title = "修改家族成員資料";
             return View("CreateOrUpdate", familyMemberViewModel);       
@@ -130,12 +224,20 @@ namespace HGenealogy.Controllers
 
                 try
                 {
-                    if (familyMember.Id == 0)//新增
+                    if (familyMember.Id == 0)
+                    {
+                        // 新增
                         _familyMemberService.Insert(familyMember);
+
+                        // 新增地址
+                    }
                     else
+                    {
+                        // 修改
                         _familyMemberService.Update(familyMember);
 
-
+                        // 修改地址
+                    }
                     return RedirectToAction("Index");
                 }
                 catch (Exception e)
@@ -148,13 +250,13 @@ namespace HGenealogy.Controllers
         }
 
         // GET: FamilyMembers/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            FamilyMember familyMember = db.FamilyMembers.Find(id);
+            FamilyMember familyMember = this._familyMemberService.GetById(id);
             if (familyMember == null)
             {
                 return HttpNotFound();
@@ -167,21 +269,11 @@ namespace HGenealogy.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            FamilyMember familyMember = db.FamilyMembers.Find(id);
-            db.FamilyMembers.Remove(familyMember);
-            db.SaveChanges();
+            FamilyMember familyMember = this._familyMemberService.GetById(id);
+            //db.FamilyMembers.Remove(familyMember);
+            //db.SaveChanges();
             return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
+        }       
 
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult GetStateProvincesByCountryName(string countryName)
@@ -201,6 +293,25 @@ namespace HGenealogy.Controllers
             return null;
 
         }
-    
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult GetCitiesByStateProvinceName(string stateProvinceName)
+        {
+            //this action method gets called via an ajax request
+            if (String.IsNullOrEmpty(stateProvinceName))
+                throw new ArgumentNullException("stateProvinceName");
+
+            var result = _addressService.GetAllCityByStateProvinceName(stateProvinceName).ToList();
+            if (result != null)
+            {               
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+            return null;
+
+        }
+ 
+        #endregion
+
     }
 }

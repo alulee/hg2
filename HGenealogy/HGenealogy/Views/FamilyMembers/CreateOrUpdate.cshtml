@@ -86,14 +86,24 @@
         <!--地址-->
         <div class="form-group">
             <div class="inputs address">
-                <label class="control-label col-md-2">目前居住地</label>
+                <label class="control-label col-md-2">目前居住城市</label>
                 <div class="col-md-10">
-                    @Html.DropDownList("Country", (IEnumerable<SelectListItem>)Model.AvailableCountries, "", new { id = "Countries" })
-                    @Html.DropDownList("StateProvice", (IEnumerable<SelectListItem>)Model.AvailableStateProvinces, "", new { id = "StateProvinces" })
-                    @Html.DropDownList("City", (IEnumerable<SelectListItem>)Model.AvailableCitis, "", new { id = "Citis" })
+                    @Html.DropDownList("CountryName", (IEnumerable<SelectListItem>)Model.AvailableCountries, "", new { @class = "country-input", id = "Countries" })
+                    @Html.DropDownList("StateProvinceName", (IEnumerable<SelectListItem>)Model.AvailableStateProvinces, "", new { @class = "stateprovince-input", id = "StateProvinces" })
+                    @Html.DropDownList("CityName", (IEnumerable<SelectListItem>)Model.AvailableCities, "", new { @class = "city-input", id = "Cities" })
                 </div>
             </div>
-        
+
+        </div>
+
+        <div class="form-group">
+            <div class="inputs address">
+                <label class="control-label col-md-2">目前居住地址</label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.currentAddress.address.Address1, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.currentAddress.address.Address1, "", new { @class = "text-danger" })
+                </div>
+            </div>
         </div>
 
         <div class="form-group">
@@ -116,39 +126,65 @@
 
     $(document).ready(function () {
 
-        $('#Countries').change(function () {
+        $(function () {
+            $("#Countries").change(function () {
+                var selectedItem = $(this).val();
+                var text = $(this).find('option:selected').text();
+                var ddlStates = $("#StateProvinces");
+                var ddlCity = $("#Cities");
+                var statesProgress = $("#states-loading-progress");
 
-            //alert("country change to " + $(this).val());
-
-
-        });
-    });
-
-    $(function () {
-        $("#Countries").change(function () {
-            var selectedItem = $(this).val();
-            var text = $(this).find('option:selected').text();
-            var ddlStates = $("#StateProvinces");
-            var statesProgress = $("#states-loading-progress");
-
-            $.ajax({
-                cache: false,
-                type: "GET",
-                url: "@(Url.Action("GetStateProvincesByCountryName", "FamilyMembers"))",
-                data: { "countryName": text},
-                success: function (data) {
-                    ddlStates.html('');
-                    $.each(data, function (id, option) {
-                        ddlStates.append($('<option></option>').val(option.stateProvinceName).html(option.stateProvinceName));
-                    });
-                    //statesProgress.hide();
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    alert('Failed to retrieve states.');
-                    //statesProgress.hide();
-                }
+                $.ajax({
+                    cache: false,
+                    type: "GET",
+                    url: "@(Url.Action("GetStateProvincesByCountryName", "FamilyMembers"))",
+                    data: { "countryName": text },
+                    success: function (data) {
+                        ddlStates.html('');
+                        ddlCity.html('');
+                        $.each(data, function (id, option) {
+                            ddlStates.append($('<option></option>').val(option.stateProvinceName).html(option.stateProvinceName));
+                        });
+                        //statesProgress.hide();
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert('取得 城市 列表失敗...');
+                        //statesProgress.hide();
+                    }
+                });
             });
+
+        });
+
+        $(function () {
+            $("#StateProvinces").change(function () {
+                var selectedItem = $(this).val();
+                var text = $(this).val();
+                var ddlCity = $("#Cities");
+                var statesProgress = $("#states-loading-progress");
+
+                $.ajax({
+                    cache: false,
+                    type: "GET",
+                    url: "@(Url.Action("GetCitiesByStateProvinceName", "FamilyMembers"))",
+                    data: { "stateProvinceName": text },
+                    success: function (data) {
+                        ddlCity.html('');
+                        $.each(data, function (id, option) {
+                            ddlCity.append($('<option></option>').val(option.CityName).html(option.CityName));
+                        });
+                        //statesProgress.hide();
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert('取得區域列表失敗...');
+                        //statesProgress.hide();
+                    }
+                });
+            });
+
         });
     });
+
+
 
 </script>

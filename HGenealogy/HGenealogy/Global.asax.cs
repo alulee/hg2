@@ -26,9 +26,7 @@ namespace HGenealogy
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AutofacConfig.Register();
-
-
-
+ 
             //var builder = new ContainerBuilder();
             //// Register modules
             //builder.RegisterModule(new MvcSiteMapProviderModule()); // Required

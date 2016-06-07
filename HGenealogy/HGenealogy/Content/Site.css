@@ -64,7 +64,7 @@ body {
 .gender-input span {
     margin: 0 10px 0 0;
 }
-.gender-input, .birthday-input {
+.gender-input, .birthday-input, .country-input, .stateprovince-input, .city-input{
     display: block;
     height: 34px;
     padding: 6px 12px;
@@ -96,6 +96,25 @@ body {
     display: inline-block;
     margin-left:10px;
 }
+.country-input {
+    min-width: 80px;
+    max-width: 80px; 
+    display: inline-block;
+}
+.stateprovince-input {
+    min-width:70px;
+    max-width: 150px; 
+    display: inline-block;
+    margin-left:10px;
+}
+.city-input {
+    min-width:100px;
+    max-width: 150px; 
+    display: inline-block;
+    margin-left:10px;
+}
+
+
 /* Override the default bootstrap b
     ehavior where horizontal description lists 
    will truncate terms that are too long to fit in the left column 

@@ -40,10 +40,17 @@ namespace HGenealogy.Models.FamilyMember
             CreatedWho = "";
             UpdatedWho = "";
 
+            // Address
+            CountryName = "";
+            StateProvinceName = "";
+            CityName = "";
+            CurrentAddressId = 0;
+            PedigreeId = 0;
+
             currentAddress = new AddressViewModel();
             AvailableCountries = new List<SelectListItem>();
             AvailableStateProvinces = new List<SelectListItem>();
-            AvailableCitis = new List<SelectListItem>();
+            AvailableCities = new List<SelectListItem>();
         }
 
         public int Id { get; set; }
@@ -89,12 +96,21 @@ namespace HGenealogy.Models.FamilyMember
         public System.DateTime UpdatedOnUtc { get; set; }
         public string CreatedWho { get; set; }
         public string UpdatedWho { get; set; }
-
+        
         public AddressViewModel currentAddress { get; set; }
+        public string CountryName { get; set; }
+        public string StateProvinceName { get; set; }
+        public string CityName { get; set; }
+        public string Address1 { get; set; }
+
+
         public HGenealogy.Data.PedigreeMeta pedigreeMeta { get; set; }
+        public IList<SelectListItem> AvailablePedigree { get; set; }
+        public int PedigreeId { get; set; }
+
         public IList<SelectListItem> AvailableCountries { get; set; }
         public IList<SelectListItem> AvailableStateProvinces { get; set; }
-        public IList<SelectListItem> AvailableCitis { get; set; }
+        public IList<SelectListItem> AvailableCities { get; set; }
     }
 
 

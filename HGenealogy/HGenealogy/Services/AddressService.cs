@@ -25,11 +25,20 @@ namespace HGenealogy.Services
             _cityRepository = cityRepository;
         }
  
+        /// <summary>
+        /// 取得所有的 國家清單
+        /// </summary>
+        /// <returns></returns>
         public IList<Country> GetAllCountries()
         {
             return _countryRepository.GetAll().ToList<Country>();
         }
 
+        /// <summary>
+        /// 以國家名稱取得 省/州名稱 清單
+        /// </summary>
+        /// <param name="countryName"></param>
+        /// <returns></returns>
         public IList<string> GetAllStateProvincesByCountryName(string countryName)
         {
             var stateProvinceList = new List<string>();
@@ -39,7 +48,7 @@ namespace HGenealogy.Services
             int countryId = GetCountryIdByName(countryName);
             if (countryId > 0)
             {
-                var result = _cityRepository.GetAll().Where(p => p.CountryId == countryId);
+                var result = _cityRepository.GetAll().Where(p => p.CountryId == countryId).ToList();
                 if (result != null)
                 {
                     var namelist = result.GroupBy(x => new { stateProviceName = x.StateProviceName }).Distinct();
@@ -53,7 +62,29 @@ namespace HGenealogy.Services
             return stateProvinceList;
         }
 
-        
+        /// <summary>
+        /// 以省/州名稱取得 城市名稱清單
+        /// </summary>
+        /// <param name="stateProvinceName"></param>
+        /// <returns></returns>
+        public IList<City> GetAllCityByStateProvinceName(string stateProvinceName)
+        {
+            
+            if (stateProvinceName == "")
+                return null;
+
+            var result = _cityRepository.GetAll()
+                            .Where(p => p.StateProviceName.Trim() == stateProvinceName.Trim())
+                            .OrderBy(x => x.ZipCode).ToList();
+
+            return result;
+        }
+
+        /// <summary>
+        /// 以國家名稱取得 國家Id
+        /// </summary>
+        /// <param name="countryName"></param>
+        /// <returns></returns>
         public int GetCountryIdByName(string countryName)
         {             
             var result = _countryRepository.GetAll().Where(p=> p.Name == countryName).FirstOrDefault();

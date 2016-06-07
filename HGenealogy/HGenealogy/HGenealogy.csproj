@@ -294,13 +294,17 @@
     <Compile Include="Controllers\AccountController.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controllers\BaseAdminController.cs" />
     <Compile Include="Controllers\FamilyMembersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\JbimagesController.cs" />
     <Compile Include="Controllers\ManageController.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controllers\PedigreeInfoController.cs" />
     <Compile Include="Controllers\PedigreeMetaController.cs" />
+    <Compile Include="Core\IWebHelper.cs" />
+    <Compile Include="Core\WebHelper.cs" />
     <Compile Include="Data\Address.cs">
       <DependentUpon>hgEntities.tt</DependentUpon>
     </Compile>
@@ -363,6 +367,12 @@
     <Compile Include="Data\UserGeneMeta.cs">
       <DependentUpon>hgEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Fakes\FakeHttpContext.cs" />
+    <Compile Include="Fakes\FakeHttpRequest.cs" />
+    <Compile Include="Fakes\FakeHttpResponse.cs" />
+    <Compile Include="Fakes\FakeHttpSessionState.cs" />
+    <Compile Include="Fakes\FakeIdentity.cs" />
+    <Compile Include="Fakes\FakePrincipal.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -423,10 +433,102 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\hkslide1.png" />
+    <Content Include="Content\Images\indis.gif" />
+    <Content Include="Content\Images\logo.png" />
     <Content Include="Content\jasny-bootstrap.css" />
     <Content Include="Content\jasny-bootstrap.min.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\siteAllen.css" />
+    <Content Include="Content\tinymce\langs\zh_TW.js" />
+    <Content Include="Content\tinymce\license.txt" />
+    <Content Include="Content\tinymce\plugins\advlist\plugin.min.js" />
+    <Content Include="Content\tinymce\plugins\anchor\plugin.min.js" />
+    <Content Include="Content\tinymce\plugins\autolink\plugin.min.js" />
+    <Content Include="Content\tinymce\plugins\autoresize\plugin.min.js" />
+    <Content Include="Content\tinymce\plugins\autosave\plugin.min.js" />
+    <Content Include="Content\tinymce\plugins\bbcode\plugin.min.js" />
+    <Content Include="Content\tinymce\plugins\charmap\plugin.min.js" />
+    <Content Include="Content\tinymce\plugins\code\plugin.min.js" />
+    <Content Include="Content\tinymce\plugins\contextmenu\plugin.min.js" />
+    <Content Include="Content\tinymce\plugins\directionality\plugin.min.js" />
+    <Content Include="Content\tinymce\plugins\emoticons\img\smiley-cool.gif" />
+    <Content Include="Content\tinymce\plugins\emoticons\img\smiley-cry.gif" />
+    <Content Include="Content\tinymce\plugins\emoticons\img\smiley-embarassed.gif" />
+    <Content Include="Content\tinymce\plugins\emoticons\img\smiley-foot-in-mouth.gif" />
+    <Content Include="Content\tinymce\plugins\emoticons\img\smiley-frown.gif" />
+    <Content Include="Content\tinymce\plugins\emoticons\img\smiley-innocent.gif" />
+    <Content Include="Content\tinymce\plugins\emoticons\img\smiley-kiss.gif" />
+    <Content Include="Content\tinymce\plugins\emoticons\img\smiley-laughing.gif" />
+    <Content Include="Content\tinymce\plugins\emoticons\img\smiley-money-mouth.gif" />
+    <Content Include="Content\tinymce\plugins\emoticons\img\smiley-sealed.gif" />
+    <Content Include="Content\tinymce\plugins\emoticons\img\smiley-smile.gif" />
+    <Content Include="Content\tinymce\plugins\emoticons\img\smiley-surprised.gif" />
+    <Content Include="Content\tinymce\plugins\emoticons\img\smiley-tongue-out.gif" />
+    <Content Include="Content\tinymce\plugins\emoticons\img\smiley-undecided.gif" />
+    <Content Include="Content\tinymce\plugins\emoticons\img\smiley-wink.gif" />
+    <Content Include="Content\tinymce\plugins\emoticons\img\smiley-yell.gif" />
+    <Content Include="Content\tinymce\plugins\emoticons\plugin.min.js" />
+    <Content Include="Content\tinymce\plugins\example\plugin.min.js" />
+    <Content Include="Content\tinymce\plugins\example_dependency\plugin.min.js" />
+    <Content Include="Content\tinymce\plugins\fullpage\plugin.min.js" />
+    <Content Include="Content\tinymce\plugins\fullscreen\plugin.min.js" />
+    <Content Include="Content\tinymce\plugins\hr\plugin.min.js" />
+    <Content Include="Content\tinymce\plugins\image\plugin.min.js" />
+    <Content Include="Content\tinymce\plugins\importcss\plugin.min.js" />
+    <Content Include="Content\tinymce\plugins\insertdatetime\plugin.min.js" />
+    <Content Include="Content\tinymce\plugins\jbimages\css\dialog-v4.css" />
+    <Content Include="Content\tinymce\plugins\jbimages\css\dialog.css" />
+    <Content Include="Content\tinymce\plugins\jbimages\dialog-v4.htm" />
+    <Content Include="Content\tinymce\plugins\jbimages\editor_plugin.js" />
+    <Content Include="Content\tinymce\plugins\jbimages\editor_plugin_src.js" />
+    <Content Include="Content\tinymce\plugins\jbimages\img\jbimages-bw.gif" />
+    <Content Include="Content\tinymce\plugins\jbimages\img\spinner.gif" />
+    <Content Include="Content\tinymce\plugins\jbimages\js\dialog-v4.js" />
+    <Content Include="Content\tinymce\plugins\jbimages\js\dialog.js" />
+    <Content Include="Content\tinymce\plugins\jbimages\langs\en.js" />
+    <Content Include="Content\tinymce\plugins\jbimages\langs\en_dlg.js" />
+    <Content Include="Content\tinymce\plugins\jbimages\langs\fr.js" />
+    <Content Include="Content\tinymce\plugins\jbimages\langs\fr_dlg.js" />
+    <Content Include="Content\tinymce\plugins\jbimages\langs\ru.js" />
+    <Content Include="Content\tinymce\plugins\jbimages\langs\ru_dlg.js" />
+    <Content Include="Content\tinymce\plugins\jbimages\plugin.js" />
+    <Content Include="Content\tinymce\plugins\jbimages\plugin.min.js" />
+    <Content Include="Content\tinymce\plugins\layer\plugin.min.js" />
+    <Content Include="Content\tinymce\plugins\legacyoutput\plugin.min.js" />
+    <Content Include="Content\tinymce\plugins\link\plugin.min.js" />
+    <Content Include="Content\tinymce\plugins\lists\plugin.min.js" />
+    <Content Include="Content\tinymce\plugins\media\moxieplayer.swf" />
+    <Content Include="Content\tinymce\plugins\media\plugin.min.js" />
+    <Content Include="Content\tinymce\plugins\nonbreaking\plugin.min.js" />
+    <Content Include="Content\tinymce\plugins\noneditable\plugin.min.js" />
+    <Content Include="Content\tinymce\plugins\pagebreak\plugin.min.js" />
+    <Content Include="Content\tinymce\plugins\paste\plugin.min.js" />
+    <Content Include="Content\tinymce\plugins\preview\plugin.min.js" />
+    <Content Include="Content\tinymce\plugins\print\plugin.min.js" />
+    <Content Include="Content\tinymce\plugins\save\plugin.min.js" />
+    <Content Include="Content\tinymce\plugins\searchreplace\plugin.min.js" />
+    <Content Include="Content\tinymce\plugins\spellchecker\plugin.min.js" />
+    <Content Include="Content\tinymce\plugins\tabfocus\plugin.min.js" />
+    <Content Include="Content\tinymce\plugins\table\plugin.min.js" />
+    <Content Include="Content\tinymce\plugins\template\plugin.min.js" />
+    <Content Include="Content\tinymce\plugins\textcolor\plugin.min.js" />
+    <Content Include="Content\tinymce\plugins\visualblocks\css\visualblocks.css" />
+    <Content Include="Content\tinymce\plugins\visualblocks\plugin.min.js" />
+    <Content Include="Content\tinymce\plugins\visualchars\plugin.min.js" />
+    <Content Include="Content\tinymce\plugins\wordcount\plugin.min.js" />
+    <Content Include="Content\tinymce\skins\lightgray\content.inline.min.css" />
+    <Content Include="Content\tinymce\skins\lightgray\content.min.css" />
+    <Content Include="Content\tinymce\skins\lightgray\fonts\tinymce-small.svg" />
+    <Content Include="Content\tinymce\skins\lightgray\fonts\tinymce.svg" />
+    <Content Include="Content\tinymce\skins\lightgray\img\anchor.gif" />
+    <Content Include="Content\tinymce\skins\lightgray\img\loader.gif" />
+    <Content Include="Content\tinymce\skins\lightgray\img\object.gif" />
+    <Content Include="Content\tinymce\skins\lightgray\img\trans.gif" />
+    <Content Include="Content\tinymce\skins\lightgray\skin.ie7.min.css" />
+    <Content Include="Content\tinymce\skins\lightgray\skin.min.css" />
+    <Content Include="Content\tinymce\themes\modern\theme.min.js" />
+    <Content Include="Content\tinymce\tinymce.min.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -489,6 +591,15 @@
       <DependentUpon>hgEntities.edmx</DependentUpon>
       <LastGenOutput>hgEntities.cs</LastGenOutput>
     </Content>
+    <Content Include="Content\tinymce\langs\readme.md" />
+    <Content Include="Content\tinymce\plugins\jbimages\readme" />
+    <Content Include="Content\tinymce\skins\lightgray\fonts\readme.md" />
+    <Content Include="Content\tinymce\skins\lightgray\fonts\tinymce-small.eot" />
+    <Content Include="Content\tinymce\skins\lightgray\fonts\tinymce-small.ttf" />
+    <Content Include="Content\tinymce\skins\lightgray\fonts\tinymce-small.woff" />
+    <Content Include="Content\tinymce\skins\lightgray\fonts\tinymce.eot" />
+    <Content Include="Content\tinymce\skins\lightgray\fonts\tinymce.ttf" />
+    <Content Include="Content\tinymce\skins\lightgray\fonts\tinymce.woff" />
     <None Include="MvcSiteMapSchema.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -625,9 +736,12 @@
     <Content Include="Views\PedigreeInfo\test.cshtml" />
     <Content Include="Views\PedigreeInfo\_List.cshtml" />
     <Content Include="Views\PedigreeMeta\Query.cshtml" />
+    <Content Include="Views\Jbimages\Upload.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\RichEditor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\FileUpload\" />
+    <Folder Include="Content\Images\uploaded\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

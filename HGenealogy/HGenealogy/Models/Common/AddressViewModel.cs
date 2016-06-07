@@ -34,9 +34,6 @@ namespace HGenealogy.Models.Common
         }
         
         public HGenealogy.Data.Address address { get; set; }
-        public string CountryName { get; set; }
-        public string StateProvinceName { get; set; }
-        public string CityName { get; set; }
         public string FullAdress { get; set; }                     
     }
 }

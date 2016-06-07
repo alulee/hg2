@@ -11,6 +11,7 @@ namespace HGenealogy.Services.Interface
     {        
         IList<Country> GetAllCountries();
         IList<string> GetAllStateProvincesByCountryName(string countryName);
+        IList<City> GetAllCityByStateProvinceName(string stateProvinceName);
 
         //GenealogyMeta GetGeneMetaByID(string geneID);
         //IList<GenealogyMeta> GetPublicGeneMeta();
