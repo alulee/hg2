@@ -10,6 +10,9 @@ using HGenealogy.Data;
 using AutoMapper;
 using HGenealogy.Models.FamilyMember;
 using HGenealogy.Services.Interface;
+using HGenealogy.SharedClass;
+using HGenealogy.Models.Common;
+using PagedList;
 
 namespace HGenealogy.Controllers
 {
@@ -17,19 +20,24 @@ namespace HGenealogy.Controllers
     {
         private readonly IFamilyMemberService _familyMemberService;
         private readonly IAddressService _addressService;
+        private readonly IPedigreeMetaService _pedigreeMetaService;
 
         #region 建構 / 解構
 
         public FamilyMembersController(
                 IFamilyMemberService familyMemberService,
-                IAddressService addressService
+                IAddressService addressService,
+                IPedigreeMetaService pedigreeMetaService
             )
         {
             this._familyMemberService = familyMemberService;
             this._addressService = addressService;
+            this._pedigreeMetaService = pedigreeMetaService;
 
             Mapper.CreateMap<FamilyMemberViewModel, FamilyMember>();
             Mapper.CreateMap<FamilyMember, FamilyMemberViewModel>();
+            Mapper.CreateMap<AddressViewModel, Address>();
+            Mapper.CreateMap<Address, AddressViewModel>();
         }
 
         protected override void Dispose(bool disposing)
@@ -38,16 +46,24 @@ namespace HGenealogy.Controllers
         }
 
         #endregion
-
-        
+       
         #region Utilities
 
         [NonAction]
         protected virtual void PrepareFamilyMemberViewModel(FamilyMemberViewModel model)
         {
+            if (model.CurrentAddressId != 0)
+            {
+                var address = _addressService.GetById(model.CurrentAddressId);
+                model.currentAddress = Mapper.Map<AddressViewModel>(address);
+                model.currentAddress.FullAdress = model.currentAddress.Country + " " +
+                                                  model.currentAddress.StateProvince + " " +
+                                                  model.currentAddress.City + " " +
+                                                  model.currentAddress.Address1;
+            }
 
             // 設定國家選單
-            model.AvailableCountries.Add(new SelectListItem { Text = "國別", Value = "" , Selected = true});
+            model.AvailableCountries.Add(new SelectListItem { Text = "國別", Value = "" , Selected = false});
             var allCountries = this._addressService.GetAllCountries();
             if (allCountries != null)
             {
@@ -57,17 +73,18 @@ namespace HGenealogy.Controllers
                     { 
                         Text = country.Name,
                         Value = country.Name,
-                        Selected = country.Name == model.currentAddress.address.Country
+                        Selected = country.Name == model.currentAddress.Country
                     });
                 }
             }
+            
 
             //設定省洲清單
-            model.AvailableStateProvinces.Add(new SelectListItem { Text = "城市", Value = "0", Selected = true });
-            if(model.currentAddress != null && model.currentAddress.address.Country != "")
+            model.AvailableStateProvinces.Add(new SelectListItem { Text = "城市", Value = "", Selected = false });
+            if(model.currentAddress != null && model.currentAddress.Country != "")
             {
-                var countryName = model.currentAddress.address.Country;
-                var stateProvinceName = model.currentAddress.address.StateProvince;
+                var countryName = model.currentAddress.Country;
+                var stateProvinceName = model.currentAddress.StateProvince;
                 var allStateProvinces = this._addressService.GetAllStateProvincesByCountryName(countryName);
                 
                 if (allStateProvinces != null)
@@ -92,15 +109,16 @@ namespace HGenealogy.Controllers
                         Selected = true
                     });
                 }
+               
             }
 
             // 設定城市清單
-            model.AvailableCities.Add(new SelectListItem { Text = "區域", Value = "0", Selected = true });
-            if (model.currentAddress != null && model.currentAddress.address.StateProvince != "")
+            model.AvailableCities.Add(new SelectListItem { Text = "區域", Value = "", Selected = false });
+            if (model.currentAddress != null && model.currentAddress.StateProvince != "")
             {
-                var stateProvinceName = model.currentAddress.address.StateProvince;
+                var stateProvinceName = model.currentAddress.StateProvince;
                 var allcities = this._addressService.GetAllCityByStateProvinceName(stateProvinceName);
-                var cityName = model.currentAddress.address.City;
+                var cityName = model.currentAddress.City;
                 
                 bool currnetCityNameExistsInList = false;
 
@@ -130,21 +148,46 @@ namespace HGenealogy.Controllers
                         Selected = true
                     });
                 }
+               
             }
+
+            model.CountryName = model.currentAddress.Country;
+            model.StateProvinceName = model.currentAddress.StateProvince;
+            model.CityName = model.currentAddress.City;
+            model.Address1 = model.currentAddress.Address1;
+
         }
         
+        [NonAction]
+        private IDictionary<string, string> getInfoTypeDic()
+        {
+            IDictionary<string, string> infoTypeDic = new Dictionary<string, string>();
+            infoTypeDic.Add("Meta", "通訊資料");
+            infoTypeDic.Add("Personage", "個人生命史");
+            return infoTypeDic;
+        }
+
         #endregion
  
-
         #region Actions
 
-        // GET: FamilyMembers
-        public ActionResult Index()
+        // GET: FamilyMembersViewModel
+        public ActionResult Index(int page = 1)
         {            
             if (Session["CurrentPedigreeId"] != null)
             {
             }
-            return View(this._familyMemberService.GetAll().ToList());
+            var familyMemberList = this._familyMemberService
+                                    .GetAll()
+                                    .ToList<FamilyMember>();
+
+            // session 讀取 gID
+            int currentPage = page < 1 ? 1 : page;
+           
+            List<FamilyMemberViewModel> familyMemberViewModelList = Mapper.Map<List<FamilyMember>, List<FamilyMemberViewModel>>(familyMemberList);
+
+            return View(familyMemberViewModelList.ToPagedList(currentPage, 15));
+ 
         }
 
         public ActionResult IndexByPedigree()
@@ -161,18 +204,77 @@ namespace HGenealogy.Controllers
         }
 
         // GET: FamilyMembers/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(int familyMemberID, string infoType = "")
         {
-            if (id == null)
+            int currentPedigreeID = 0;
+
+            if (Session["currentPedigreeId"] == null ||
+                !int.TryParse(Session["currentPedigreeId"].ToString(), out currentPedigreeID))
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                Redirect(Url.Action("PedigreeMeta", "Index"));
             }
-            FamilyMember familyMember = this._familyMemberService.GetById(id);
+            
+            var pedigreeMeta = _pedigreeMetaService.GetById(currentPedigreeID);
+            if (pedigreeMeta == null)
+                Redirect(Url.Action("PedigreeMeta", "Index"));
+
+            if (string.IsNullOrWhiteSpace(infoType))
+                infoType = "meta";
+
+            if (familyMemberID == 0)
+                Redirect(Url.Action("Index", "FamilyMembers"));
+            
+            FamilyMember familyMember = this._familyMemberService.GetById(familyMemberID); ;
             if (familyMember == null)
             {
                 return HttpNotFound();
             }
-            return View(familyMember);
+            
+            var familyMemberViewModel = Mapper.Map<FamilyMember, FamilyMemberViewModel>(familyMember);            
+            PrepareFamilyMemberViewModel(familyMemberViewModel);
+
+            
+            ViewBag.Title = string.Concat(pedigreeMeta.Title, "族譜資料");
+            ViewBag.currentPedigreeID = currentPedigreeID;
+            ViewBag.currentInfoType = infoType;
+            ViewBag.infoTypeDic = getInfoTypeDic();
+
+            return View(familyMemberViewModel);
+        }
+
+        public ActionResult Meta(int id)
+        {
+            int currentPedigreeID = 0;
+
+            /*
+            if (Session["currentPedigreeId"] == null ||
+                !int.TryParse(Session["currentPedigreeId"].ToString(), out currentPedigreeID))
+            {
+                Redirect(Url.Action("PedigreeMeta", "Index"));
+            }
+
+            var pedigreeMeta = _pedigreeMetaService.GetById(currentPedigreeID);
+            if (pedigreeMeta == null)
+                Redirect(Url.Action("PedigreeMeta", "Index"));
+ 
+            if (familyMemberID == 0)
+                Redirect(Url.Action("Index", "FamilyMembers"));
+            */
+
+            FamilyMember familyMember = this._familyMemberService.GetById(id); ;
+            if (familyMember == null)
+            {
+                return HttpNotFound();
+            }
+
+            var familyMemberViewModel = Mapper.Map<FamilyMember, FamilyMemberViewModel>(familyMember);
+            PrepareFamilyMemberViewModel(familyMemberViewModel);
+
+            // ViewBag.Title = string.Concat(pedigreeMeta.Title, "族譜資料");
+            ViewBag.currentPedigreeID = currentPedigreeID;
+            ViewBag.infoTypeDic = getInfoTypeDic();
+
+            return View(familyMemberViewModel);
         }
 
         // GET: FamilyMembers/Create
@@ -204,7 +306,7 @@ namespace HGenealogy.Controllers
             }
 
             var familyMemberViewModel = Mapper.Map<FamilyMember, FamilyMemberViewModel>(familyMember);
-
+            
             PrepareFamilyMemberViewModel(familyMemberViewModel);
 
             ViewBag.Title = "修改家族成員資料";
@@ -227,16 +329,55 @@ namespace HGenealogy.Controllers
                     if (familyMember.Id == 0)
                     {
                         // 新增
+                        familyMember.CreatedWho = "sa";
                         _familyMemberService.Insert(familyMember);
 
                         // 新增地址
                     }
                     else
                     {
+
                         // 修改
+                        familyMember.CreatedWho = "sa";
+                        familyMember.UpdatedWho = "sa";
+                       
+                        
+                        var currentAddress = _addressService.GetById(familyMember.CurrentAddressId);
+                        if (currentAddress == null)
+                        {
+                            // 新增地址
+                            currentAddress = _addressService.GetNewAddress();
+                        }
+                                             
+                        currentAddress.Country = editfamilyMember.CountryName;
+                        currentAddress.StateProvince = editfamilyMember.StateProvinceName;
+                        currentAddress.City = editfamilyMember.CityName;
+                        currentAddress.Address1 = editfamilyMember.Address1;
+                        
+
+                        // 設定經緯度
+                        string fulladdress = string.Format("{0} {1} {2} {3}", currentAddress.Country, currentAddress.StateProvince, currentAddress.City, currentAddress.Address1);
+                        string jsonAddress = GeoUtil.convertAddressToJsonString(fulladdress);
+                        double[] latlng = GeoUtil.getLatLng(jsonAddress);
+                        decimal latitude, longitude;
+
+                        if(Decimal.TryParse(latlng[0].ToString(), out latitude))
+                            currentAddress.Latitude = latitude;
+
+                        if (Decimal.TryParse(latlng[1].ToString(), out longitude))
+                            currentAddress.Longitude = longitude;
+
+                        if (currentAddress.Id == 0)
+                        {                            
+                            _addressService.Insert(currentAddress);
+                            familyMember.CurrentAddressId = currentAddress.Id;
+                        }
+                        else
+                            _addressService.Update(currentAddress);
+
+                        
                         _familyMemberService.Update(familyMember);
 
-                        // 修改地址
                     }
                     return RedirectToAction("Index");
                 }
@@ -310,7 +451,24 @@ namespace HGenealogy.Controllers
             return null;
 
         }
- 
+
+
+        #region FamilyMember / Info
+
+        [ChildActionOnly]
+        public ActionResult FamilyMemberNavigation(int familyMemberId, int selectedTabId = 0)
+        {
+            var model = new FamilyMemberNavigationModel();
+            model.CurrentFamilyMemberId = familyMemberId;
+            model.HideMeta = false;
+            model.HideBiography = false;            
+            model.SelectedTab = (FamilyMemberNavigationEnum)selectedTabId;
+
+            return PartialView(model);
+        }
+
+        #endregion
+
         #endregion
 
     }

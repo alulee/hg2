@@ -38,5 +38,10 @@ namespace HGenealogy.Services
             _familyMemberRepository.Update(entity);
             _familyMemberRepository.SaveChanges();
         }
+
+        public void CommitChanges()
+        {
+            _familyMemberRepository.SaveChanges();
+        }
     }
 }

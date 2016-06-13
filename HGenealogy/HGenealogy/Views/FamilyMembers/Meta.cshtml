@@ -1,0 +1,54 @@
+﻿@using HGenealogy.Models.FamilyMember
+@model FamilyMemberViewModel
+
+@{
+    string tilte = ViewBag.Title;
+    string currentPedigreeName = ViewBag.currentPedigreeName;
+    int currentFamilyMemberID = Model.Id;
+    string currentInfoType = ViewBag.currentInfoType;
+}
+
+<div class="container-fluid pedigree-sec-menu-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active pedigree-sec-menu-title"><a href="#pedigreecontent">族譜名稱：@currentPedigreeName</a></li>
+    </ul>
+
+    <div class="container-fluid pedigree-sec-menu">
+        @Html.Partial("_PedigreeSecondMenu", @ViewData)
+    </div>
+    <hr />
+</div>
+
+<div class="container-fluid">
+    <div class="side-2">
+        @Html.Action("FamilyMemberNavigation", "FamilyMembers", new { familyMemberId = currentFamilyMemberID, selectedTabId = FamilyMemberNavigationEnum.Meta })
+    </div>
+
+    <div class="center-2">
+        <div class="container-fluid">
+            <div class="familymember-info-title">
+                <strong>@Model.FamilyName - @Model.GivenName</strong>
+            </div>
+        </div>
+
+        <div class="tab-content familymember-info-list-page">
+            <div class="container-fluid">
+                <div id="home" class="tab-pane fade in active">
+                    <div class="form-group row">
+                        <div class="col-md-10">
+                            <h3>Tilte</h3>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="buttons">
+                                <input type="button" class="btn-sm btn-info" onclick="location.href='@Url.Action("Edit", new { id = currentFamilyMemberID})'" value='修改' />
+                                <input type="button" class="btn-sm btn-danger" value='刪除' />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+

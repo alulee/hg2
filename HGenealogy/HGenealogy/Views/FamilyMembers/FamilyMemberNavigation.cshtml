@@ -1,0 +1,33 @@
+﻿@using HGenealogy.Models.FamilyMember;
+@model FamilyMemberNavigationModel
+
+@{
+    int currentFamilyMemberID = Model.CurrentFamilyMemberId;  
+}
+
+<div class="block-familymember-navigation">
+    <div class="title">
+        <strong>家庭成員</strong>
+    </div>
+    <div class="listbox">
+        <ul class="list">
+            
+           
+            <li class="@if (Model.SelectedTab == FamilyMemberNavigationEnum.Meta)
+                            { <text> active</text>}
+                        else
+                            {<text>inactive</text>}">
+
+                @Html.ActionLink("通訊錄", "Meta", new { familyMemberID = currentFamilyMemberID })
+            </li> 
+
+            <li class="@if (Model.SelectedTab == FamilyMemberNavigationEnum.Biography)
+                            { <text> active</text>}
+                        else
+                            {<text>inactive</text>}">
+
+                @Html.ActionLink("個人生命史", "Meta", new { familyMemberID = currentFamilyMemberID })
+            </li> 
+        </ul>
+    </div>
+</div>

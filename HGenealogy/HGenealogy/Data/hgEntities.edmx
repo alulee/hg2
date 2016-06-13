@@ -119,6 +119,25 @@
           <Property Name="UpdatedWho" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="LastChanged" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
         </EntityType>
+        <EntityType Name="FamilyMemberInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FamilyMemberId" Type="int" Nullable="false" />
+          <Property Name="InfoType" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="InfoTitle" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="InfoContent" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Longitude" Type="decimal" Precision="28" Scale="6" />
+          <Property Name="Latitude" Type="decimal" Precision="28" Scale="6" />
+          <Property Name="DisplayOrder" Type="int" Nullable="false" />
+          <Property Name="CreatedOnUtc" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="UpdatedOnUtc" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="CreatedWho" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="UpdatedWho" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="LastChanged" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+        </EntityType>
         <EntityType Name="GenealogyMeta">
           <Key>
             <PropertyRef Name="GID" />
@@ -238,6 +257,17 @@
           <Property Name="UpdatedWho" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="LastChanged" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
         </EntityType>
+        <EntityType Name="StateProvince">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CountryId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="LanguageId" Type="int" Nullable="false" />
+          <Property Name="Published" Type="bit" Nullable="false" />
+          <Property Name="DisplayOrder" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="TaiwanZipCode">
           <Key>
             <PropertyRef Name="ID" />
@@ -265,12 +295,14 @@
           <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Family" EntityType="Self.Family" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FamilyMember" EntityType="Self.FamilyMember" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FamilyMemberInfo" EntityType="Self.FamilyMemberInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GenealogyMeta" EntityType="Self.GenealogyMeta" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Language" EntityType="Self.Language" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Menu" EntityType="Self.Menu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PedigreeEvent" EntityType="Self.PedigreeEvent" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PedigreeInfo" EntityType="Self.PedigreeInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PedigreeMeta" EntityType="Self.PedigreeMeta" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StateProvince" EntityType="Self.StateProvince" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TaiwanZipCode" EntityType="Self.TaiwanZipCode" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserGeneMeta" EntityType="Self.UserGeneMeta" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
@@ -384,6 +416,8 @@
           <EntitySet Name="Cities" EntityType="hDatabaseModel.City" />
           <EntitySet Name="Countries" EntityType="hDatabaseModel.Country" />
           <EntitySet Name="Languages" EntityType="hDatabaseModel.Language" />
+          <EntitySet Name="FamilyMemberInfoes" EntityType="hDatabaseModel.FamilyMemberInfo" />
+          <EntitySet Name="StateProvinces" EntityType="hDatabaseModel.StateProvince" />
         </EntityContainer>
         <EntityType Name="FamilyMember">
           <Key>
@@ -544,6 +578,36 @@
           <Property Name="Rtl" Type="Boolean" Nullable="false" />
           <Property Name="LimitedToStores" Type="Boolean" Nullable="false" />
           <Property Name="DefaultCurrencyId" Type="Int32" Nullable="false" />
+          <Property Name="Published" Type="Boolean" Nullable="false" />
+          <Property Name="DisplayOrder" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FamilyMemberInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FamilyMemberId" Type="Int32" Nullable="false" />
+          <Property Name="InfoType" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="InfoTitle" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="InfoContent" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Longitude" Type="Decimal" Precision="28" Scale="6" />
+          <Property Name="Latitude" Type="Decimal" Precision="28" Scale="6" />
+          <Property Name="DisplayOrder" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOnUtc" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="UpdatedOnUtc" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="CreatedWho" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedWho" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="LastChanged" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="StateProvince">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CountryId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="LanguageId" Type="Int32" Nullable="false" />
           <Property Name="Published" Type="Boolean" Nullable="false" />
           <Property Name="DisplayOrder" Type="Int32" Nullable="false" />
         </EntityType>
@@ -816,6 +880,38 @@
                 <ScalarProperty Name="UniqueSeoCode" ColumnName="UniqueSeoCode" />
                 <ScalarProperty Name="LanguageCulture" ColumnName="LanguageCulture" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FamilyMemberInfoes">
+            <EntityTypeMapping TypeName="hDatabaseModel.FamilyMemberInfo">
+              <MappingFragment StoreEntitySet="FamilyMemberInfo">
+                <ScalarProperty Name="LastChanged" ColumnName="LastChanged" />
+                <ScalarProperty Name="UpdatedWho" ColumnName="UpdatedWho" />
+                <ScalarProperty Name="CreatedWho" ColumnName="CreatedWho" />
+                <ScalarProperty Name="UpdatedOnUtc" ColumnName="UpdatedOnUtc" />
+                <ScalarProperty Name="CreatedOnUtc" ColumnName="CreatedOnUtc" />
+                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="InfoContent" ColumnName="InfoContent" />
+                <ScalarProperty Name="InfoTitle" ColumnName="InfoTitle" />
+                <ScalarProperty Name="InfoType" ColumnName="InfoType" />
+                <ScalarProperty Name="FamilyMemberId" ColumnName="FamilyMemberId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StateProvinces">
+            <EntityTypeMapping TypeName="hDatabaseModel.StateProvince">
+              <MappingFragment StoreEntitySet="StateProvince">
+                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
+                <ScalarProperty Name="Published" ColumnName="Published" />
+                <ScalarProperty Name="LanguageId" ColumnName="LanguageId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

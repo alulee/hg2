@@ -44,6 +44,7 @@ namespace HGenealogy.Models.FamilyMember
             CountryName = "";
             StateProvinceName = "";
             CityName = "";
+            Address1 = "";
             CurrentAddressId = 0;
             PedigreeId = 0;
 
@@ -113,11 +114,6 @@ namespace HGenealogy.Models.FamilyMember
         public IList<SelectListItem> AvailableCities { get; set; }
     }
 
-
-    public class FamilyMembersViewModel
-    {
-        public GenealogyMeta geneMeta { get; set; }
-        public IList<FamilyViewModel> families { get; set; }
-    }
+ 
  
 }

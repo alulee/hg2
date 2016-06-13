@@ -8,27 +8,29 @@
     IDictionary<string, string> infoTypeDic = ViewBag.infoTypeDic;
 }
 
-<div class="side-2">
-    <div class="block">
-        <div class="title">
-            <strong>族譜資訊</strong>
-        </div>
-        <div class="block-pedigree-info-navigation listbox">
-            <ul class="list">
-                @foreach (KeyValuePair<string, string> keyValue in infoTypeDic)
-                {
-                    @RenderCategoryLine(keyValue, currentPedigreeID, currentInfoType)
-                }
-            </ul>
+<div class="row">
+    <div class="side-2">
+        <div class="block">
+            <div class="title">
+                <strong>族譜資訊</strong>
+            </div>
+            <div class="block-pedigree-info-navigation listbox">
+                <ul class="list">
+                    @foreach (KeyValuePair<string, string> keyValue in infoTypeDic)
+                    {
+                        @RenderCategoryLine(keyValue, currentPedigreeID, currentInfoType)
+                    }
+                </ul>
+            </div>
         </div>
     </div>
-</div>
-<div class="center-2">
-    @Html.Partial("_List", Model, new ViewDataDictionary { {"Title", tilte},
+    <div class="center-2">
+        @Html.Partial("_List", Model, new ViewDataDictionary { {"Title", tilte},
                                                            {"currentPedigreeID", currentPedigreeID},
                                                            {"currentInfoType", currentInfoType},
                                                            {"infoTypeDic", infoTypeDic},
                                                            })
+    </div>
 </div>
 
 @helper RenderCategoryLine(KeyValuePair<string, string> infoTypeKeyValue, int currentPedigreeID, string currentInfoType)

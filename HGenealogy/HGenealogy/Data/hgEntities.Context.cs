@@ -38,5 +38,7 @@ namespace HGenealogy.Data
         public virtual DbSet<City> Cities { get; set; }
         public virtual DbSet<Country> Countries { get; set; }
         public virtual DbSet<Language> Languages { get; set; }
+        public virtual DbSet<FamilyMemberInfo> FamilyMemberInfoes { get; set; }
+        public virtual DbSet<StateProvince> StateProvinces { get; set; }
     }
 }

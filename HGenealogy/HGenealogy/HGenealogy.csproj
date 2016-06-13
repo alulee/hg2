@@ -323,6 +323,9 @@
     <Compile Include="Data\FamilyMember.cs">
       <DependentUpon>hgEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\FamilyMemberInfo.cs">
+      <DependentUpon>hgEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\GenealogyMeta.cs">
       <DependentUpon>hgEntities.tt</DependentUpon>
       <SubType>Code</SubType>
@@ -360,6 +363,9 @@
     </Compile>
     <Compile Include="Data\Repository\GenericRepository.cs" />
     <Compile Include="Data\Repository\IRepository.cs" />
+    <Compile Include="Data\StateProvince.cs">
+      <DependentUpon>hgEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\TaiwanZipCode.cs">
       <DependentUpon>hgEntities.tt</DependentUpon>
       <SubType>Code</SubType>
@@ -384,6 +390,8 @@
     </Compile>
     <Compile Include="Infrastructure\Extensions\ApplicationUserManager.cs" />
     <Compile Include="Models\Common\AddressViewModel.cs" />
+    <Compile Include="Models\FamilyMember\FamilyMemberNavigationModel.cs" />
+    <Compile Include="Models\FamilyMember\FamilyMemberInfoModel.cs" />
     <Compile Include="Models\PedigreeInfo\PedigreeInfoModel.cs" />
     <Compile Include="Models\PedigreeMeta\PedigreeMetaModel.cs" />
     <Compile Include="Models\PedigreeMeta\PedigreeMetaQueryModel.cs" />
@@ -406,8 +414,10 @@
     <Compile Include="Models\MenuViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Infrastructure\SharedClass\GeoPoint.cs" />
+    <Compile Include="Services\Interface\IFamilyMemberInfoService.cs" />
     <Compile Include="Services\Interface\IPedigreeInfoService.cs" />
     <Compile Include="Services\Interface\IPedigreeMetaService.cs" />
+    <Compile Include="Services\FamilyMemberInfoService.cs" />
     <Compile Include="Services\PedigreeInfoService.cs" />
     <Compile Include="Services\PedigreeMetaService.cs" />
     <Compile Include="Startup.cs" />
@@ -720,7 +730,7 @@
     <Content Include="Views\Account\EditCurrentUser.cshtml" />
     <Content Include="Views\FamilyMembers\CreateOrUpdate.cshtml" />
     <Content Include="Views\FamilyMembers\Delete.cshtml" />
-    <Content Include="Views\FamilyMembers\Details.cshtml" />
+    <Content Include="Views\FamilyMembers\DetailBak.cshtml" />
     <Content Include="Views\FamilyMembers\Edit.cshtml" />
     <Content Include="Views\FamilyMembers\Index2.cshtml" />
     <Content Include="Views\Shared\_PedigreeSecondMenu.cshtml" />
@@ -738,6 +748,10 @@
     <Content Include="Views\PedigreeMeta\Query.cshtml" />
     <Content Include="Views\Jbimages\Upload.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\RichEditor.cshtml" />
+    <Content Include="Views\FamilyMembers\Details.cshtml" />
+    <Content Include="Views\FamilyMembers\_InfoList.cshtml" />
+    <Content Include="Views\FamilyMembers\Meta.cshtml" />
+    <Content Include="Views\FamilyMembers\FamilyMemberNavigation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\FileUpload\" />

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<HGenealogy.Data.FamilyMember>
+﻿@model IEnumerable<HGenealogy.Models.FamilyMember.FamilyMemberViewModel>
 
 @{
     ViewBag.Title = "Index";
@@ -37,12 +37,12 @@
             </div>
             <div class="member_intro">
                 <div>
-                    <h4><strong>@Html.DisplayFor(modelItem => item.GivenName)</strong></h4>
+                    <h4><strong>@Html.DisplayFor(model => item.GivenName)</strong></h4>
                     <div class="member_intro_content">
 
-                        <p>個人摘要：@Html.DisplayFor(modelItem => item.Description)</p>
+                        <p>個人摘要：@Html.DisplayFor(model => item.Description)</p>
 
-                        <p>現居地址：@Html.DisplayFor(modelItem => item.Description)</p>
+                        <p>現居地址：@Html.DisplayFor(model => item.currentAddress.FullAdress)</p>
                     </div>
                 </div>
             </div>

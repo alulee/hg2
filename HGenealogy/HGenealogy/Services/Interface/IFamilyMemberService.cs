@@ -14,5 +14,6 @@ namespace HGenealogy.Services.Interface
         FamilyMember GetById(int id);
         void Insert(FamilyMember entity);
         void Update(FamilyMember entity);
+  
     }
 }

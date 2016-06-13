@@ -13,18 +13,73 @@ namespace HGenealogy.Services
 {
     public class AddressService : IAddressService
     {
+        private readonly IRepository<Address> _addressRepository;
         private readonly IRepository<Country> _countryRepository;
         private readonly IRepository<City> _cityRepository;
 
         public AddressService(
+            IRepository<Address> addressRepository,
             IRepository<Country> countryRepository,
             IRepository<City> cityRepository
             )
         {
+            _addressRepository = addressRepository;
             _countryRepository = countryRepository;
             _cityRepository = cityRepository;
         }
- 
+
+        public Address GetById(int id)
+        {
+            return _addressRepository.GetAll().Where(p => p.Id == id).FirstOrDefault();
+        }
+
+        public Address GetNewAddress()
+        {
+            var newAddress = new Address
+            {                
+                Country = "",
+                StateProvince = "",
+                City = "",
+                Address1 = "",
+                Address2 = "",
+                ZipPostalCode = "",
+                ContactName = "",
+                ContactEmail = "",
+                ContactPhone = "",
+                ContactFax = "",
+                CustomAttributes = "",
+                IsDeleted = false,
+                DisplayOrder = 0,
+                CreatedOnUtc = DateTime.UtcNow,
+                UpdatedOnUtc = DateTime.UtcNow,
+                CreatedWho = "sa",
+                UpdatedWho = "sa"
+            };
+            return newAddress;
+        }
+
+
+        public IQueryable<Address> GetAll()
+        {
+            return _addressRepository.GetAll();
+        }
+
+        public void Insert(Address entity)
+        {
+            _addressRepository.Create(entity);
+            _addressRepository.SaveChanges();
+        }
+        public void Update(Address entity)
+        {
+            _addressRepository.Update(entity);
+            _addressRepository.SaveChanges();
+        }
+
+        public void CommitChanges()
+        {            
+            _addressRepository.SaveChanges();
+        }
+
         /// <summary>
         /// 取得所有的 國家清單
         /// </summary>
