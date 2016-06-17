@@ -42,13 +42,13 @@
 
                         <p>個人摘要：@Html.DisplayFor(model => item.Description)</p>
 
-                        <p>現居地址：@Html.DisplayFor(model => item.currentAddress.FullAdress)</p>
+                        <p>現居地址：@Html.DisplayFor(model => item.CurrentAddress.FullAdress)</p>
                     </div>
                 </div>
             </div>
             <div class="editor-btn">
                 @Html.ActionLink("編輯", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("詳細資料", "Details", new { id = item.Id }) |
+                @Html.ActionLink("詳細資料", "Meta", new { id = item.Id }) |
                 @Html.ActionLink("刪除", "Delete", new { id = item.Id })
             </div>
         </div>

@@ -1,0 +1,44 @@
+﻿@using HGenealogy.Models.FamilyMember
+@model List<FamilyMemberInfoModel>
+
+@{
+    string tilte = ViewBag.Title;
+    int currentPedigreeId = ViewBag.currentPedigreeId;
+    string currentPedigreeName = ViewBag.currentPedigreeName;
+    int currentFamilyMemberId = ViewBag.currentFamilyMemberId;
+    string currentFamilyMemberName = ViewBag.currentFamilyMemberName;
+}
+
+<div class="container-fluid pedigree-sec-menu-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active pedigree-sec-menu-title"><a href="#pedigreecontent">族譜名稱：@currentPedigreeName</a></li>
+    </ul>
+
+    <div class="container-fluid pedigree-sec-menu">
+        @Html.Partial("_PedigreeSecondMenu", @ViewData)
+    </div>
+    <hr />
+</div>
+
+<div class="container-fluid">
+    <div class="side-2">
+        @Html.Action("FamilyMemberNavigation", "FamilyMembers", new { familyMemberId = currentFamilyMemberId, selectedTabId = FamilyMemberNavigationEnum.Biography })
+    </div>
+
+    <div class="center-2">
+        <div class="container-fluid">
+            <div class="familymember-info-title">
+                <strong>@currentFamilyMemberName</strong>
+            </div>
+
+            @Html.Partial("_InfoList", Model, new ViewDataDictionary { {"Title", tilte},
+                                                        {"currentPedigreeId", currentPedigreeId},
+                                                        {"currentFamilyMemberId", currentFamilyMemberId},
+                                                        {"currentInfoType", FamilyMemberNavigationEnum.Biography.ToString()}
+                                                        })
+
+
+        </div>
+    </div>
+</div>
+

@@ -4,7 +4,7 @@
 @{
     string tilte = ViewBag.Title;
     string currentPedigreeName = ViewBag.currentPedigreeName;
-    int currentFamilyMemberID = Model.Id;
+    int currentFamilyMemberId = Model.Id;
     string currentInfoType = ViewBag.currentInfoType;
 }
 
@@ -21,7 +21,7 @@
 
 <div class="container-fluid">
     <div class="side-2">
-        @Html.Action("FamilyMemberNavigation", "FamilyMembers", new { familyMemberId = currentFamilyMemberID, selectedTabId = FamilyMemberNavigationEnum.Meta })
+        @Html.Action("FamilyMemberNavigation", "FamilyMembers", new { familyMemberId = currentFamilyMemberId, selectedTabId = FamilyMemberNavigationEnum.Meta })
     </div>
 
     <div class="center-2">
@@ -29,24 +29,88 @@
             <div class="familymember-info-title">
                 <strong>@Model.FamilyName - @Model.GivenName</strong>
             </div>
-        </div>
 
-        <div class="tab-content familymember-info-list-page">
-            <div class="container-fluid">
-                <div id="home" class="tab-pane fade in active">
-                    <div class="form-group row">
-                        <div class="col-md-10">
-                            <h3>Tilte</h3>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="buttons">
-                                <input type="button" class="btn-sm btn-info" onclick="location.href='@Url.Action("Edit", new { id = currentFamilyMemberID})'" value='修改' />
-                                <input type="button" class="btn-sm btn-danger" value='刪除' />
-                            </div>
-                        </div>
-                    </div>
+            <div class="familymember-info panel panel-info">
+                <div class="panel-heading">
+                    通訊錄資訊
+                </div>
+                <div class="panel-body">
+
+                    <table>
+                        <tr>
+                            <td><strong>姓：</strong></td>
+                            <td>@Html.DisplayFor(model => model.FamilyName)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>名：</strong></td>
+                            <td>@Html.DisplayFor(model => model.GivenName)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>個人摘要：</strong></td>
+                            <td>@Html.DisplayFor(model => model.Description)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>生日：</strong></td>
+                            <td>
+                                @Html.DisplayFor(model => model.BirthYear)
+                                <span> 年</span>
+                                @Html.DisplayFor(model => model.BirthMonth)
+                                <span> 月</span>
+                                @Html.DisplayFor(model => model.BirthDate)
+                                <span> 日</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>父親：</strong></td>
+                            <td>@Html.DisplayFor(model => model.FatherMemberId)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>母親：</strong></td>
+                            <td>@Html.DisplayFor(model => model.MotherMemberId)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>目前居住地：</strong></td>
+                            <td>@Html.DisplayFor(model => model.CurrentAddress.FullAdress)</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="glyphicon glyphicon-phone" aria-hidden="true"></span>
+                                <strong>聯絡電話：</strong>
+                            </td>
+                            <td>
+                                <p>@Html.DisplayFor(model => model.MobilePhone)</p>
+                                <p>@Html.DisplayFor(model => model.Phone)</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+                                <strong>Email：</strong>
+                            </td>
+                            <td>
+                                <p>@Html.DisplayFor(model => model.Email)</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>郎名：</strong></td>
+                            <td>@Html.DisplayFor(model => model.LungName)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>職業：</strong></td>
+                            <td>@Html.DisplayFor(model => model.JobDescription)</td>
+                        </tr>
+                    </table>
+
                 </div>
             </div>
+
+            <div class="float-right">
+                <div class="buttons">
+                    <input type="button" class="btn btn-info" onclick="location.href='@Url.Action("Edit", new { id = currentFamilyMemberId})'" value='修改' />
+                    <input type="button" class="btn btn-danger" value='刪除' />
+                </div>
+            </div>
+
         </div>
     </div>
 

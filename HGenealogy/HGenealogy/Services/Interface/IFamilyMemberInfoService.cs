@@ -13,5 +13,6 @@ namespace HGenealogy.Services.Interface
         void Insert(FamilyMemberInfo entity);
         void Update(FamilyMemberInfo entity);
         void Delete(FamilyMemberInfo entity);
+        IList<FamilyMemberInfo> GetInfosByFamilyMemberId(int familyMemberId);
     }
 }

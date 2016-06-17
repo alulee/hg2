@@ -45,6 +45,7 @@ namespace HGenealogy.App_Start
             builder.RegisterType<FamilyService>().As<IFamilyService>().InstancePerLifetimeScope();
             builder.RegisterType<GeneMetaService>().As<IGeneMetaService>().InstancePerLifetimeScope();
             builder.RegisterType<FamilyMemberService>().As<IFamilyMemberService>().InstancePerLifetimeScope();
+            builder.RegisterType<FamilyMemberInfoService>().As<IFamilyMemberInfoService>().InstancePerLifetimeScope();
             builder.RegisterType<AddressService>().As<IAddressService>().InstancePerLifetimeScope();
             builder.RegisterType<WebHelper>().As<IWebHelper>().InstancePerLifetimeScope();
 

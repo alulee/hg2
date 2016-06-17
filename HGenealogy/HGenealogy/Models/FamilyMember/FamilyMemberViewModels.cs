@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using HGenealogy.Data;
 using HGenealogy.Models.Common;
 using System.Web.Mvc;
+using HGenealogy.Models.PedigreeMeta;
 
 namespace HGenealogy.Models.FamilyMember
 {
@@ -46,12 +47,17 @@ namespace HGenealogy.Models.FamilyMember
             CityName = "";
             Address1 = "";
             CurrentAddressId = 0;
-            PedigreeId = 0;
+            CurrentAddress = new AddressViewModel();
 
-            currentAddress = new AddressViewModel();
+            IsLoadCurrentPedigreeMeta = false;
+            IsAvailablePedigrees = false;
+            IsLoadAddressSelectList = false;
+            IsLoadFamilyMemberInfos = false;
+
             AvailableCountries = new List<SelectListItem>();
             AvailableStateProvinces = new List<SelectListItem>();
             AvailableCities = new List<SelectListItem>();
+            AvailablePedigreeMeta = new List<SelectListItem>();
         }
 
         public int Id { get; set; }
@@ -98,20 +104,27 @@ namespace HGenealogy.Models.FamilyMember
         public string CreatedWho { get; set; }
         public string UpdatedWho { get; set; }
         
-        public AddressViewModel currentAddress { get; set; }
+        public AddressViewModel CurrentAddress { get; set; }
         public string CountryName { get; set; }
         public string StateProvinceName { get; set; }
         public string CityName { get; set; }
         public string Address1 { get; set; }
 
+        public bool IsLoadCurrentPedigreeMeta { get; set; }
+        public PedigreeMetaModel CurrentPedigreeMeta{ get; set; }
 
-        public HGenealogy.Data.PedigreeMeta pedigreeMeta { get; set; }
+        public bool IsAvailablePedigrees { get; set; }        
         public IList<SelectListItem> AvailablePedigree { get; set; }
-        public int PedigreeId { get; set; }
 
+        public bool IsLoadAddressSelectList { get; set; }
         public IList<SelectListItem> AvailableCountries { get; set; }
         public IList<SelectListItem> AvailableStateProvinces { get; set; }
         public IList<SelectListItem> AvailableCities { get; set; }
+        public IList<SelectListItem> AvailablePedigreeMeta { get; set; }
+
+        public bool IsLoadFamilyMemberInfos { get; set; }
+        public IList<FamilyMemberInfoModel> FamilyMemberInfos { get; set; }
+
     }
 
  

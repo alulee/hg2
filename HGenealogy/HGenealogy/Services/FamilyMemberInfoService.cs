@@ -47,5 +47,18 @@ namespace HGenealogy.Services
             _familyMemberInfoRepository.Delete(entity);
             _familyMemberInfoRepository.SaveChanges();
         }
+
+
+        public IList<FamilyMemberInfo> GetInfosByFamilyMemberId(int familyMemberId)
+        {
+            
+            if (familyMemberId > 0)
+            {
+                var result = this._familyMemberInfoRepository.GetAll().Where(p => p.FamilyMemberId == familyMemberId).ToList();
+                return result;
+            }
+
+            return new List<FamilyMemberInfo>();
+        }
     }
 }

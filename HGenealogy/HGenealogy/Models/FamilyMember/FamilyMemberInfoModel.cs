@@ -27,7 +27,11 @@ namespace HGenealogy.Models.FamilyMember
         public DateTime UpdatedOnUtc { get; set; }
         public string CreatedWho { get; set; }
         public string UpdatedWho { get; set; }
+       
+        [Display(Name = "姓")]
+        public string FamilyName { get; set; }
 
-        public HGenealogy.Data.PedigreeMeta pedigreeMeta { get; set; }
+        [Display(Name = "名")]
+        public string GivenName { get; set; }
     }
 }

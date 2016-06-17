@@ -427,12 +427,7 @@
     <Content Include="App_Data\hDatabase_log.ldf">
       <DependentUpon>hDatabase.mdf</DependentUpon>
     </Content>
-    <Content Include="App_Data\SQL\Tables\%28A001%29tbPedigreeMeta.sql" />
     <Content Include="App_Data\SQL\Tables\%28A030%29tbAddress.sql" />
-    <Content Include="App_Data\SQL\Tables\%28A030%29tbFamilyMember.sql" />
-    <Content Include="App_Data\SQL\Tables\%28A032%29tbFamilyMemberInfo.sql" />
-    <Content Include="App_Data\SQL\Tables\%28B001%29tbFamilyMember_Picture_Mapping.sql" />
-    <Content Include="App_Data\SQL\Tables\%28B002%29tbFamilyMemberRelation.sql" />
     <Content Include="App_Data\SQL\Tables\Temp\族譜 SCRIPT.sql" />
     <Content Include="Areas\Genealogy\Views\Families\Create.cshtml" />
     <Content Include="Areas\Genealogy\Views\Families\Delete.cshtml" />
@@ -732,10 +727,10 @@
     <Content Include="Views\FamilyMembers\Delete.cshtml" />
     <Content Include="Views\FamilyMembers\DetailBak.cshtml" />
     <Content Include="Views\FamilyMembers\Edit.cshtml" />
-    <Content Include="Views\FamilyMembers\Index2.cshtml" />
+    <Content Include="Views\FamilyMembers\IndexXXX.cshtml" />
     <Content Include="Views\Shared\_PedigreeSecondMenu.cshtml" />
     <Content Include="Views\FamilyMembers\Index.cshtml" />
-    <Content Include="Views\FamilyMembers\List.cshtml" />
+    <Content Include="Views\FamilyMembers\ListXXX.cshtml" />
     <Content Include="Views\PedigreeMeta\CreateOrUpdate.cshtml" />
     <Content Include="Views\PedigreeMeta\CreateOrUpdate2.cshtml" />
     <Content Include="Views\PedigreeMeta\Edit.cshtml" />
@@ -748,10 +743,12 @@
     <Content Include="Views\PedigreeMeta\Query.cshtml" />
     <Content Include="Views\Jbimages\Upload.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\RichEditor.cshtml" />
-    <Content Include="Views\FamilyMembers\Details.cshtml" />
+    <Content Include="Views\FamilyMembers\DetailsXXX.cshtml" />
     <Content Include="Views\FamilyMembers\_InfoList.cshtml" />
     <Content Include="Views\FamilyMembers\Meta.cshtml" />
     <Content Include="Views\FamilyMembers\FamilyMemberNavigation.cshtml" />
+    <Content Include="Views\FamilyMembers\Biography.cshtml" />
+    <Content Include="Views\FamilyMembers\CreateOrUpdateInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\FileUpload\" />

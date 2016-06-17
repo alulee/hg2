@@ -10,7 +10,26 @@
         <strong>家庭成員</strong>
     </div>
     <div class="listbox">
-        <ul class="list">
+        <ul class="nav nav-pills nav-stacked">
+            <li role="presentation" class="@if (Model.SelectedTab == FamilyMemberNavigationEnum.Meta)
+                            { <text> active</text>}
+                        else
+                            {<text>inactive</text>}">
+
+                @Html.ActionLink("通訊錄", "Meta", new { Id = currentFamilyMemberID })
+
+            </li>
+            <li role="presentation" class="@if (Model.SelectedTab == FamilyMemberNavigationEnum.Biography)
+                            { <text> active</text>}
+                        else
+                            {<text>inactive</text>}">
+
+               @Html.ActionLink("個人生命史", "Info", new { familyMemberid = currentFamilyMemberID, infoType = FamilyMemberNavigationEnum.Biography })
+
+            </li>
+        </ul>
+
+        @*<ul class="list">
             
            
             <li class="@if (Model.SelectedTab == FamilyMemberNavigationEnum.Meta)
@@ -28,6 +47,6 @@
 
                 @Html.ActionLink("個人生命史", "Meta", new { familyMemberID = currentFamilyMemberID })
             </li> 
-        </ul>
+        </ul>*@
     </div>
 </div>
