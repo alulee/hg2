@@ -65,6 +65,7 @@ th{
 	display: block;
 	border-bottom: none;
 }
+
 .block a.product-picture {
 	display: inline-block;
 	position: relative;
@@ -149,7 +150,7 @@ th{
 /*********** PedigreeInfo **********/
 .block-pedigree-info-navigation{
     /*background-color: #f9f9f9;*/
-    background-color:#cccccc;
+    background-color:white;
 }
 
 .pedigree-info-list-page .info{
@@ -160,3 +161,18 @@ th{
 	line-height: 26px;
 	color: #444;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

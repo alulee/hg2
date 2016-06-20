@@ -7,31 +7,32 @@
     string currentInfoType = ViewBag.currentInfoType;
     IDictionary<string, string> infoTypeDic = ViewBag.infoTypeDic;
 }
-
 <div class="row">
-    <div class="side-2">
-        <div class="block">
-            <div class="title">
-                <strong>族譜資訊</strong>
-            </div>
-            <div class="block-pedigree-info-navigation listbox">
-                <ul class="list">
-                    @foreach (KeyValuePair<string, string> keyValue in infoTypeDic)
-                    {
-                        @RenderCategoryLine(keyValue, currentPedigreeID, currentInfoType)
-                    }
-                </ul>
-            </div>
+    <div class="col-md-2">
+        <div class="block-pedigree-info-navigation ">
+            <ul class="nav nav-pills nav-stacked">
+
+                @foreach (KeyValuePair<string, string> keyValue in infoTypeDic)
+                {
+                    @RenderCategoryLine(keyValue, currentPedigreeID, currentInfoType)
+                }
+            </ul>
         </div>
+
     </div>
-    <div class="center-2">
-        @Html.Partial("_List", Model, new ViewDataDictionary { {"Title", tilte},
+    <div class="col-md-10">
+        <div>
+            @Html.Partial("_List", Model, new ViewDataDictionary { {"Title", tilte},
                                                            {"currentPedigreeID", currentPedigreeID},
                                                            {"currentInfoType", currentInfoType},
                                                            {"infoTypeDic", infoTypeDic},
                                                            })
+        </div>
+
     </div>
 </div>
+
+
 
 @helper RenderCategoryLine(KeyValuePair<string, string> infoTypeKeyValue, int currentPedigreeID, string currentInfoType)
 {
@@ -47,3 +48,5 @@
         @Html.ActionLink(infoTypeKeyValue.Value, "Index", new { pedigreeID = currentPedigreeID, infoType = infoTypeKeyValue.Key })
     </li>
 }
+
+

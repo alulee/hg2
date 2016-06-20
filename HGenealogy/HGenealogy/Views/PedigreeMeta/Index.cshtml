@@ -12,39 +12,44 @@
         @Html.ActionLink("新增", "Create") |
         @Html.ActionLink("查詢", "Query")
     </p>
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th></th>
-        </tr>
 
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Index", "PedigreeInfo", new { @pedigreeID = item.Id, @infoType = "" }, null) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                </td>
-            </tr>
-        }
 
-    </table>
+    @foreach (var item in Model)
+    {
+        <div class="container-fluid memberbox">
+            <div class="member_img">
+                <img src="/Content/Images/indis.gif" />
+            </div>
+            <div class="member_intro">
+                <div>
+                    <div class="member_intro_content">
+                        <div class="row">
+                            <div class="col-md-2 text-right">@Html.DisplayNameFor(model => model.DateMoveToTaiwan):</div>
+                            <div class="col-md-10">@Html.DisplayFor(model => item.DateMoveToTaiwan)</div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-2 text-right">@Html.DisplayNameFor(model => model.LivingAreaInTaiwan):</div>
+                            <div class="col-md-10">@Html.DisplayFor(model => item.LivingAreaInTaiwan)</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 text-right">@Html.DisplayNameFor(model => model.Title):</div>
+                            <div class="col-md-10">@Html.DisplayFor(model => item.Title)</div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-2 text-right">@Html.DisplayNameFor(model => model.Description):</div>
+                            <div class="col-md-10">@Html.DisplayFor(model => item.Description)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="editor-btn">
+                @Html.ActionLink("編輯", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("詳細資料", "Index", "PedigreeInfo", new { @pedigreeID = item.Id, @infoType = "" }, null) |
+                @Html.ActionLink("刪除", "Delete", new { id = item.Id })
+            </div>
+        </div>
+    }
+
 </div>
