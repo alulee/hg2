@@ -33,12 +33,12 @@ namespace HGenealogy.Data
         public virtual DbSet<FamilyMember> FamilyMembers { get; set; }
         public virtual DbSet<PedigreeEvent> PedigreeEvents { get; set; }
         public virtual DbSet<PedigreeInfo> PedigreeInfoes { get; set; }
-        public virtual DbSet<PedigreeMeta> PedigreeMetas { get; set; }
         public virtual DbSet<Address> Addresses { get; set; }
         public virtual DbSet<City> Cities { get; set; }
         public virtual DbSet<Country> Countries { get; set; }
         public virtual DbSet<Language> Languages { get; set; }
         public virtual DbSet<FamilyMemberInfo> FamilyMemberInfoes { get; set; }
         public virtual DbSet<StateProvince> StateProvinces { get; set; }
+        public virtual DbSet<PedigreeMeta> PedigreeMetas { get; set; }
     }
 }

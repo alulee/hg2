@@ -27,7 +27,7 @@ CREATE TABLE PedigreeMeta
 	[Editor] [nvarchar](100) NULL,
 	[Description] [nvarchar](100) NOT NULL
 		CONSTRAINT DF_PedigreeMeta_Description DEFAULT '',
-	[Image] [image] NULL,
+	[Image] [nvarchar](255) NULL,
 	[PublishDate] [datetime2](7) NULL,
 	[Volumes] [int] NOT NULL
 		CONSTRAINT DF_PedigreeMeta_Volumes DEFAULT 0,

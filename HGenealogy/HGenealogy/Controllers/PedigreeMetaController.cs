@@ -45,8 +45,8 @@ namespace HGenealogy.Controllers
         public ActionResult GetPedigreeMeta(PedigreeMetaQueryModel queryModel)
         {
             var result = _pedigreeMetaService.GetPedigreeMetaList(queryModel);
-            if (result==null)
-                result=new List<PedigreeMeta>();
+            if (result == null)
+                result = new List<PedigreeMeta>();
 
             Mapper.Initialize(p => p.CreateMap<PedigreeMeta, PedigreeMetaModel>());
             var resultList = Mapper.Map<List<PedigreeMeta>, List<PedigreeMetaModel>>(result);
@@ -73,7 +73,6 @@ namespace HGenealogy.Controllers
             ViewBag.Title = "修改您的族譜";
             return View("CreateOrUpdate", model);
         }
-
 
         [HttpPost]
         public ActionResult SaveHGPedigreeMeta(PedigreeMetaModel model)
