@@ -749,6 +749,7 @@
     <Content Include="Views\FamilyMembers\FamilyMemberNavigation.cshtml" />
     <Content Include="Views\FamilyMembers\Biography.cshtml" />
     <Content Include="Views\FamilyMembers\CreateOrUpdateInfo.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Upload.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\FileUpload\" />

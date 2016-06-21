@@ -18,7 +18,7 @@ namespace HGenealogy.Models.PedigreeMeta
         [DisplayName("簡述")]
         public string Description { get; set; }
         [DisplayName("族譜圖片")]
-        public byte[] Image { get; set; }
+        public string Image { get; set; }
         [DisplayName("出版日期")]
         public DateTime PublishDate { get; set; }
         [DisplayName("卷數（冊）")]

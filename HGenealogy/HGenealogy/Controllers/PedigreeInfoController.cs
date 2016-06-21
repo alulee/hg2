@@ -16,7 +16,7 @@ namespace HGenealogy.Controllers
         private readonly IPedigreeMetaService _pedigreeMetaService;
         private readonly IPedigreeInfoService _pedigreeInfoService;
         private readonly int _pedigreeId;
-        
+
         public PedigreeInfoController(
             IPedigreeMetaService pedigreeMetaService,
             IPedigreeInfoService pedigreeInfoService
@@ -30,9 +30,9 @@ namespace HGenealogy.Controllers
 
         // GET: PedigreeInfo
         public ActionResult Index(int pedigreeID, string infoType)
-        {            
+        {
             if (string.IsNullOrWhiteSpace(infoType))
-                infoType = "Preface";
+                infoType = "Meta";
 
             if (pedigreeID == 0)
                 Redirect(Url.Action("PedigreeMeta", "Index"));
@@ -94,15 +94,26 @@ namespace HGenealogy.Controllers
                                 .ToList()
                                 ;
             //List<PedigreeInfoModel> result = new List<PedigreeInfoModel>();
-            var hGPedigreeMeta = _pedigreeMetaService.GetById(_pedigreeId);
+            var hGPedigreeMeta = _pedigreeMetaService.GetById(pedigreeId);
 
             Mapper.Initialize(p => p.CreateMap<PedigreeInfo, PedigreeInfoModel>());
             //Mapper.CreateMap<PedigreeInfo, PedigreeInfoModel>();
+
+
             var models = Mapper.Map<List<PedigreeInfo>, List<PedigreeInfoModel>>(tempList);
+            Mapper.Initialize(p => p.CreateMap<PedigreeMeta, PedigreeMetaModel>());
+            var pedigreeMetaModel = Mapper.Map<PedigreeMeta, PedigreeMetaModel>(hGPedigreeMeta); ;
+
+
+            if (models.Count == 0)
+            {
+                models = new List<PedigreeInfoModel>();
+                models.Add(new PedigreeInfoModel());
+            }
 
             foreach (PedigreeInfoModel model in models)
             {
-                model.pedigreeMeta = hGPedigreeMeta;
+                model.pedigreeMetaModel = pedigreeMetaModel;
             }
 
             return models;
@@ -113,7 +124,7 @@ namespace HGenealogy.Controllers
         public ActionResult SavePedigreeInfo(PedigreeInfoModel model)
         {
 
-            Mapper.Initialize(p => p.CreateMap<PedigreeInfoModel,PedigreeInfo >());
+            Mapper.Initialize(p => p.CreateMap<PedigreeInfoModel, PedigreeInfo>());
             var pedigreeInfo = Mapper.Map<PedigreeInfoModel, PedigreeInfo>(model);
 
             if (pedigreeInfo.Id == 0)//新增
@@ -150,6 +161,7 @@ namespace HGenealogy.Controllers
         private IDictionary<string, string> getInfoTypeDic()
         {
             IDictionary<string, string> infoTypeDic = new Dictionary<string, string>();
+            infoTypeDic.Add("Meta", "族譜資料");
             infoTypeDic.Add("Preface", "序言凡例");
             infoTypeDic.Add("History", "家族歷史");
             infoTypeDic.Add("RootDescription", "姓氏源流");

@@ -2,7 +2,7 @@
 
 @{Html.EnableClientValidation();}
 @*@using (Html.BeginForm())
-{*@
+    {*@
 
 <hr />
 
@@ -25,7 +25,7 @@
         @Html.HiddenFor(model => model.UpdatedOnUtc)
         @Html.HiddenFor(model => model.CreatedWho)
         @Html.HiddenFor(model => model.UpdatedWho)
-        @Html.HiddenFor(model => model.Image)
+        @*@Html.HiddenFor(model => model.Image)*@
 
 
         <div class="form-group">
@@ -55,17 +55,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @if (Model.Id == 0)
-                {
-                    <img src="" width="80" height="80" />
-                }
-                else
-                {
-                    <img src="data:image;base64,@System.Convert.ToBase64String(Model.Image)" width="80" height="80" />
-
-                }
-                @*@Html.EditorFor(model => model.Image, new { htmlAttributes = new { @class = "form-control" } })*@
-                @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Image, "Upload")
             </div>
         </div>
 

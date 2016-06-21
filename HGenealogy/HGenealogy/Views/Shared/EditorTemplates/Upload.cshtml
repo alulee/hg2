@@ -1,0 +1,170 @@
+﻿@model String
+
+@{
+    <link href="~/Content/tinymce/plugins/jbimages/css/dialog.css" rel="stylesheet" />
+    var modelFieldName = ViewData.TemplateInfo.HtmlFieldPrefix; //取得傳入的 model 欄位
+}
+<!--modified by nop Commerce team-->
+@*<form class="form-inline" id="upl" name="upl" action="../../jbimages/upload/" method="post" enctype="multipart/form-data" target="upload_target" onsubmit="jbImagesDialog.inProgress();">*@
+<div class="pull-left" id="upl">
+    @*<div id="upload_in_progress" class="upload_infobar">
+            <img src="~/Content/tinymce/plugins/jbimages/img/spinner.gif" width="16" height="16" class="spinner">Upload in progress&hellip;
+            <div id="upload_additional_info"></div>
+        </div>
+        <div id="upload_infobar" class="upload_infobar"></div>*@
+    <p id="upload_form_container">
+        @*<input id="uploader" name="userfile" type="file" class="jbFileBox" onchange="document.upl.submit(); jbImagesDialog.inProgress();">*@
+        <input id="uploader" name="userfile" type="file" class="jbFileBox" onchange="doUpload();">
+    </p>
+
+    <div id="imageField">
+        @Html.HiddenFor(m => m, new { id = "@modelFieldName" })
+    </div>
+
+    <div id="imageUpload" >
+        @{
+            if (string.IsNullOrEmpty(Model))
+            {
+                <img src="" width="300" height="300" id="@modelFieldName">
+            }
+            else
+            {
+                <img src="@Url.Content(Model)" width="300" height="300" >
+            }
+        }
+    </div>
+</div>
+
+<!--modified by nop Commerce team-->
+<!--<iframe id="upload_target" name="upload_target" src="ci/index.php/blank"></iframe>-->
+<iframe id="upload_target" name="upload_target" src=""></iframe>
+<script>
+    function doUpload() {
+        var data = new FormData();
+        jQuery.each(jQuery('#uploader')[0].files, function (i, file) {
+            data.append('file-' + i, file);
+        });
+
+        $.ajax({
+            url: "../../jbimages/upload2/",
+            type: 'POST',
+            data: data,
+            async: false,
+            cache: false,
+            processData: false,
+            contentType: false,
+            error: function (result) {
+                alert("ajax error");
+            }
+        }).done(function (response) {
+
+            //console.log(response);
+            jbImagesDialog.uploadFinish(response);
+
+            //jbImagesDialog.uploadFinish({
+            //    filename: response["filename"],
+            //        result: response["result"],
+            //resultCode: response["resultCode"]
+            //});
+
+            jbImagesDialog.inProgress();
+        });
+    };
+
+
+
+
+
+
+    /**
+     * Justboil.me - a TinyMCE image upload plugin
+     * jbimages/js/dialog-v4.js
+     *
+     * Released under Creative Commons Attribution 3.0 Unported License
+     *
+     * License: http://creativecommons.org/licenses/by/3.0/
+     * Plugin info: http://justboil.me/
+     * Author: Viktor Kuzhelnyi
+     *
+     * Version: 2.3 released 23/06/2013
+     */
+
+    var jbImagesDialog = {
+
+        resized: false,
+        iframeOpened: false,
+        timeoutStore: false,
+
+        inProgress: function () {
+            //document.getElementById("upload_infobar").style.display = 'none';
+            //document.getElementById("upload_additional_info").innerHTML = '';
+            //document.getElementById("upload_form_container").style.display = 'none';
+            //document.getElementById("upload_in_progress").style.display = 'block';
+            this.timeoutStore = window.setTimeout(function () {
+                document.getElementById("upload_additional_info").innerHTML = 'This is taking longer than usual.' + '<br />' + 'An error may have occurred.' + '<br /><a href="#" onClick="jbImagesDialog.showIframe()">' + 'View script\'s output' + '</a>';
+            }, 20000);
+        },
+
+        showIframe: function () {
+            if (this.iframeOpened == false) {
+                document.getElementById("upload_target").className = 'upload_target_visible';
+                // tinyMCEPopup.editor.windowManager.resizeBy(0, 190, tinyMCEPopup.id);
+                this.iframeOpened = true;
+            }
+        },
+
+        uploadFinish: function (result) {
+
+            if (result.resultCode == 'failed') {
+                window.clearTimeout(this.timeoutStore);
+                //document.getElementById("upload_in_progress").style.display = 'none';
+                //document.getElementById("upload_infobar").style.display = 'block';
+                //document.getElementById("upload_infobar").innerHTML = result.result;
+                //document.getElementById("upload_form_container").style.display = 'block';
+
+                if (this.resized == false) {
+                    // tinyMCEPopup.editor.windowManager.resizeBy(0, 30, tinyMCEPopup.id);
+                    this.resized = true;
+                }
+            }
+            else {
+                //document.getElementById("upload_in_progress").style.display = 'none';
+                //document.getElementById("upload_infobar").style.display = 'block';
+                //document.getElementById("upload_infobar").innerHTML = 'Upload Complete';
+
+                //var w = this.getWin();
+                //tinymce = w.tinymce;
+
+                //tinymce.EditorManager.activeEditor.insertContent('<img src="' + result.filename +'">');
+
+
+                $('#imageField > input').attr("value", result.filename);        //儲存路徑
+                $('#imageUpload > img').attr("src", result.filename);           //顯示圖片
+
+                //$("#'(@modelFieldName)'").attr("src", result.filename);
+                //$("#test").attr("src", result.filename);
+                //this.close();
+            }
+        },
+
+        getWin: function () {
+            return (!window.frameElement && window.dialogArguments) || opener || parent || top;
+        },
+
+        close: function () {
+            var t = this;
+
+            //// To avoid domain relaxing issue in Opera
+            //function close() {
+            //	tinymce.EditorManager.activeEditor.windowManager.close(window);
+            //	tinymce = tinyMCE = t.editor = t.params = t.dom = t.dom.doc = null; // Cleanup
+            //};
+
+            //if (tinymce.isOpera)
+            //	this.getWin().setTimeout(close, 0);
+            //else
+            //close();
+        }
+
+    };
+</script>
