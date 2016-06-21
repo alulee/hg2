@@ -441,6 +441,7 @@
     <Content Include="Content\Images\hkslide1.png" />
     <Content Include="Content\Images\indis.gif" />
     <Content Include="Content\Images\logo.png" />
+    <Content Include="Content\Images\pedi.gif" />
     <Content Include="Content\jasny-bootstrap.css" />
     <Content Include="Content\jasny-bootstrap.min.css" />
     <Content Include="Content\PagedList.css" />

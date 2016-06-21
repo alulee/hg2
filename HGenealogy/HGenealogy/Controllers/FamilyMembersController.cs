@@ -181,6 +181,7 @@ namespace HGenealogy.Controllers
             }
         }
  
+
         #endregion
  
         #region Actions
@@ -310,12 +311,25 @@ namespace HGenealogy.Controllers
         // GET: FamilyMembers/Create
         public ActionResult Create()
         {
-            if (Session["CurrentPedigreeId"] != null)
+            int currentPedigreeId = 0;
+
+            if (Session["currentPedigreeId"] == null ||
+                !int.TryParse(Session["currentPedigreeId"].ToString(), out currentPedigreeId))
             {
+                return RedirectToAction("Index", "PedigreeMeta");
             }
 
+            var pedigreeMeta = _pedigreeMetaService.GetById(currentPedigreeId);
+            if (pedigreeMeta == null)
+                return RedirectToAction("Index", "PedigreeMeta");
+ 
             FamilyMember familyMember = new FamilyMember();
             var familyMemberViewModel = Mapper.Map<FamilyMember, FamilyMemberViewModel>(familyMember);
+
+            familyMemberViewModel.IsLoadAddressSelectList = true;
+            familyMemberViewModel.IsLoadCurrentPedigreeMeta = true;
+
+            PrepareFamilyMemberViewModel(familyMemberViewModel);
 
             ViewBag.Title = "建立新的家族成員";
             return View("CreateOrUpdate", familyMemberViewModel);
@@ -324,10 +338,20 @@ namespace HGenealogy.Controllers
         // GET: FamilyMembers/Edit/5
         public ActionResult Edit(int id)
         {
-            if (id == null)
+            int currentPedigreeId = 0;
+
+            if (Session["currentPedigreeId"] == null ||
+                !int.TryParse(Session["currentPedigreeId"].ToString(), out currentPedigreeId))
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Index", "PedigreeMeta");
             }
+
+            var pedigreeMeta = _pedigreeMetaService.GetById(currentPedigreeId);
+            if (pedigreeMeta == null)
+                return RedirectToAction("Index", "PedigreeMeta");
+
+            if (id == 0)
+                return RedirectToAction("Index", "FamilyMembers");
 
             FamilyMember familyMember = this._familyMemberService.GetById(id); ;
             if (familyMember == null)
@@ -336,7 +360,9 @@ namespace HGenealogy.Controllers
             }
 
             var familyMemberViewModel = Mapper.Map<FamilyMember, FamilyMemberViewModel>(familyMember);
-            
+            familyMemberViewModel.IsLoadAddressSelectList = true;
+            familyMemberViewModel.IsLoadCurrentPedigreeMeta = true;
+
             PrepareFamilyMemberViewModel(familyMemberViewModel);
 
             ViewBag.Title = "修改家族成員資料";
