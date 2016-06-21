@@ -104,6 +104,9 @@ body {
     margin-left:10px;
 }
 
+.pedigree-sec-menu-head { 
+    border-bottom: 1px solid #ffd800;
+}
 .pedigree-sec-menu-wrap .nav-tabs > li > a:hover {
     border-color : transparent;
     background-color: antiquewhite;
@@ -116,6 +119,13 @@ body {
 }
 
 /* familymember info */
+
+/* Pedigree second menu*/
+.pedigree-sec-menu-btngroup { 
+    margin: 10px;
+    float: right;
+}
+
 /*********** PedigreeInfo **********/
 .block-familymember-navigation .title {
     position: relative;

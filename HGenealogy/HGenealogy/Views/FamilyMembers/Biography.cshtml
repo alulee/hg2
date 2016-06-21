@@ -10,13 +10,12 @@
 }
 
 <div class="container-fluid pedigree-sec-menu-wrap">
-    <ul class="nav nav-tabs">
-        <li class="active pedigree-sec-menu-title"><a href="#pedigreecontent">族譜名稱：@currentPedigreeName</a></li>
-    </ul>
-
+ 
     <div class="container-fluid pedigree-sec-menu">
-        @Html.Partial("_PedigreeSecondMenu", @ViewData)
+        @*@Html.Partial("_PedigreeSecondMenu", @ViewData)*@
+       @Html.Action("PedigreeSecondMenu", "PedigreeMeta", new { id = currentPedigreeId })
     </div>
+
     <hr />
 </div>
 

@@ -1,4 +1,33 @@
-﻿<nav class="navbar navbar-brand">
+﻿@using HGenealogy.Models.PedigreeMeta
+@model PedigreeMetaModel
+
+@{
+    string currentPedigreeName = Model.Title;
+    IEnumerable<SelectListItem> AvailablePedigreeList = ViewBag.AvailablePedigreeSelectList == null ? null : (IEnumerable<SelectListItem>)ViewBag.AvailablePedigreeSelectList;
+  }
+
+ 
+<div class="row pedigree-sec-menu-head">
+    <div class="col-md-5">
+        <h3 class="text-left">
+            目前檢視族譜: @currentPedigreeName
+        </h3>
+    </div>
+     
+    <div class="pedigree-sec-menu-btngroup">
+        快選族譜:
+        @Html.DropDownList("PedigreeDDL", AvailablePedigreeList)
+
+        <span>
+
+            @Html.ActionLink("族譜一灠", "Index", "PedigreeMeta", new { @class = "btn btn-normal" })
+
+            @Html.ActionLink("查詢族譜", "Query", "PedigreeMeta", new { @class = "btn btn-normal" })
+        </span>
+    </div>
+</div>
+
+<nav class="navbar navbar-brand">
            
         <ul class="nav navbar-nav">
             <li class="active"><a href="#">族譜資訊</a></li>

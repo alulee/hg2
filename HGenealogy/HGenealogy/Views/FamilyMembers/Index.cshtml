@@ -1,22 +1,27 @@
-﻿@model IEnumerable<HGenealogy.Models.FamilyMember.FamilyMemberViewModel>
+﻿@using HGenealogy.Models.FamilyMember
+@model IEnumerable<HGenealogy.Models.FamilyMember.FamilyMemberViewModel>
 
 @{
     ViewBag.Title = "Index";
+    string currentPedigreeName = ViewBag.currentPedigreeName;
+    int currentPedigreeId = ViewBag.currentPedigreeId;
+ 
 }
-
-<h4>Members of Pedigree</h4>
-<hr />
-
+ 
 @{ ViewData["SelectedPedigreeSecondMenu"] = "MemberList";}
 
 <div class="pedigreecontainer container-fluid">
-    <ul class="nav nav-tabs">
-        <li class="active"><a href="#pedigreecontent">族譜名稱：謝氏族譜(全譜)</a></li>
-    </ul>
+   
+    <div class="container-fluid pedigree-sec-menu-wrap">
 
-    <div class="container-fluid" id="pedigreecontent">
-        @Html.Partial("_PedigreeSecondMenu", @ViewData)
+        <div class="container-fluid pedigree-sec-menu">
+            @*@Html.Partial("_PedigreeSecondMenu", @ViewData)*@
+            @Html.Action("PedigreeSecondMenu", "PedigreeMeta", new { id = currentPedigreeId })
+        </div>
+
+        <hr />
     </div>
+  
 
     <hr />
 

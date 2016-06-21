@@ -169,7 +169,7 @@ namespace HGenealogy.Controllers
             // 讀取目前選取的族譜
             if (model.IsLoadCurrentPedigreeMeta)
             {
-                int currentPedigreeMetaId = Session["currentPedigreeMetaId"] == null ? 0 : Convert.ToInt16(Session["currentPedigreeMetaId"]);
+                int currentPedigreeMetaId = Session["currentPedigreeId"] == null ? 0 : Convert.ToInt16(Session["currentPedigreeId"]);
                 if (currentPedigreeMetaId != 0)
                 {
                     var pedigreeMeta = _pedigreeMetaService.GetById(currentPedigreeMetaId);
@@ -189,10 +189,21 @@ namespace HGenealogy.Controllers
 
         // GET: FamilyMembersViewModel
         public ActionResult Index(int page = 1)
-        {            
-            if (Session["CurrentPedigreeId"] != null)
+        {
+           
+            int currentPedigreeID = 0;
+ 
+            if (Session["currentPedigreeId"] == null ||
+                !int.TryParse(Session["currentPedigreeId"].ToString(), out currentPedigreeID))
             {
+                return RedirectToAction("Index", "PedigreeMeta");
+               
             }
+
+            var pedigreeMeta = _pedigreeMetaService.GetById(currentPedigreeID);
+            if (pedigreeMeta == null)
+                return RedirectToAction("Index", "PedigreeMeta");
+ 
             var familyMemberList = this._familyMemberService
                                     .GetAll()
                                     .ToList<FamilyMember>();
@@ -201,6 +212,8 @@ namespace HGenealogy.Controllers
             int currentPage = page < 1 ? 1 : page;
            
             List<FamilyMemberViewModel> familyMemberViewModelList = Mapper.Map<List<FamilyMember>, List<FamilyMemberViewModel>>(familyMemberList);
+            ViewBag.currentPedigreeId = currentPedigreeID;
+            ViewBag.currentPedigreeName = pedigreeMeta.Title;
 
             return View(familyMemberViewModelList.ToPagedList(currentPage, 15));
  
@@ -227,18 +240,18 @@ namespace HGenealogy.Controllers
             if (Session["currentPedigreeId"] == null ||
                 !int.TryParse(Session["currentPedigreeId"].ToString(), out currentPedigreeID))
             {
-                Redirect(Url.Action("PedigreeMeta", "Index"));
+                return RedirectToAction("Index", "PedigreeMeta");
             }
             
             var pedigreeMeta = _pedigreeMetaService.GetById(currentPedigreeID);
             if (pedigreeMeta == null)
-                Redirect(Url.Action("PedigreeMeta", "Index"));
+                return RedirectToAction("Index", "PedigreeMeta");
 
             if (string.IsNullOrWhiteSpace(infoType))
                 infoType = "meta";
 
             if (familyMemberId == 0)
-                Redirect(Url.Action("Index", "FamilyMembers"));
+                return RedirectToAction("Index", "FamilyMembers");
             
             FamilyMember familyMember = this._familyMemberService.GetById(familyMemberId); ;
             if (familyMember == null)
@@ -262,20 +275,20 @@ namespace HGenealogy.Controllers
         {
             int currentPedigreeID = 0;
 
-            /*
+            
             if (Session["currentPedigreeId"] == null ||
                 !int.TryParse(Session["currentPedigreeId"].ToString(), out currentPedigreeID))
             {
-                Redirect(Url.Action("PedigreeMeta", "Index"));
+                return RedirectToAction("Index", "PedigreeMeta");
             }
 
             var pedigreeMeta = _pedigreeMetaService.GetById(currentPedigreeID);
             if (pedigreeMeta == null)
-                Redirect(Url.Action("PedigreeMeta", "Index"));
- 
-            if (familyMemberID == 0)
-                Redirect(Url.Action("Index", "FamilyMembers"));
-            */
+                return RedirectToAction("Index", "PedigreeMeta");
+
+            if (id == 0)
+                return RedirectToAction("Index", "FamilyMembers");
+            
 
             FamilyMember familyMember = this._familyMemberService.GetById(id); ;
             if (familyMember == null)
@@ -284,10 +297,12 @@ namespace HGenealogy.Controllers
             }
 
             var familyMemberViewModel = Mapper.Map<FamilyMember, FamilyMemberViewModel>(familyMember);
+            familyMemberViewModel.IsLoadCurrentPedigreeMeta = true;
             PrepareFamilyMemberViewModel(familyMemberViewModel);
 
             // ViewBag.Title = string.Concat(pedigreeMeta.Title, "族譜資料");
-            ViewBag.currentPedigreeID = currentPedigreeID; 
+            ViewBag.currentPedigreeID = currentPedigreeID;
+            ViewBag.currentPedigreeTitle = pedigreeMeta.Title;
 
             return View(familyMemberViewModel);
         }
@@ -481,20 +496,19 @@ namespace HGenealogy.Controllers
         {
             int currentPedigreeId = 0;
 
-            /*
             if (Session["currentPedigreeId"] == null ||
-                !int.TryParse(Session["currentPedigreeId"].ToString(), out currentPedigreeID))
+                !int.TryParse(Session["currentPedigreeId"].ToString(), out currentPedigreeId))
             {
-                Redirect(Url.Action("PedigreeMeta", "Index"));
+                return RedirectToAction("Index", "PedigreeMeta");
             }
 
-            var pedigreeMeta = _pedigreeMetaService.GetById(currentPedigreeID);
+            var pedigreeMeta = _pedigreeMetaService.GetById(currentPedigreeId);
             if (pedigreeMeta == null)
-                Redirect(Url.Action("PedigreeMeta", "Index"));
- 
-            if (familyMemberID == 0)
-                Redirect(Url.Action("Index", "FamilyMembers"));
-            */
+                return RedirectToAction("Index", "PedigreeMeta");
+
+            if (familyMemberid == 0)
+                return RedirectToAction("Index", "FamilyMembers");
+            
             FamilyMember familyMember = this._familyMemberService.GetById(familyMemberid); ;
             if (familyMember == null)
             {

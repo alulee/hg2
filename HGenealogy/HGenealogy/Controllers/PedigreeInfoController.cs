@@ -30,7 +30,7 @@ namespace HGenealogy.Controllers
 
         // GET: PedigreeInfo
         public ActionResult Index(int pedigreeID, string infoType)
-        {
+        {            
             if (string.IsNullOrWhiteSpace(infoType))
                 infoType = "Preface";
 
@@ -41,11 +41,15 @@ namespace HGenealogy.Controllers
             if (result == null)
                 result = new List<PedigreeInfoModel>();
 
-            var hGPedigreeMeta = _pedigreeMetaService.GetById(pedigreeID);
+            var hGPedigreeMeta = _pedigreeMetaService.GetById(pedigreeID);           
             ViewBag.Title = string.Concat(hGPedigreeMeta.Title, "族譜資料");
             ViewBag.currentPedigreeID = pedigreeID;
             ViewBag.currentInfoType = infoType;
             ViewBag.infoTypeDic = getInfoTypeDic();
+
+            Session["currentPedigreeId"] = pedigreeID;
+            Session["currentPedigreeTitle"] = hGPedigreeMeta.Title;
+
             return View(result);
         }
 

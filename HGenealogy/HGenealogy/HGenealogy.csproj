@@ -726,7 +726,7 @@
     <Content Include="Views\FamilyMembers\CreateOrUpdate.cshtml" />
     <Content Include="Views\FamilyMembers\Delete.cshtml" />
     <Content Include="Views\FamilyMembers\DetailBak.cshtml" />
-    <Content Include="Views\FamilyMembers\Edit.cshtml" />
+    <Content Include="Views\FamilyMembers\EditXXX.cshtml" />
     <Content Include="Views\FamilyMembers\IndexXXX.cshtml" />
     <Content Include="Views\Shared\_PedigreeSecondMenu.cshtml" />
     <Content Include="Views\FamilyMembers\Index.cshtml" />
