@@ -14,7 +14,12 @@
         <div id="upload_infobar" class="upload_infobar"></div>*@
     <p id="upload_form_container">
         @*<input id="uploader" name="userfile" type="file" class="jbFileBox" onchange="document.upl.submit(); jbImagesDialog.inProgress();">*@
-        <input id="uploader" name="userfile" type="file" class="jbFileBox" onchange="doUpload();">
+        @*<input id="uploader" name="userfile" type="file" class="jbFileBox" onchange="doUpload();">*@
+        <div class="form-group">
+            <div class="col-md-12">
+                <input id="uploader" name="userfile" type="file"  onchange="doUpload();">
+            </div>
+        </div>
     </p>
 
     <div id="imageField">

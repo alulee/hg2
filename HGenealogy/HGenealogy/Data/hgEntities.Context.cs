@@ -40,5 +40,6 @@ namespace HGenealogy.Data
         public virtual DbSet<FamilyMemberInfo> FamilyMemberInfoes { get; set; }
         public virtual DbSet<StateProvince> StateProvinces { get; set; }
         public virtual DbSet<PedigreeMeta> PedigreeMetas { get; set; }
+        public virtual DbSet<News> News { get; set; }
     }
 }

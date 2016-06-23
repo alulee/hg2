@@ -301,6 +301,7 @@
     <Compile Include="Controllers\ManageController.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controllers\NewsController.cs" />
     <Compile Include="Controllers\PedigreeInfoController.cs" />
     <Compile Include="Controllers\PedigreeMetaController.cs" />
     <Compile Include="Core\IWebHelper.cs" />
@@ -352,6 +353,9 @@
       <DependentUpon>hgEntities.tt</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Data\News.cs">
+      <DependentUpon>hgEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\PedigreeEvent.cs">
       <DependentUpon>hgEntities.tt</DependentUpon>
     </Compile>
@@ -392,6 +396,7 @@
     <Compile Include="Models\Common\AddressViewModel.cs" />
     <Compile Include="Models\FamilyMember\FamilyMemberNavigationModel.cs" />
     <Compile Include="Models\FamilyMember\FamilyMemberInfoModel.cs" />
+    <Compile Include="Models\News\NewsModel.cs" />
     <Compile Include="Models\PedigreeInfo\PedigreeInfoModel.cs" />
     <Compile Include="Models\PedigreeMeta\PedigreeMetaModel.cs" />
     <Compile Include="Models\PedigreeMeta\PedigreeMetaQueryModel.cs" />
@@ -415,9 +420,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Infrastructure\SharedClass\GeoPoint.cs" />
     <Compile Include="Services\Interface\IFamilyMemberInfoService.cs" />
+    <Compile Include="Services\Interface\INewsService.cs" />
     <Compile Include="Services\Interface\IPedigreeInfoService.cs" />
     <Compile Include="Services\Interface\IPedigreeMetaService.cs" />
     <Compile Include="Services\FamilyMemberInfoService.cs" />
+    <Compile Include="Services\NewsService.cs" />
     <Compile Include="Services\PedigreeInfoService.cs" />
     <Compile Include="Services\PedigreeMetaService.cs" />
     <Compile Include="Startup.cs" />
@@ -751,6 +758,8 @@
     <Content Include="Views\FamilyMembers\Biography.cshtml" />
     <Content Include="Views\FamilyMembers\CreateOrUpdateInfo.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Upload.cshtml" />
+    <Content Include="Views\News\Index.cshtml" />
+    <Content Include="Views\News\CreateOrUpdate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\FileUpload\" />
