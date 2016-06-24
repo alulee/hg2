@@ -16,6 +16,8 @@ namespace HGenealogy.Models.FamilyMember
         public FamilyMemberViewModel()
         {
             Id = 0;
+            PedigreeId = 0;
+            GenerationSeq = 0;
             FamilyName = "";
             GivenName = "";
             Description = "";
@@ -50,7 +52,7 @@ namespace HGenealogy.Models.FamilyMember
             CurrentAddress = new AddressViewModel();
 
             IsLoadCurrentPedigreeMeta = false;
-            IsAvailablePedigrees = false;
+            IsLoadParentPedigreeMeta = false;
             IsLoadAddressSelectList = false;
             IsLoadFamilyMemberInfos = false;
 
@@ -72,9 +74,21 @@ namespace HGenealogy.Models.FamilyMember
 
         [Display(Name = "個人摘要")]
         public string Description { get; set; }
-                
+
+        public int PedigreeId { get; set; }
+
+        [Display(Name = "世代")]
+        public int GenerationSeq { get; set; }
+ 
         public int FatherMemberId { get; set; }
         public int MotherMemberId { get; set; }
+        public string GGrandFatherName { get; set; }
+        public string GrandFatherName { get; set; }
+        public string FatherName { get; set; }
+        public string MotherName { get; set; }
+        public string WifeName { get; set; }
+
+        
         public string BirthYear { get; set; }
         public string BirthMonth { get; set; }
         public string BirthDate { get; set; }
@@ -94,6 +108,7 @@ namespace HGenealogy.Models.FamilyMember
         [DisplayName("客家名")]
         public string HakkaName { get; set; }
 
+        public string ImportSeqNo { get; set; }
         public string JobDescription { get; set; }
         public bool IsPublic { get; set; }
         public bool IsPublished { get; set; }
@@ -109,13 +124,15 @@ namespace HGenealogy.Models.FamilyMember
         public string StateProvinceName { get; set; }
         public string CityName { get; set; }
         public string Address1 { get; set; }
-
+        public string FullAddress { get; set; }
+        
         public bool IsLoadCurrentPedigreeMeta { get; set; }
         public PedigreeMetaModel CurrentPedigreeMeta{ get; set; }
 
-        public bool IsAvailablePedigrees { get; set; }        
-        public IList<SelectListItem> AvailablePedigree { get; set; }
-
+        public bool IsLoadParentPedigreeMeta { get; set; }
+        public PedigreeMetaModel FatherPedigreeMeta { get; set; }
+        public PedigreeMetaModel MotherPedigreeMeta { get; set; }
+ 
         public bool IsLoadAddressSelectList { get; set; }
         public IList<SelectListItem> AvailableCountries { get; set; }
         public IList<SelectListItem> AvailableStateProvinces { get; set; }

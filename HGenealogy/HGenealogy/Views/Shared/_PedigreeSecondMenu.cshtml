@@ -1,4 +1,5 @@
 ﻿@using HGenealogy.Models.PedigreeMeta
+@using HGenealogy.Models.FamilyMember
 @model PedigreeMetaModel
 
 @{
@@ -19,9 +20,7 @@
         @Html.DropDownList("PedigreeDDL", AvailablePedigreeList)
 
         <span>
-
             @Html.ActionLink("族譜一灠", "Index", "PedigreeMeta", new { @class = "btn btn-normal" })
-
             @Html.ActionLink("查詢族譜", "Query", "PedigreeMeta", new { @class = "btn btn-normal" })
         </span>
     </div>
@@ -29,21 +28,31 @@
 
 <nav class="navbar navbar-brand">
            
-        <ul class="nav navbar-nav">
-            <li class="active"><a href="#">族譜資訊</a></li>
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    世系圖表
-                    <span class="caret"></span>
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a href="#">世系圖</a></li>
-                    <li><a href="~/FamilyMember/List">通訊錄</a></li>
-                    <li><a href="#">個人生命史(自傳)</a></li>
-                </ul>
-            </li>
-            <li><a href="#">時間地圖</a></li>
-            <li><a href="~/Genealogy/VisualGenealogy">家族分佈</a></li>
-        </ul>
+    <ul class="nav navbar-nav">
+        <li>            
+           @Html.ActionLink("族譜一灠", "Index", "PedigreeMeta")
+        </li>
+
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                世系圖表
+                <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li><a href="#">世系圖</a></li>
+                <li>
+                    @Html.ActionLink("通訊錄", "Index", "FamilyMembers")
+                </li>
+                <li>
+                    @Html.ActionLink("個人基本資料", "Meta", "FamilyMembers")
+                </li>
+                <li>
+                    @Html.ActionLink("個人生命史(自傳)", "Info", "FamilyMembers", new { infoType = FamilyMemberNavigationEnum.Biography })
+                </li>
+            </ul>
+        </li>
+        <li><a href="#">時間地圖</a></li>
+        <li><a href="~/Genealogy/VisualGenealogy">家族分佈</a></li>
+    </ul>
      
 </nav>

@@ -4,6 +4,7 @@ using System.Linq;
 using HGenealogy.Data;
 using HGenealogy.Data.Repository;
 using HGenealogy.Services.Interface;
+using System.Linq.Expressions;
 
 namespace HGenealogy.Services
 {
@@ -43,5 +44,13 @@ namespace HGenealogy.Services
         {
             _familyMemberRepository.SaveChanges();
         }
+
+        public List<FamilyMember> GetList(Expression<Func<FamilyMember, bool>> filter)
+        {
+            var query = this._familyMemberRepository.GetRows(filter);
+            var result = query.ToList();
+            return result;
+        }
+
     }
 }

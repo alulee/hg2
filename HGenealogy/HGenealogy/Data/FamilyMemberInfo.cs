@@ -22,6 +22,7 @@ namespace HGenealogy.Data
         public string Address { get; set; }
         public Nullable<decimal> Longitude { get; set; }
         public Nullable<decimal> Latitude { get; set; }
+        public Nullable<System.DateTime> EventDateOnUtc { get; set; }
         public int DisplayOrder { get; set; }
         public System.DateTime CreatedOnUtc { get; set; }
         public System.DateTime UpdatedOnUtc { get; set; }

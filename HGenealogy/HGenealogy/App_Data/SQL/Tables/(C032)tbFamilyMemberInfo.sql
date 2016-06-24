@@ -33,7 +33,9 @@ CREATE TABLE FamilyMemberInfo
 	[Address] nvarchar(Max) NOT NULL --延伸資料相關地址
 		CONSTRAINT DF_FamilyMemberInfo_Address DEFAULT '',
 	[Longitude] decimal(28,6) NULL, --延伸資料地址經度 
-	[Latitude] decimal(28,6) NULL, --延伸資料地址緯度 	
+	[Latitude] decimal(28,6) NULL, --延伸資料地址緯度 
+	[EventDateOnUtc] [datetime2](7) NULL	
+		CONSTRAINT DF_FamilyMemberInfo_EventDateOnUtc,		
 	[DisplayOrder] [int] NOT NULL
 		CONSTRAINT DF_FamilyMemberInfo_DisplayOrder DEFAULT 0,
 	[CreatedOnUtc] [datetime2](7) NOT NULL	

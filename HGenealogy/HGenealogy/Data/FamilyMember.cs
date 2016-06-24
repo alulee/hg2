@@ -15,6 +15,8 @@ namespace HGenealogy.Data
     public partial class FamilyMember
     {
         public int Id { get; set; }
+        public int PedigreeId { get; set; }
+        public int GenerationSeq { get; set; }
         public string FamilyName { get; set; }
         public string GivenName { get; set; }
         public string Description { get; set; }
@@ -35,6 +37,7 @@ namespace HGenealogy.Data
         public bool IsPublished { get; set; }
         public bool IsDeleted { get; set; }
         public int DisplayOrder { get; set; }
+        public string ImportSeqNo { get; set; }
         public System.DateTime CreatedOnUtc { get; set; }
         public System.DateTime UpdatedOnUtc { get; set; }
         public string CreatedWho { get; set; }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using HGenealogy.Data;
 using HGenealogy.Data.Repository;
+using System.Linq.Expressions;
 
 namespace HGenealogy.Services.Interface
 {
@@ -14,6 +15,7 @@ namespace HGenealogy.Services.Interface
         FamilyMember GetById(int id);
         void Insert(FamilyMember entity);
         void Update(FamilyMember entity);
-  
+        List<FamilyMember> GetList(Expression<Func<FamilyMember, bool>> filter);
+        
     }
 }

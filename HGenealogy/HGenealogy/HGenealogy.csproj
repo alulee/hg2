@@ -280,13 +280,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Areas\Genealogy\Controllers\GenealogyMetaController.cs" />
-    <Compile Include="Areas\Genealogy\Controllers\GeneExcelController.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Areas\Genealogy\Controllers\VisualGenealogyController.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Areas\Genealogy\Controllers\ZipCodeController.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Areas\Genealogy\GenealogyAreaRegistration.cs" />
@@ -668,6 +662,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\project.family.js" />
     <Content Include="Scripts\project.js" />
+    <Content Include="Scripts\project.ZipCode.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\scalejs-0.2.6.js" />
@@ -726,12 +721,8 @@
     <Content Include="Views\Account\EditCurrentUser.cshtml" />
     <Content Include="Views\FamilyMembers\CreateOrUpdate.cshtml" />
     <Content Include="Views\FamilyMembers\Delete.cshtml" />
-    <Content Include="Views\FamilyMembers\DetailBak.cshtml" />
-    <Content Include="Views\FamilyMembers\EditXXX.cshtml" />
-    <Content Include="Views\FamilyMembers\IndexXXX.cshtml" />
     <Content Include="Views\Shared\_PedigreeSecondMenu.cshtml" />
     <Content Include="Views\FamilyMembers\Index.cshtml" />
-    <Content Include="Views\FamilyMembers\ListXXX.cshtml" />
     <Content Include="Views\PedigreeMeta\CreateOrUpdate.cshtml" />
     <Content Include="Views\PedigreeMeta\CreateOrUpdate2.cshtml" />
     <Content Include="Views\PedigreeMeta\Edit.cshtml" />
@@ -744,13 +735,14 @@
     <Content Include="Views\PedigreeMeta\Query.cshtml" />
     <Content Include="Views\Jbimages\Upload.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\RichEditor.cshtml" />
-    <Content Include="Views\FamilyMembers\DetailsXXX.cshtml" />
     <Content Include="Views\FamilyMembers\_InfoList.cshtml" />
     <Content Include="Views\FamilyMembers\Meta.cshtml" />
     <Content Include="Views\FamilyMembers\FamilyMemberNavigation.cshtml" />
     <Content Include="Views\FamilyMembers\Biography.cshtml" />
     <Content Include="Views\FamilyMembers\CreateOrUpdateInfo.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Upload.cshtml" />
+    <Content Include="Views\FamilyMembers\Upload.cshtml" />
+    <Content Include="Views\FamilyMembers\_UploadFile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\FileUpload\" />

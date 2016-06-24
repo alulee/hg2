@@ -15,7 +15,7 @@ using PagedList;
 using HGenealogy.Infrastructure.Helpers;
 using HGenealogy.Areas.Genealogy.Models;
 
-namespace HGenealogy.Areas.Genealogy.Controllers
+namespace HGenealogy.Controllers
 {
     public class GeneExcelController : Controller
     {
@@ -24,15 +24,19 @@ namespace HGenealogy.Areas.Genealogy.Controllers
         private static int myCurrentRow = 0;
         private string fileSavedPath = WebConfigurationManager.AppSettings["UploadPath"];
 
+        public ActionResult Index()
+        {
+            return View();
+        }
         // GET: Genealogy/GeneExcelUpload
         public ActionResult Upload(int page = 1)
         {
             // session 讀取 gID
             int currentPage = page < 1 ? 1 : page;
 
-            var query = db.Families.OrderBy(x => x.GenerationNo)
-                                    .ThenBy(x => x.FName)
-                                    .ThenBy(x => x.BirthDay);
+            var query = db.FamilyMembers.OrderBy(x => x.GenerationSeq)
+                                    .ThenBy(x => x.FatherMemberId)
+                                    .ThenBy(x => x.BirthYear);
 
             return View(query.ToPagedList(currentPage, 15)); 
         }
@@ -162,7 +166,7 @@ namespace HGenealogy.Areas.Genealogy.Controllers
 
                 var importFamilies = new List<Family>();
 
-                var helper = new ImportDataHelper();
+                var helper = new FamilyMemberImportDataHelper();
                 var checkResult = helper.CheckImportGeneData(fileName, importFamilies);
 
                 if (checkResult.Success)

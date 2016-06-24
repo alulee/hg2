@@ -22,6 +22,10 @@ GO
 CREATE TABLE FamilyMember
 (
 	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[PedigreeId] [int] NOT NULL --族譜編號
+		CONSTRAINT DF_FamilyMember_PedigreeId DEFAULT 0,
+	[GenerationSeq] [Int] NOT NULL --世代
+		CONSTRAINT DF_FamilyMember_GenerationSeq DEFAULT 0,			
 	[FamilyName] [nvarchar](30) NOT NULL --姓
 		CONSTRAINT DF_FamilyMember_FamilyName DEFAULT '',
 	[GivenName] [nvarchar](50) NOT NULL	--名
@@ -62,6 +66,8 @@ CREATE TABLE FamilyMember
 		CONSTRAINT DF_FamilyMember_IsDeleted DEFAULT 0,
 	[DisplayOrder] [int] NOT NULL
 		CONSTRAINT DF_FamilyMember_DisplayOrder DEFAULT 0,
+	[ImportSeqNo] [nvarchar](30) NULL --批次匯入序號
+		CONSTRAINT DF_FamilyMember_ImportSeqNo DEFAULT '',	
 	[CreatedOnUtc] [datetime2](7) NOT NULL	
 		CONSTRAINT DF_FamilyMember_CreatedOnUtc DEFAULT Getdate(),
 	[UpdatedOnUtc] [datetime2](7) NOT NULL		

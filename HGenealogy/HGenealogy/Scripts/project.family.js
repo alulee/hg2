@@ -4,10 +4,10 @@
 
 (function (app) {
     //===========================================================================================
-    var current = app.Family = {};
+    var current = app.family = {};
     //===========================================================================================
 
-    jQuery.extend(app.Family,
+    jQuery.extend(app.family,
     {
         Initialize: function (actionUrls) {
             /// <summary>
@@ -30,13 +30,14 @@
                 iframe: true,
                 dataType: "json",
                 success: function (result) {
-                    $("#UploadForm").resetForm();
+                    $("#UploadForm").resetForm(); 
                     if (!result.Result) {
-                        project.AlertErrorMessage("錯誤", result.Msg);
+                        $('#ResultContent').html(result.Msg);
+                        project.ShowMessage("訊息", "檔案上傳及匯入結束，請檢查匯入結果.");
                     }
                     else {
                         $('#ResultContent').html(result.Msg);
-                        project.ShowMessage("訊息", "檔案上傳完成");
+                        project.ShowMessage("訊息", "檔案上傳及匯入結束，請檢查匯入結果.");
                     }
                 },
                 error: function (xhr, textStatus, errorThrown) {

@@ -1,5 +1,5 @@
 ﻿@using PagedList.Mvc
-@model PagedList.IPagedList<HGenealogy.Entities.Family>
+@model PagedList.IPagedList<HGenealogy.Data.FamilyMember>
 
 @{
     ViewBag.Title = "Index";
@@ -21,40 +21,13 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().GId)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Id)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().FNo)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().FamilyName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().GenerationNo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().FName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().FatherName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().MoterName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().Address)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().AddressLongitude)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().AddressLatitude)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().Phone1)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().Phone2)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().Email)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().GivenName)
         </th>
         <th></th>
     </tr>
@@ -63,45 +36,16 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.GId)
+                @Html.DisplayFor(modelItem => item.Id)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.FNo)
+                @Html.DisplayFor(modelItem => item.FamilyName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.GenerationNo)
-            </td>
+                @Html.DisplayFor(modelItem => item.GivenName)
+            </td> 
             <td>
-                @Html.DisplayFor(modelItem => item.FName)
-            </td>           
-            <td>
-                @Html.DisplayFor(modelItem => item.FatherName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MoterName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AddressLongitude)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AddressLatitude)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Phone1)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Phone2)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", "Families", new { id = item.Id }, new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", "Families", new { id = item.Id }, new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", "Families", new { id = item.Id }, new { id = item.Id })
+                
             </td>
         </tr>
     }

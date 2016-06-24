@@ -14,6 +14,15 @@ using HGenealogy.SharedClass;
 using HGenealogy.Models.Common;
 using PagedList;
 using HGenealogy.Models.PedigreeMeta;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+using System.IO;
+using System.Web.Configuration;
+using HGenealogy.Infrastructure.Helpers;
+using LinqToExcel;
+using System.Text;
+using LinqKit;
+ 
 
 namespace HGenealogy.Controllers
 {
@@ -23,6 +32,9 @@ namespace HGenealogy.Controllers
         private readonly IFamilyMemberInfoService _familyMemberInfoService;
         private readonly IAddressService _addressService;
         private readonly IPedigreeMetaService _pedigreeMetaService;
+        private static Queue<string> myMessageQuere = new Queue<string>();
+        private static int myCurrentRow = 0;
+        private string fileSavedPath = WebConfigurationManager.AppSettings["UploadPath"];
 
         #region 建構 / 解構
 
@@ -176,11 +188,15 @@ namespace HGenealogy.Controllers
                     if (pedigreeMeta != null)
                     {
                         model.CurrentPedigreeMeta = Mapper.Map<PedigreeMetaModel>(pedigreeMeta);
+                        model.FamilyName = model.CurrentPedigreeMeta.FamilyName;
                     }
                 }
             }
         }
- 
+
+
+      
+
 
         #endregion
  
@@ -191,17 +207,16 @@ namespace HGenealogy.Controllers
         // GET: FamilyMembersViewModel
         public ActionResult Index(int page = 1)
         {
-           
-            int currentPedigreeID = 0;
+            int currentPedigreeId = 0;
  
             if (Session["currentPedigreeId"] == null ||
-                !int.TryParse(Session["currentPedigreeId"].ToString(), out currentPedigreeID))
+                !int.TryParse(Session["currentPedigreeId"].ToString(), out currentPedigreeId))
             {
                 return RedirectToAction("Index", "PedigreeMeta");
                
             }
 
-            var pedigreeMeta = _pedigreeMetaService.GetById(currentPedigreeID);
+            var pedigreeMeta = _pedigreeMetaService.GetById(currentPedigreeId);
             if (pedigreeMeta == null)
                 return RedirectToAction("Index", "PedigreeMeta");
  
@@ -209,12 +224,29 @@ namespace HGenealogy.Controllers
                                     .GetAll()
                                     .ToList<FamilyMember>();
 
-            // session 讀取 gID
             int currentPage = page < 1 ? 1 : page;
            
             List<FamilyMemberViewModel> familyMemberViewModelList = Mapper.Map<List<FamilyMember>, List<FamilyMemberViewModel>>(familyMemberList);
-            ViewBag.currentPedigreeId = currentPedigreeID;
+            ViewBag.currentPedigreeId = currentPedigreeId;
             ViewBag.currentPedigreeName = pedigreeMeta.Title;
+
+            foreach (var item in familyMemberViewModelList)
+            {
+                try
+                {
+                    if (item.CurrentAddressId != 0)
+                        item.CurrentAddress = Mapper.Map<AddressViewModel>(_addressService.GetById(item.CurrentAddressId));
+
+                    if (item.CurrentAddress != null)
+                    {
+                        item.CurrentAddress.FullAdress = item.CurrentAddress.Country + " " +
+                                                          item.CurrentAddress.StateProvince + " " +
+                                                          item.CurrentAddress.City + " " +
+                                                          item.CurrentAddress.Address1;
+                    }
+                }
+                catch { }
+            }
 
             return View(familyMemberViewModelList.ToPagedList(currentPage, 15));
  
@@ -272,26 +304,32 @@ namespace HGenealogy.Controllers
             return View(familyMemberViewModel);
         }
 
-        public ActionResult Meta(int id)
+        public ActionResult Meta(int id = 0)
         {
-            int currentPedigreeID = 0;
+            int currentPedigreeId = 0;
+            int currentFamilyMemberId = id;
 
-            
             if (Session["currentPedigreeId"] == null ||
-                !int.TryParse(Session["currentPedigreeId"].ToString(), out currentPedigreeID))
+                !int.TryParse(Session["currentPedigreeId"].ToString(), out currentPedigreeId))
             {
                 return RedirectToAction("Index", "PedigreeMeta");
             }
 
-            var pedigreeMeta = _pedigreeMetaService.GetById(currentPedigreeID);
+            var pedigreeMeta = _pedigreeMetaService.GetById(currentPedigreeId);
             if (pedigreeMeta == null)
                 return RedirectToAction("Index", "PedigreeMeta");
 
-            if (id == 0)
-                return RedirectToAction("Index", "FamilyMembers");
-            
 
-            FamilyMember familyMember = this._familyMemberService.GetById(id); ;
+            if (currentFamilyMemberId == 0)
+            {
+                if (Session["currentFamilyMemberId"] == null ||
+                    !int.TryParse(Session["currentFamilyMemberId"].ToString(), out currentFamilyMemberId))
+
+                  return RedirectToAction("Index", "FamilyMembers");
+            }
+
+
+            FamilyMember familyMember = this._familyMemberService.GetById(currentFamilyMemberId); ;
             if (familyMember == null)
             {
                 return HttpNotFound();
@@ -302,8 +340,10 @@ namespace HGenealogy.Controllers
             PrepareFamilyMemberViewModel(familyMemberViewModel);
 
             // ViewBag.Title = string.Concat(pedigreeMeta.Title, "族譜資料");
-            ViewBag.currentPedigreeID = currentPedigreeID;
+            ViewBag.currentPedigreeId = currentPedigreeId;
             ViewBag.currentPedigreeTitle = pedigreeMeta.Title;
+            ViewBag.currentFamilyMemberId = currentFamilyMemberId;
+            Session["currentFamilyMemberId"] = currentFamilyMemberId;
 
             return View(familyMemberViewModel);
         }
@@ -376,10 +416,12 @@ namespace HGenealogy.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult SaveFamilyMember(FamilyMemberViewModel editfamilyMember)
         {
+            ViewBag.Validation = ModelState.IsValid;
+
             if (ModelState.IsValid)
             {
                 var familyMember = Mapper.Map<FamilyMember>(editfamilyMember);
-
+                
                 try
                 {
                     Address currentAddress = null;
@@ -387,55 +429,67 @@ namespace HGenealogy.Controllers
                     {
                         // 新增
                         familyMember.CreatedWho = "sa";
+                        familyMember.UpdatedWho = "sa";
                         _familyMemberService.Insert(familyMember);
 
                         // 新增地址
-                        currentAddress = _addressService.GetNewAddress();
+                        // currentAddress = _addressService.GetNewAddress();
                     }
                     else
                     {
                         // 修改
                         familyMember.CreatedWho = "sa";
                         familyMember.UpdatedWho = "sa";
-
-                        currentAddress = _addressService.GetById(familyMember.CurrentAddressId);
-                        if (currentAddress == null)
-                        {
-                            // 新增地址
-                            currentAddress = _addressService.GetNewAddress();
-                        }
                     }
 
                     #region 地址處理
 
-                    currentAddress.Country = editfamilyMember.CountryName;
-                    currentAddress.StateProvince = editfamilyMember.StateProvinceName;
-                    currentAddress.City = editfamilyMember.CityName;
-                    currentAddress.Address1 = editfamilyMember.Address1;
+                    string country = editfamilyMember.CountryName == null ? "" : editfamilyMember.CountryName;                    
+                    string stateProvince = editfamilyMember.StateProvinceName == null ? "" : editfamilyMember.StateProvinceName;
+                    string city = editfamilyMember.CityName == null ? "" : editfamilyMember.CityName;
+                    string address1 = editfamilyMember.Address1 == null ? "" : editfamilyMember.Address1;
 
 
                     // 設定經緯度
-                    string fulladdress = string.Format("{0} {1} {2} {3}", currentAddress.Country, currentAddress.StateProvince, currentAddress.City, currentAddress.Address1);
-                    string jsonAddress = GeoUtil.convertAddressToJsonString(fulladdress);
-                    double[] latlng = GeoUtil.getLatLng(jsonAddress);
-                    decimal latitude, longitude;
-
-                    if (Decimal.TryParse(latlng[0].ToString(), out latitude))
-                        currentAddress.Latitude = latitude;
-
-                    if (Decimal.TryParse(latlng[1].ToString(), out longitude))
-                        currentAddress.Longitude = longitude;
-
-                    
-
-                    if (currentAddress.Id == 0)
+                    try
                     {
-                        _addressService.Insert(currentAddress);
-                        familyMember.CurrentAddressId = currentAddress.Id;
-                    }
-                    else
-                        _addressService.Update(currentAddress);
+                        string fulladdress = string.Format("{0} {1} {2} {3}", country, stateProvince, city, address1);
+                        
+                        if (fulladdress.Trim() != "")
+                        {
+                            currentAddress = _addressService.GetById(familyMember.CurrentAddressId);
+                            if (currentAddress == null)
+                            {
+                                // 新增地址
+                                currentAddress = _addressService.GetNewAddress();                                
+                            }
+                            currentAddress.Country = country;
+                            currentAddress.StateProvince = stateProvince;
+                            currentAddress.City = city;
+                            currentAddress.Address1 = address1;
+ 
+                            string jsonAddress = GeoUtil.convertAddressToJsonString(fulladdress);
+                            double[] latlng = GeoUtil.getLatLng(jsonAddress);
+                            decimal latitude, longitude;
 
+                            if (Decimal.TryParse(latlng[0].ToString(), out latitude))
+                                currentAddress.Latitude = latitude;
+
+                            if (Decimal.TryParse(latlng[1].ToString(), out longitude))
+                                currentAddress.Longitude = longitude;
+
+                            if (currentAddress.Id == 0)
+                            {
+                                _addressService.Insert(currentAddress);
+                                familyMember.CurrentAddressId = currentAddress.Id;
+                            }
+                            else
+                                _addressService.Update(currentAddress);
+                        }
+                    }
+                    catch { }
+
+                   
                     #endregion
 
                     _familyMemberService.Update(familyMember);
@@ -448,7 +502,7 @@ namespace HGenealogy.Controllers
                 }
              }
 
-            return RedirectToAction("Index");
+            return View("CreateOrUpdate", editfamilyMember);
         }
 
         // GET: FamilyMembers/Delete/5
@@ -518,9 +572,10 @@ namespace HGenealogy.Controllers
 
         #region FamilyMemberInfo
 
-        public ActionResult Info(int familyMemberid, string infoType)
+        public ActionResult Info(string infoType = "", int familyMemberid = 0)
         {
             int currentPedigreeId = 0;
+            int currentFamilyMemberId = familyMemberid;
 
             if (Session["currentPedigreeId"] == null ||
                 !int.TryParse(Session["currentPedigreeId"].ToString(), out currentPedigreeId))
@@ -528,20 +583,30 @@ namespace HGenealogy.Controllers
                 return RedirectToAction("Index", "PedigreeMeta");
             }
 
+            if (currentFamilyMemberId == 0)
+            {
+                if (Session["currentFamilyMemberId"] == null ||
+                    !int.TryParse(Session["currentFamilyMemberId"].ToString(), out currentFamilyMemberId))
+
+                    return RedirectToAction("Index", "FamilyMembers");
+            }
+ 
+            if(infoType == "")
+            {
+                return this.Meta(currentFamilyMemberId);
+            }
+
             var pedigreeMeta = _pedigreeMetaService.GetById(currentPedigreeId);
             if (pedigreeMeta == null)
                 return RedirectToAction("Index", "PedigreeMeta");
 
-            if (familyMemberid == 0)
-                return RedirectToAction("Index", "FamilyMembers");
-            
-            FamilyMember familyMember = this._familyMemberService.GetById(familyMemberid); ;
+            FamilyMember familyMember = this._familyMemberService.GetById(currentFamilyMemberId); ;
             if (familyMember == null)
             {
                 return HttpNotFound();
             }
 
-            var familyMemberInfoList = this._familyMemberInfoService.GetInfosByFamilyMemberId(familyMemberid);
+            var familyMemberInfoList = this._familyMemberInfoService.GetInfosByFamilyMemberId(currentFamilyMemberId);
             if (familyMemberInfoList == null)
             {
                 return HttpNotFound();
@@ -551,9 +616,10 @@ namespace HGenealogy.Controllers
 
             ViewBag.currentPedigreeId = currentPedigreeId;
             ViewBag.currentPedigreeName = "";
-            ViewBag.currentFamilyMemberId = familyMemberid;            
+            ViewBag.currentFamilyMemberId = currentFamilyMemberId;            
             ViewBag.currentFamilyMemberName = familyMember.FamilyName + " " + familyMember.GivenName;
             ViewBag.currentInfoType = FamilyMemberNavigationEnum.Biography.ToString();
+            Session["currentFamilyMemberId"] = currentFamilyMemberId;
 
             if (infoType == FamilyMemberNavigationEnum.Biography.ToString())
             {
@@ -622,6 +688,443 @@ namespace HGenealogy.Controllers
 
         #endregion
 
+        #region FamilyMemberUpload
+
+        public ActionResult Upload()
+        {
+            int currentPedigreeId = 0;
+
+            if (Session["currentPedigreeId"] == null ||
+                !int.TryParse(Session["currentPedigreeId"].ToString(), out currentPedigreeId))
+            {
+                return RedirectToAction("Index", "PedigreeMeta");
+            }
+
+            var pedigreeMeta = _pedigreeMetaService.GetById(currentPedigreeId);
+            if (pedigreeMeta == null)
+                return RedirectToAction("Index", "PedigreeMeta");
+
+            ViewBag.currentPedigreeId = currentPedigreeId;
+            ViewBag.currentPedigreeName = pedigreeMeta.Title;
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult UploadConfirm(HttpPostedFileBase file)
+        {           
+            JObject jo = new JObject();
+            string result = string.Empty;
+
+            if (file == null)
+            {
+                jo.Add("Result", false);
+                jo.Add("Msg", "請上傳檔案!");
+                result = JsonConvert.SerializeObject(jo);
+                return Content(result, "application/json");
+            }
+            if (file.ContentLength <= 0)
+            {
+                jo.Add("Result", false);
+                jo.Add("Msg", "請上傳正確的檔案.");
+                result = JsonConvert.SerializeObject(jo);
+                return Content(result, "application/json");
+            }
+
+            string fileExtName = Path.GetExtension(file.FileName).ToLower();
+
+            if (!fileExtName.Equals(".xls", StringComparison.OrdinalIgnoreCase)
+                &&
+                !fileExtName.Equals(".xlsx", StringComparison.OrdinalIgnoreCase))
+            {
+                jo.Add("Result", false);
+                jo.Add("Msg", "請上傳 .xls 或 .xlsx 格式的檔案");
+                result = JsonConvert.SerializeObject(jo);
+                return Content(result, "application/json");
+            }
+
+            try
+            {
+                var uploadResult = this.FileUploadHandler(file);
+
+                return this.Import(file.FileName);
+
+
+                //jo.Add("Result", !string.IsNullOrWhiteSpace(uploadResult));
+                //jo.Add("Msg", !string.IsNullOrWhiteSpace(uploadResult) ? uploadResult : "");
+                //result = JsonConvert.SerializeObject(jo);
+            }
+            catch (Exception ex)
+            {
+                jo.Add("Result", false);
+                jo.Add("Msg", ex.Message);
+                result = JsonConvert.SerializeObject(jo);
+            }
+            return Content(result, "application/json");
+        }
+
+
+
+        /// <summary>
+        /// Files the upload handler.
+        /// </summary>
+        /// <param name="file">The file.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException">file;上傳失敗：沒有檔案！</exception>
+        /// <exception cref="System.InvalidOperationException">上傳失敗：檔案沒有內容！</exception>
+        private string FileUploadHandler(HttpPostedFileBase file)
+        {
+            string result;
+
+            if (file == null)
+            {
+                throw new ArgumentNullException("file", "上傳失敗：沒有檔案！");
+            }
+            if (file.ContentLength <= 0)
+            {
+                throw new InvalidOperationException("上傳失敗：檔案沒有內容！");
+            }
+
+            try
+            {
+                string virtualBaseFilePath = Url.Content(fileSavedPath);
+                string filePath = HttpContext.Server.MapPath(virtualBaseFilePath);
+
+                if (!Directory.Exists(filePath))
+                {
+                    Directory.CreateDirectory(filePath);
+                }
+                if (System.IO.File.Exists(Path.Combine(filePath, file.FileName))) // 驗證檔案是否存在
+                {
+                    System.IO.File.Delete(Path.Combine(filePath, file.FileName));
+                }
+
+                //string newFileName = string.Concat(
+                //    DateTime.Now.ToString("yyyyMMddHHmmssfff"),
+                //    Path.GetExtension(file.FileName).ToLower());
+
+                string fullFilePath = Path.Combine(Server.MapPath(fileSavedPath), file.FileName);
+                file.SaveAs(fullFilePath);
+
+                result = file.FileName;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            return result;
+        }
+
+        [HttpPost]
+        public ActionResult Import(string savedFileName)
+        {            
+            var jo = new JObject();
+            string result = "";
+
+            try
+            {
+                var fileName = string.Concat(Server.MapPath(fileSavedPath), "/", savedFileName);
+
+                var importFamilies = new List<FamilyMemberViewModel>();
+                var saveResult = this.CheckAndSaveFamilyMemberData(fileName, importFamilies);
+                jo.Add("Result", saveResult.Success);
+                jo.Add("Msg",  saveResult.ErrorMessage);
+            }
+            catch (Exception ex)
+            {
+                jo.Add("Result", false);
+                jo.Add("Msg", ex.Message);
+            }
+            result = JsonConvert.SerializeObject(jo);
+            return Content(result, "application/json");
+        }
+
+
+        [HttpPost]
+        public ActionResult HasData()
+        {
+            JObject jo = new JObject();
+            bool result = true;
+            jo.Add("Msg", result.ToString());
+            return Content(JsonConvert.SerializeObject(jo), "application/json");
+        }
+
+
+        [HttpPost]
+        public string UploadStart()
+        {
+            if (Request.Files.Count > 0)
+            {
+                var file = Request.Files[0];
+                string extension =
+                    System.IO.Path.GetExtension(file.FileName);
+
+                if (extension == ".xls" || extension == ".xlsx")
+                {
+                    string fileLocation = Server.MapPath("~/Content/") + file.FileName;
+                    if (System.IO.File.Exists(fileLocation)) // 驗證檔案是否存在
+                    {
+                        System.IO.File.Delete(fileLocation);
+                    }
+                    file.SaveAs(fileLocation); // 存放檔案到伺服器上
+                }
+
+                return file.FileName;
+            }
+            return "";
+            //return this.RedirectToAction("Upload");
+
+        }
+
+        [HttpPost]
+        public string Progress(string taskid)
+        {
+            string returnString = "";
+
+            myCurrentRow++;
+            if (myCurrentRow > 100)
+            {
+                myMessageQuere.Enqueue("done");
+            }
+            else
+            {
+                myMessageQuere.Enqueue(string.Format("目前正在處理第 {0} 筆資料...", myCurrentRow));
+            }
+
+            lock (myMessageQuere)
+            {
+                if (myMessageQuere.Count > 0)
+                {
+                    returnString = myMessageQuere.Dequeue();
+                }
+            }
+
+            return returnString;
+        }
+
+        /// <summary>
+        /// 檢查匯入的族譜 Excel 資料.
+        /// </summary>    
+        [NonAction]
+        public CheckResult CheckAndSaveFamilyMemberData(
+            string fileName,
+            List<FamilyMemberViewModel> importFamilies)
+        {
+
+            var result = new CheckResult();
+            var targetFile = new FileInfo(fileName);
+
+
+            int currentPedigreeId = 0;
+
+            if (Session["currentPedigreeId"] == null ||
+                !int.TryParse(Session["currentPedigreeId"].ToString(), out currentPedigreeId))
+            {
+                result.Success = false;
+                result.ErrorMessage = "族譜資料錯誤";
+                return result;
+            }
+
+            var pedigreeMeta = _pedigreeMetaService.GetById(currentPedigreeId);
+            if (pedigreeMeta == null)
+            {
+                result.Success = false;
+                result.ErrorMessage = "族譜資料錯誤";
+                return result;
+            }
+
+
+
+            #region 由 Excel 讀入要匯入的資料
+
+            if (!targetFile.Exists)
+            {
+                result.ID = Guid.NewGuid();
+                result.Success = false;
+                result.ErrorCount = 0;
+                result.ErrorMessage = "匯入的資料檔案不存在";
+                return result;
+            }
+
+            var excelFile = new ExcelQueryFactory(fileName);
+
+            //欄位對映
+            //編號	曾祖	祖	父	母	本人	住址	E-MAIL	配偶	代別	電話	工作	備註	子女	子女	子女	子女	子女		 
+            excelFile.AddMapping<FamilyMemberViewModel>(x => x.ImportSeqNo, "序號");
+            excelFile.AddMapping<FamilyMemberViewModel>(x => x.GGrandFatherName, "曾祖");
+            excelFile.AddMapping<FamilyMemberViewModel>(x => x.GrandFatherName, "祖");
+            excelFile.AddMapping<FamilyMemberViewModel>(x => x.FatherName, "父");
+            excelFile.AddMapping<FamilyMemberViewModel>(x => x.GivenName, "本人");
+            excelFile.AddMapping<FamilyMemberViewModel>(x => x.Address1, "住址");
+            excelFile.AddMapping<FamilyMemberViewModel>(x => x.Email, "E-MAIL");
+            excelFile.AddMapping<FamilyMemberViewModel>(x => x.WifeName, "配偶");
+            excelFile.AddMapping<FamilyMemberViewModel>(x => x.GenerationSeq, "代別");
+            excelFile.AddMapping<FamilyMemberViewModel>(x => x.MobilePhone, "電話");
+            excelFile.AddMapping<FamilyMemberViewModel>(x => x.JobDescription, "工作");
+            excelFile.AddMapping<FamilyMemberViewModel>(x => x.Description, "備註");
+            //excelFile.AddMapping<Family>(x => x.Childrens, "子女");
+
+            //SheetName
+            var excelContent = excelFile.Worksheet<FamilyMemberViewModel>("工作表1");
+
+            #endregion
+
+            #region 逐筆檢查匯入
+
+            int errorCount = 0;
+            int successCount = 0;
+            int generationSeq = 0;
+            int rowIndex = 1;
+            bool isRowSuccessImported = false;
+            var importMessages = new List<string>();
+            var errorMessage = new StringBuilder();
+
+            foreach (var row in excelContent)
+            {
+                errorMessage.Clear();
+                generationSeq = 0;
+                isRowSuccessImported = false;
+
+                try
+                {
+                    // 檢查編號
+                    if (row.ImportSeqNo == null || row.ImportSeqNo == "")
+                    {
+                        errorMessage.AppendFormat("名字= {0} 的編號欄位不正確，請檢查!", row.GivenName);
+                        continue;
+                    }
+
+                    // 檢查名字
+                    if (row.GivenName == null || row.GivenName == "")
+                    {
+                        errorMessage.AppendFormat("序號 {0} 的名字不正確，請檢查!", row.ImportSeqNo);
+                        continue;
+                    }
+
+                    // 檢查是否重複
+                    var filter = PredicateBuilder.True<FamilyMember>();
+                    filter = filter.And(p => p.PedigreeId.Equals(pedigreeMeta.Id) && p.ImportSeqNo.Equals(row.ImportSeqNo));
+                    var queryresult = _familyMemberService.GetList(filter);
+
+                    if (queryresult != null && queryresult.Count > 0)
+                    {
+                        errorMessage.AppendFormat("編號{0}, 名字={1} 的資料已存在，不重新匯入，請檢查!", row.ImportSeqNo, row.GivenName);
+                        continue;
+                    }
+
+                    if (row.GenerationSeq == null || !Int32.TryParse(row.GenerationSeq.ToString(), out generationSeq))
+                    {
+                        errorMessage.AppendFormat("編號{0}, 名字={1} 的世代別錯誤，請於匯入後重新修正!", row.ImportSeqNo, row.GivenName);
+                        continue;
+                    }
+
+
+                    row.PedigreeId = pedigreeMeta.Id;
+                    row.FamilyName = pedigreeMeta.FamilyName;
+                    row.Description = row.Description == null ? " " : row.Description;
+                    row.MobilePhone = row.MobilePhone == null ? " " : row.MobilePhone;
+                    row.JobDescription = row.JobDescription == null ? " " : row.JobDescription;
+                    row.Phone = row.Phone == null ? " " : row.Phone;
+                    row.Email = row.Email == null ? " " : row.Email;
+                    row.MobilePhone = row.MobilePhone == null ? " " : row.MobilePhone;
+
+                    this.SaveFamilyMember(row);
+
+                    isRowSuccessImported = true;
+                    errorMessage.AppendFormat("編號{0}, 名字={1} 匯入成功!", row.ImportSeqNo, row.GivenName);
+                    //errorMessage.AppendFormat("編號{0}, 名字= {0} 匯入失敗，請檢查資料是否正確!", row.ImportSeqNo, row.GivenName);
+                }
+                catch (Exception ex)
+                {
+                    errorMessage.AppendFormat("編號{0}, 名字={1} 匯入失敗，請檢查資料是否正確!", row.ImportSeqNo, row.GivenName);
+                }
+                finally
+                {
+                    if (isRowSuccessImported == false)
+                    {
+                        errorCount++;
+
+                        importMessages.Add(string.Format(
+                            "<p class='error'> 第 {0} 列 ：{1}</p>",
+                            rowIndex,
+                            errorMessage));
+                    }
+                    else
+                    {
+                        successCount++;
+
+                        importMessages.Add(string.Format(
+                        "<p class='success'> 第 {0} 列：{1}</p>",
+                        rowIndex,
+                        errorMessage));
+                    }
+                    rowIndex++;
+                }
+            }
+
+            #endregion
+
+            #region 匯入結果
+
+            try
+            {
+                result.ID = Guid.NewGuid();
+                result.Success = errorCount.Equals(0);
+                result.SuccessCount = successCount;
+                result.RowCount = importFamilies.Count;
+                result.ErrorCount = errorCount;
+
+                string allErrorMessage = string.Empty;
+
+                foreach (var message in importMessages)
+                {
+                    allErrorMessage += message;
+                }
+
+                result.ErrorMessage = allErrorMessage;
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+            #endregion
+        }
+
+
+        #endregion
+
+        
+        #region 家庭樹 - d3
+
+        public ActionResult FamilyTreeA()
+        {
+            int currentPedigreeId = 0;
+
+            if (Session["currentPedigreeId"] == null ||
+                !int.TryParse(Session["currentPedigreeId"].ToString(), out currentPedigreeId))
+            {
+                return RedirectToAction("Index", "PedigreeMeta");
+            }
+
+            var pedigreeMeta = _pedigreeMetaService.GetById(currentPedigreeId);
+            if (pedigreeMeta == null)
+                return RedirectToAction("Index", "PedigreeMeta");
+
+            ViewBag.currentPedigreeId = currentPedigreeId;
+            ViewBag.currentPedigreeName = pedigreeMeta.Title;
+            ViewBag.Title = "家庭樹";
+
+            return View();
+        }
+
+
+        #endregion
+
+        #region ChildActionOnly
+
         [ChildActionOnly]
         public ActionResult FamilyMemberNavigation(int familyMemberId, int selectedTabId = 0)
         {
@@ -633,6 +1136,9 @@ namespace HGenealogy.Controllers
 
             return PartialView(model);
         }
+
+        #endregion
+
 
         #endregion
 

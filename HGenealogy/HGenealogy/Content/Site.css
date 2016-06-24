@@ -194,6 +194,12 @@ body {
 	color: #444;
 }
 
+.upload-result .error 
+{
+    font-size: 16px;
+    color: red;
+}
+
 
 /* Override the default bootstrap b
     ehavior where horizontal description lists 

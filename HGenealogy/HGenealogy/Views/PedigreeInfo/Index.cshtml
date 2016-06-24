@@ -7,6 +7,17 @@
     string currentInfoType = ViewBag.currentInfoType;
     IDictionary<string, string> infoTypeDic = ViewBag.infoTypeDic;
 }
+
+<div class="container-fluid pedigree-sec-menu-wrap">
+
+    <div class="container-fluid pedigree-sec-menu">
+        @*@Html.Partial("_PedigreeSecondMenu", @ViewData)*@
+        @Html.Action("PedigreeSecondMenu", "PedigreeMeta", new { id = currentPedigreeID })
+    </div>
+
+    <hr />
+</div>
+
 <div class="row">
     <div class="col-md-2">
         <div class="block-pedigree-info-navigation ">

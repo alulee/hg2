@@ -145,7 +145,7 @@ namespace HGenealogy.Areas.Genealogy.Controllers
 
                 var importZipCodes = new List<TaiwanZipCode>();
 
-                var helper = new ImportDataHelper();
+                var helper = new FamilyMemberImportDataHelper();
                 var checkResult = helper.CheckImportData(fileName, importZipCodes);
 
                 jo.Add("Result", checkResult.Success);

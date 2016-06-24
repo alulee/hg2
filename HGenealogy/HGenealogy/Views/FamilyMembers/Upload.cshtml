@@ -1,0 +1,88 @@
+﻿@using HGenealogy.Models.FamilyMember
+@model FamilyMemberViewModel
+
+@{
+    ViewBag.Title = "Family Member Upload";
+    string currentPedigreeName = ViewBag.currentPedigreeName;
+    int currentPedigreeId = ViewBag.currentPedigreeId;
+
+}
+<div class="container-fluid">
+    <h2>族譜資料批次匯入</h2>
+    <h3>步驟一</h3>
+    <p><span>上傳檔案並匯入家族成員資料...</span></p>
+    <div class="well">
+        <h4>
+            <a href="~/Content/家族成員資料匯入範例.xls">家族成員資料匯入範例檔</a>
+        </h4>
+        <h5> 格式說明：</h5>
+    </div>
+
+    <hr />
+
+
+
+    <form id="UploadForm" action="@Url.Action("UploadConfirm", "FamilyMembers")" method="post" enctype="multipart/form-data">
+        <!--<form id="UploadForm" action="#" method="post" enctype="multipart/form-data">-->
+
+        <h3>步驟二</h3>
+        <p><span>上傳檔案並匯入家族成員資料...</span></p>
+
+
+        <div class="well">
+            
+            <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                <div class="form-control" data-trigger="fileinput">
+                    <i class="glyphicon glyphicon-file fileinput-exists"></i>
+                    <span class="fileinput-filename"></span>
+                </div>
+                <span class="input-group-addon btn btn-default btn-file">
+                    <span class="fileinput-new">選擇檔案</span>
+                    <span class="fileinput-exists">更換檔案</span>
+                    <input type="file" name="file" id="file" />
+                </span>
+                <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">移除檔案</a>
+            </div>
+        </div>
+
+        <hr />
+
+        <h3>步驟三 </h3>
+        <div class="panel-info">
+            <p><span>上傳檔案並匯入家族成員資料...</span></p>
+            <div class="well">
+                <input type="submit" id="ButtonSubmit" name="ButtonSubmit" class="btn btn-primary" value="上傳檔案並匯入">
+            </div>
+        </div>
+
+        <hr />
+
+    </form>
+
+    <h3>步驟四 </h3>
+    <p><span>查看匯入結果：</span></p>
+
+    <div id="ResultContent" class="upload-result">
+    </div>
+
+    <hr />
+
+    @*@Html.Partial("_UploadFile")*@
+
+    @section scripts
+    {
+        <script src="~/Scripts/bootbox.js"></script>
+        <script src="~/Scripts/jquery.form.js"></script>
+        <script src="~/Scripts/project.js"></script>
+        <script src="~/Scripts/project.extends.js"></script>
+        <script src="~/Scripts/project.family.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                var actionUrls = {
+                    Upload: '@Url.Action("UploadConfirm", "FamilyMembers")'
+                };
+                project.family.Initialize(actionUrls);
+            });
+        </script>
+    }
+</div>
