@@ -1,0 +1,33 @@
+﻿SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+IF OBJECT_ID('News') IS NOT NULL
+BEGIN
+	PRINT '<<<DROP TABLE News>>>'
+	DROP TABLE News
+END
+GO
+
+CREATE TABLE [dbo].[News](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Title] [nvarchar](30) NOT NULL,
+	[Content] [nvarchar](max) NOT NULL,
+	[StartDate] [datetime2](7) NOT NULL,
+	[EndDate] [datetime2](7) NOT NULL,
+	[CreatedOnUtc] [datetime2](7) NOT NULL,
+	[UpdatedOnUtc] [datetime2](7) NOT NULL,
+	[CreatedWho] [nvarchar](20) NOT NULL,
+	[UpdatedWho] [nvarchar](20) NOT NULL,
+ CONSTRAINT [PK_News] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
