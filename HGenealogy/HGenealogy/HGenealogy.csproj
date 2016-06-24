@@ -748,13 +748,10 @@
     <Content Include="Views\FamilyMembers\Biography.cshtml" />
     <Content Include="Views\FamilyMembers\CreateOrUpdateInfo.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Upload.cshtml" />
-<<<<<<< HEAD
     <Content Include="Views\FamilyMembers\Upload.cshtml" />
     <Content Include="Views\FamilyMembers\_UploadFile.cshtml" />
-=======
     <Content Include="Views\News\Index.cshtml" />
     <Content Include="Views\News\CreateOrUpdate.cshtml" />
->>>>>>> 36adb8b2a64f3bf3de4edc89a185bc2ace3d81cb
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\FileUpload\" />
