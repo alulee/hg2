@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="7792755845e24502aec6e0b3e9a2f590" Name="Diagram1" ZoomLevel="81">
+      <Diagram DiagramId="7792755845e24502aec6e0b3e9a2f590" Name="Diagram1" ZoomLevel="89">
         <EntityTypeShape EntityType="hDatabaseModel.Address" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="hDatabaseModel.City" Width="1.5" PointX="2.75" PointY="0.75" />
         <EntityTypeShape EntityType="hDatabaseModel.Country" Width="1.5" PointX="4.75" PointY="0.75" />
@@ -14,14 +14,13 @@
         <EntityTypeShape EntityType="hDatabaseModel.GenealogyMeta" Width="1.5" PointX="6.75" PointY="5.75" />
         <EntityTypeShape EntityType="hDatabaseModel.Language" Width="1.5" PointX="8.75" PointY="0.75" />
         <EntityTypeShape EntityType="hDatabaseModel.Menu" Width="1.5" PointX="8.75" PointY="4.75" />
-        <EntityTypeShape EntityType="hDatabaseModel.PedigreeEvent" Width="1.5" PointX="8.75" PointY="8.75" />
-        <EntityTypeShape EntityType="hDatabaseModel.PedigreeInfo" Width="1.5" PointX="10.75" PointY="0.75" />
-        <EntityTypeShape EntityType="hDatabaseModel.PedigreeMeta" Width="1.5" PointX="10.75" PointY="4.75" />
+        <EntityTypeShape EntityType="hDatabaseModel.News" Width="1.5" PointX="8.75" PointY="8.75" />
+        <EntityTypeShape EntityType="hDatabaseModel.PedigreeEvent" Width="1.5" PointX="10.75" PointY="0.75" />
+        <EntityTypeShape EntityType="hDatabaseModel.PedigreeInfo" Width="1.5" PointX="10.75" PointY="5.75" />
+        <EntityTypeShape EntityType="hDatabaseModel.PedigreeMeta" Width="1.5" PointX="10.75" PointY="9.75" />
         <EntityTypeShape EntityType="hDatabaseModel.StateProvince" Width="1.5" PointX="0.75" PointY="11.75" />
-        <EntityTypeShape EntityType="hDatabaseModel.TaiwanZipCode" Width="1.5" PointX="10.75" PointY="11.75" />
-        <EntityTypeShape EntityType="hDatabaseModel.UserGeneMeta" Width="1.5" PointX="12.75" PointY="0.75" />
-        <EntityTypeShape EntityType="hDatabaseModel.News" Width="1.5" PointX="9.375" PointY="13.75" />
-
+        <EntityTypeShape EntityType="hDatabaseModel.TaiwanZipCode" Width="1.5" PointX="12.75" PointY="0.75" />
+        <EntityTypeShape EntityType="hDatabaseModel.UserGeneMeta" Width="1.5" PointX="2.75" PointY="12.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
