@@ -40,5 +40,6 @@ namespace HGenealogy.Data
         public virtual DbSet<StateProvince> StateProvinces { get; set; }
         public virtual DbSet<TaiwanZipCode> TaiwanZipCodes { get; set; }
         public virtual DbSet<UserGeneMeta> UserGeneMetas { get; set; }
+        public virtual DbSet<News> News { get; set; }
     }
 }

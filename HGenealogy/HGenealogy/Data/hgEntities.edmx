@@ -197,6 +197,20 @@
           <Property Name="RouteValues" Type="nvarchar" MaxLength="20" />
           <Property Name="OrderSerial" Type="int" />
         </EntityType>
+        <EntityType Name="News">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Content" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="StartDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="EndDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="CreatedOnUtc" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="UpdatedOnUtc" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="CreatedWho" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="UpdatedWho" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
         <EntityType Name="PedigreeEvent">
           <Key>
             <PropertyRef Name="Id" />
@@ -303,6 +317,7 @@
           <EntitySet Name="GenealogyMeta" EntityType="Self.GenealogyMeta" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Language" EntityType="Self.Language" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Menu" EntityType="Self.Menu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="News" EntityType="Self.News" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PedigreeEvent" EntityType="Self.PedigreeEvent" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PedigreeInfo" EntityType="Self.PedigreeInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PedigreeMeta" EntityType="Self.PedigreeMeta" Schema="dbo" store:Type="Tables" />
@@ -523,6 +538,76 @@
           <Property Name="RouteValues" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="OrderSerial" Type="Int32" />
         </EntityType>
+        <EntityType Name="TaiwanZipCode">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Zip" Type="Int32" Nullable="false" />
+          <Property Name="CityName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Town" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Sequence" Type="Int32" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="UserGeneMeta">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="String" MaxLength="120" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="GeneMetaID" Type="String" MaxLength="120" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsAdministrator" Type="Boolean" Nullable="false" />
+          <Property Name="IsEditable" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="hDatabaseEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Families" EntityType="Self.Family" />
+          <EntitySet Name="GenealogyMetas" EntityType="Self.GenealogyMeta" />
+          <EntitySet Name="Menus" EntityType="Self.Menu" />
+          <EntitySet Name="TaiwanZipCodes" EntityType="Self.TaiwanZipCode" />
+          <EntitySet Name="UserGeneMetas" EntityType="Self.UserGeneMeta" />
+          <EntitySet Name="FamilyMembers" EntityType="hDatabaseModel.FamilyMember" />
+          <EntitySet Name="PedigreeEvents" EntityType="hDatabaseModel.PedigreeEvent" />
+          <EntitySet Name="PedigreeInfoes" EntityType="hDatabaseModel.PedigreeInfo" />
+          <EntitySet Name="Addresses" EntityType="hDatabaseModel.Address" />
+          <EntitySet Name="Cities" EntityType="hDatabaseModel.City" />
+          <EntitySet Name="Countries" EntityType="hDatabaseModel.Country" />
+          <EntitySet Name="Languages" EntityType="hDatabaseModel.Language" />
+          <EntitySet Name="FamilyMemberInfoes" EntityType="hDatabaseModel.FamilyMemberInfo" />
+          <EntitySet Name="StateProvinces" EntityType="hDatabaseModel.StateProvince" />
+          <EntitySet Name="PedigreeMetas" EntityType="hDatabaseModel.PedigreeMeta" />
+          <EntitySet Name="News" EntityType="hDatabaseModel.News" />
+        </EntityContainer>
+        <EntityType Name="FamilyMember">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FamilyName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="GivenName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FatherMemberId" Type="Int32" Nullable="false" />
+          <Property Name="MotherMemberId" Type="Int32" Nullable="false" />
+          <Property Name="BirthYear" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="BirthMonth" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="BirthDate" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="CurrentAddressId" Type="Int32" Nullable="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="MobilePhone" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Gender" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="LungName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="HakkaName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="JobDescription" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsPublic" Type="Boolean" Nullable="false" />
+          <Property Name="IsPublished" Type="Boolean" Nullable="false" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="DisplayOrder" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOnUtc" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="UpdatedOnUtc" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="CreatedWho" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedWho" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="LastChanged" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+        </EntityType>
         <EntityType Name="PedigreeEvent">
           <Key>
             <PropertyRef Name="Id" />
@@ -618,6 +703,20 @@
           <Property Name="GeneMetaID" Type="String" Nullable="false" MaxLength="120" FixedLength="false" Unicode="true" />
           <Property Name="IsAdministrator" Type="Boolean" Nullable="false" />
           <Property Name="IsEditable" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="News">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Content" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="CreatedOnUtc" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="UpdatedOnUtc" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="CreatedWho" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedWho" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -924,6 +1023,17 @@
                 <ScalarProperty Name="IsAdministrator" ColumnName="IsAdministrator" />
                 <ScalarProperty Name="GeneMetaID" ColumnName="GeneMetaID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <EntitySetMapping Name="News">
+            <EntityTypeMapping TypeName="hDatabaseModel.News">
+              <MappingFragment StoreEntitySet="News">
+                <ScalarProperty Name="UpdatedWho" ColumnName="UpdatedWho" />
+                <ScalarProperty Name="CreatedWho" ColumnName="CreatedWho" />
+                <ScalarProperty Name="UpdatedOnUtc" ColumnName="UpdatedOnUtc" />
+                <ScalarProperty Name="CreatedOnUtc" ColumnName="CreatedOnUtc" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
