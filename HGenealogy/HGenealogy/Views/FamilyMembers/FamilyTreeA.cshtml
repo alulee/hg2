@@ -1,0 +1,86 @@
+﻿@using HGenealogy.Models.FamilyMember
+@model FamilyMemberViewModel
+
+@{
+    ViewBag.Title = "Family Tree A";
+    //string currentPedigreeName = ViewBag.currentPedigreeName;
+    int currentPedigreeId = ViewBag.currentPedigreeId;
+
+}
+
+@section scripts
+{
+    <link rel="stylesheet" type="text/css" href="~/Scripts/select2/css/select2.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/familytreea.css">
+    <script src="~/Scripts/map/d3/d3.js"></script>
+    <script src="~/Scripts/select2/js/select2.js"></script>
+}
+
+<div class="container-fluid pedigree-sec-menu-wrap">
+
+    <div class="container-fluid pedigree-sec-menu">
+        @*@Html.Partial("_PedigreeSecondMenu", @ViewData)*@
+        @Html.Action("PedigreeSecondMenu", "PedigreeMeta", new { id = currentPedigreeId })
+    </div>
+
+    <hr />
+</div>
+
+<div class="container">
+    <h2>FamilyTree</h2>
+    <!--
+    <div id="head-upload-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" class="modal hide fade">
+        <div class="modal-header">
+            <button type="button" data-dismiss="modal" aria-hidden="true" class="close">
+                &times;
+            </button>
+            <h3>更新頭像</h3>
+        </div>
+        <div id="head-upload-modal-body" class="modal-body">
+            <div id="upload-preview-box">
+                <img id="upload-preview" src="~/Content/Images/indis.gif" width="100px" height="100px">
+            </div>
+            <div id="upload-detail-box">
+                <input type="file" accept="image/*" capture="camera" id="head-upload" class="hidden">
+                <div>檔案大小限制為 100KB</div>
+                <div id="head-icon-size">尚未選擇檔案</div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a id="head-upload-btn" href="#" onclick="if (this.disabled) return; headIconUpload(); setIcon()" class="btn disabled">
+                上傳
+            </a><a href="#" onclick="    setIcon()" class="btn">取消</a>
+        </div>
+    </div>
+    -->
+
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse">
+
+                <ul class="nav navbar-nav">
+                    <li>
+                        <div style="margin-top:7px" rel="tooltip" title="選擇族譜">
+                            <select id="pedigree-chooser">
+                                <option value="1" selected>族譜1</option>
+                                <option value="2">族譜2</option>
+                            </select>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="margin-top:7px" rel="tooltip" title="選擇家族成員">
+                            <select id="pedigree-chooser">
+                                <option value="1" selected>族譜1</option>
+                                <option value="2">族譜2</option>
+                            </select>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div id="content" />
+    <script type="text/javascript" src="~/Scripts/project.d3.m1.js"></script>
+
+</div>

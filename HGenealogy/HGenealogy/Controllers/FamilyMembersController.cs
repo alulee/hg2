@@ -22,12 +22,15 @@ using HGenealogy.Infrastructure.Helpers;
 using LinqToExcel;
 using System.Text;
 using LinqKit;
+using System.Web.Script.Serialization;
  
 
 namespace HGenealogy.Controllers
 {
     public class FamilyMembersController : Controller
     {
+        #region 變數宣告
+
         private readonly IFamilyMemberService _familyMemberService;
         private readonly IFamilyMemberInfoService _familyMemberInfoService;
         private readonly IAddressService _addressService;
@@ -35,6 +38,8 @@ namespace HGenealogy.Controllers
         private static Queue<string> myMessageQuere = new Queue<string>();
         private static int myCurrentRow = 0;
         private string fileSavedPath = WebConfigurationManager.AppSettings["UploadPath"];
+
+        #endregion
 
         #region 建構 / 解構
 
@@ -194,10 +199,42 @@ namespace HGenealogy.Controllers
             }
         }
 
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult GetStateProvincesByCountryName(string countryName)
+        {
+            //this action method gets called via an ajax request
+            if (String.IsNullOrEmpty(countryName))
+                throw new ArgumentNullException("countryName");
 
-      
+            var result = _addressService.GetAllStateProvincesByCountryName(countryName).ToList();
+            if (result != null)
+            {
+                var toReturn = (from s in result
+                                select new { stateProvinceName = s }).ToList();
+                return Json(toReturn, JsonRequestBehavior.AllowGet);
+            }
 
+            return null;
 
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult GetCitiesByStateProvinceName(string stateProvinceName)
+        {
+            //this action method gets called via an ajax request
+            if (String.IsNullOrEmpty(stateProvinceName))
+                throw new ArgumentNullException("stateProvinceName");
+
+            var result = _addressService.GetAllCityByStateProvinceName(stateProvinceName).ToList();
+            if (result != null)
+            {
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+            return null;
+
+        }
+ 
         #endregion
  
         #region Actions
@@ -414,7 +451,7 @@ namespace HGenealogy.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult SaveFamilyMember(FamilyMemberViewModel editfamilyMember)
+        public ActionResult SaveFamilyMember(FamilyMemberViewModel editfamilyMember, bool isAutoGenerateParents=true)
         {
             ViewBag.Validation = ModelState.IsValid;
 
@@ -492,6 +529,29 @@ namespace HGenealogy.Controllers
                    
                     #endregion
 
+                    #region 父母自動建立
+
+                    if (isAutoGenerateParents)
+                    {
+                        if (familyMember.FatherMemberId == 0 && editfamilyMember.FatherName != "")
+                        {
+                            FamilyMemberViewModel father = new FamilyMemberViewModel();
+
+                            FamilyMember newfather = Mapper.Map<FamilyMember>(father);
+
+                            newfather.PedigreeId = editfamilyMember.PedigreeId;
+                            newfather.FamilyName = editfamilyMember.FamilyName;
+                            newfather.GivenName = editfamilyMember.FatherName;
+                            newfather.GenerationSeq = editfamilyMember.GenerationSeq - 1;
+
+                            _familyMemberService.Insert(newfather);
+                            familyMember.FatherMemberId = newfather.Id;
+                        }
+                    }
+
+                    #endregion
+
+
                     _familyMemberService.Update(familyMember);
 
                     return RedirectToAction("Index");
@@ -530,44 +590,7 @@ namespace HGenealogy.Controllers
             //db.SaveChanges();
             return RedirectToAction("Index");
         }       
-
-        [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult GetStateProvincesByCountryName(string countryName)
-        {
-            //this action method gets called via an ajax request
-            if (String.IsNullOrEmpty(countryName))
-                throw new ArgumentNullException("countryName");
-
-            var result = _addressService.GetAllStateProvincesByCountryName(countryName).ToList();
-            if (result != null)
-            {
-                var toReturn = (from s in result
-                                select new { stateProvinceName = s }).ToList();
-                return Json(toReturn, JsonRequestBehavior.AllowGet);
-            }
-
-            return null;
-
-        }
-
-        [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult GetCitiesByStateProvinceName(string stateProvinceName)
-        {
-            //this action method gets called via an ajax request
-            if (String.IsNullOrEmpty(stateProvinceName))
-                throw new ArgumentNullException("stateProvinceName");
-
-            var result = _addressService.GetAllCityByStateProvinceName(stateProvinceName).ToList();
-            if (result != null)
-            {               
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-
-            return null;
-
-        }
-
-        
+ 
         #endregion
 
         #region FamilyMemberInfo
@@ -748,8 +771,7 @@ namespace HGenealogy.Controllers
                 var uploadResult = this.FileUploadHandler(file);
 
                 return this.Import(file.FileName);
-
-
+ 
                 //jo.Add("Result", !string.IsNullOrWhiteSpace(uploadResult));
                 //jo.Add("Msg", !string.IsNullOrWhiteSpace(uploadResult) ? uploadResult : "");
                 //result = JsonConvert.SerializeObject(jo);
@@ -762,8 +784,7 @@ namespace HGenealogy.Controllers
             }
             return Content(result, "application/json");
         }
-
-
+ 
 
         /// <summary>
         /// Files the upload handler.
@@ -910,10 +931,8 @@ namespace HGenealogy.Controllers
             string fileName,
             List<FamilyMemberViewModel> importFamilies)
         {
-
             var result = new CheckResult();
             var targetFile = new FileInfo(fileName);
-
 
             int currentPedigreeId = 0;
 
@@ -932,8 +951,6 @@ namespace HGenealogy.Controllers
                 result.ErrorMessage = "族譜資料錯誤";
                 return result;
             }
-
-
 
             #region 由 Excel 讀入要匯入的資料
 
@@ -1018,7 +1035,6 @@ namespace HGenealogy.Controllers
                         continue;
                     }
 
-
                     row.PedigreeId = pedigreeMeta.Id;
                     row.FamilyName = pedigreeMeta.FamilyName;
                     row.Description = row.Description == null ? " " : row.Description;
@@ -1095,7 +1111,6 @@ namespace HGenealogy.Controllers
 
 
         #endregion
-
         
         #region 家庭樹 - d3
 
@@ -1106,7 +1121,7 @@ namespace HGenealogy.Controllers
             if (Session["currentPedigreeId"] == null ||
                 !int.TryParse(Session["currentPedigreeId"].ToString(), out currentPedigreeId))
             {
-                return RedirectToAction("Index", "PedigreeMeta");
+                //return RedirectToAction("Index", "PedigreeMeta");
             }
 
             var pedigreeMeta = _pedigreeMetaService.GetById(currentPedigreeId);
@@ -1114,16 +1129,105 @@ namespace HGenealogy.Controllers
                 return RedirectToAction("Index", "PedigreeMeta");
 
             ViewBag.currentPedigreeId = currentPedigreeId;
-            ViewBag.currentPedigreeName = pedigreeMeta.Title;
+            //ViewBag.currentPedigreeName = pedigreeMeta.Title;
             ViewBag.Title = "家庭樹";
 
             return View();
         }
 
+        [HttpPost]
+        public JsonResult GetFamiliesJson(string pedigreeId)
+        {
+            var filter = PredicateBuilder.True<FamilyMember>();
+            filter = filter.And(p => p.PedigreeId.ToString().Equals(pedigreeId));
+            var queryresult = _familyMemberService.GetList(filter);
+             
+            if (queryresult != null)
+            {
+                Mapper.CreateMap<FamilyMember, node>()
+                        .ForMember(x => x.name, y => y.MapFrom(a => a.FamilyName + a.GivenName))
+                        .ForMember(x => x.gid, y => y.MapFrom(a => a.Id))
+                        .ForMember(x => x.groupid, y => y.MapFrom(a => a.Id));
+
+                FamilyTreeViewModel myreturn = new FamilyTreeViewModel();
+                myreturn.nodes = Mapper.Map<List<FamilyMember>, List<node>>(queryresult);
+                
+                if (myreturn.nodes != null)
+                {
+                    List<link> mylinks = new List<link>();
+
+                    // 取得關係 links
+                    foreach (var member in queryresult)
+                    {
+                        int sourceid = member.Id;
+
+                        #region 增加父親關聯
+                        if (member.FatherMemberId > 0)
+                        {
+                            
+                            var father = _familyMemberService.GetById(member.FatherMemberId);
+                            if (father != null)
+                            {
+                                link newlink = new link();
+                                newlink.source = father.Id.ToString();
+                                newlink.target = member.Id.ToString();
+                                newlink.name = "父子(女)";
+                                newlink.value = "1";
+                                mylinks.Add(newlink);
+
+                                if (myreturn.nodes.Where(x => x.id == father.Id.ToString()) == null)
+                                {
+                                    myreturn.nodes.Add(new node
+                                        {
+                                            id = father.Id.ToString(),
+                                            gid = father.Id.ToString(),
+                                            groupid = father.Id.ToString(),
+                                            name = member.FamilyName + member.GivenName + " 父"
+                                        });
+                                }
+                            }
+                        }
+                        #endregion
+
+                        #region 增加母親關聯
+                        if (member.MotherMemberId > 0)
+                        {                            
+                            var mother = _familyMemberService.GetById(member.MotherMemberId);
+                            if (mother != null)
+                            {
+                                link newlink = new link();
+                                newlink.source = mother.Id.ToString();
+                                newlink.target = member.Id.ToString();
+                                newlink.name = "母子(女)";
+                                newlink.value = "1";                                
+                                mylinks.Add(newlink);
+
+                                if (myreturn.nodes.Where(x => x.id == mother.Id.ToString()) == null)
+                                {
+                                    myreturn.nodes.Add(new node
+                                    {
+                                        id = mother.Id.ToString(),
+                                        gid = mother.Id.ToString(),
+                                        groupid = mother.Id.ToString(),
+                                        name = member.FamilyName + member.GivenName + " 母"
+                                    });
+                                }
+                            }
+                        }
+                        #endregion
+                    }
+                    myreturn.links = mylinks;
+                }
+                
+                return this.Json(myreturn);
+            }
+
+            return null;
+        }
 
         #endregion
 
-        #region ChildActionOnly
+        #region Navigation
 
         [ChildActionOnly]
         public ActionResult FamilyMemberNavigation(int familyMemberId, int selectedTabId = 0)

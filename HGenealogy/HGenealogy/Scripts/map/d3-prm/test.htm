@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<!-- saved from url=(0053)http://leafletjs.com/examples/choropleth-example.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Leaflet Layers Control Example</title>
+	<meta charset="utf-8">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" href="http://leafletjs.com/dist/leaflet.css">
+
+	<style>
+		#map {
+			width: 800px;
+			height: 500px;
+		}
+
+		.info {
+			padding: 6px 8px;
+			font: 14px/16px Arial, Helvetica, sans-serif;
+			background: white;
+			background: rgba(255,255,255,0.8);
+			box-shadow: 0 0 15px rgba(0,0,0,0.2);
+			border-radius: 5px;
+		}
+		.info h4 {
+			margin: 0 0 5px;
+			color: #8C0000;
+		}
+
+		.legend {
+			text-align: left;
+			line-height: 18px;
+			color: #555;
+		}
+		.legend i {
+			width: 18px;
+			height: 18px;
+			float: left;
+			margin-right: 8px;
+			opacity: 0.7;
+		}
+	</style>
+<style type="text/css"></style></head>
+<body>
+</body>
+	<div id="map" class="leaflet-container leaflet-retina leaflet-fade-anim" tabindex="0" style="position: relative;">
+	
+	</div>
+	
+	<script src="./map/leaflet/leaflet-src.js"></script>	
+	<script type="text/javascript">
+		var map = L.map('map').setView([24.323309, 117.177730], 6);
+		L.tileLayer('http://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>',
+            maxZoom: 18
+        }).addTo(map);
+		 
+		/*
+		L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
+			maxZoom: 18,
+			attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>',
+			id: 'ttttt'
+		}).addTo(map);
+		*/
+		// control that shows state info on hover
+		var info = L.control();
+
+		info.onAdd = function (map) {
+			this._div = L.DomUtil.create('div', 'info');
+			this.update();
+			return this._div;
+		};
+
+		info.update = function (props) {
+			this._div.innerHTML = '<h4>新竹張姓客家族譜人員分佈圖</h4>' +  (props ?
+				'第' + props.generation + '代 - <b>' + props.name + '</b><br /> 生年:' + props.year + '<br/>居地:' +  props.addr
+				: '移到分佈點以查看說明');
+		};
+
+		info.addTo(map);
+
+		var legend = L.control({position: 'bottomright'});
+		legend.onAdd = function (map) {
+
+			var div = L.DomUtil.create('div', 'info legend'),
+				years = [1700, 1750, 1800, 1850, 1900, 1950, 2000],
+				labels = [];
+
+			// loop through our density intervals and generate a label with a colored square for each interval
+			for (var i = 0; i < years.length; i++) {
+				div.innerHTML +=
+					'<i style="background:' + getColor(years[i] + 1) + '"></i> ' +
+					years[i] + (years[i + 1] ? '&ndash;' + years[i + 1] + '<br>' : '+');
+			}
+
+			return div;
+		};
+
+		legend.addTo(map);
+
+		
+		// get color depending on population density value
+		function getColor(d) {
+			return d > 2000 ? '#800026' :
+			       d > 1950  ? '#BD0026' :
+			       d > 1900  ? '#E31A1C' :
+			       d > 1850  ? '#FC4E2A' :
+			       d > 1800   ? '#FD8D3C' :
+			       d > 1750   ? '#FEB24C' :
+			       d > 1700   ? '#FED976' :
+			                  '#FFEDA0';
+		}
+
+		function style(feature) {
+			return {
+				weight: 2,
+				opacity: 1,
+				color: 'white',
+				dashArray: '3',
+				fillOpacity: 0.7,
+				fillColor: getColor(feature.properties.year)
+			};
+		}
+
+		function highlightFeature(e) {
+			var layer = e.target;
+
+			layer.setStyle({
+				weight: 3,
+				color: '#00B300',
+				dashArray: '',
+				fillOpacity: 0.7
+			});
+
+			if (!L.Browser.ie && !L.Browser.opera) {
+				layer.bringToFront();
+			}
+
+			info.update(layer.feature.properties);
+		}
+
+		var geojson;
+
+		function resetHighlight(e) {
+			geojson.resetStyle(e.target);
+			info.update();
+		}
+
+		function zoomToFeature(e) {
+			map.fitBounds(e.target.getBounds());
+		}
+
+		function onEachFeature(feature, layer) {
+			layer.on({
+				mouseover: highlightFeature,
+				mouseout: resetHighlight,
+				click: zoomToFeature
+			});
+		}
+		var geojsonMarkerOptions = {
+				radius: 6,
+				fillColor: "#5CFF26",
+				color: "#5CFF26",
+				weight: 2,
+				opacity: 1,
+				fillOpacity: 0.6
+		};
+ 
+		var statesData = { "type": "FeatureCollection", "features": 
+		[{"type": "Feature", "geometry": {"type": "Point", "coordinates": [115.39627300,23.06187200]}, "properties": {"name":"蘭勇 (四縣)lan53 iung31", "addr":"海豐縣公平鄉莿竹兜(石塘都)", "generation":13,"year":"1880"}},
+		{"type": "Feature", "geometry": {"type": "Point", "coordinates": [117.34258300,24.13171200]}, "properties": {"name":"德安 (四縣)ded2 on24", "addr":"福建省漳州府平和縣", "generation":12,"year":"1850"}},
+		{"type": "Feature", "geometry": {"type": "Point", "coordinates": [120.89399700,24.69530180]}, "properties": {"name":"桂旺 (四縣)gui55 vong55","addr":"苗栗縣頭份鎮合興里復興街18巷10號", "generation":14,"year":"1940"}}]};
+		
+		geojson = L.geoJson(statesData, {
+			style: style,
+			pointToLayer: function (feature, latlng) {
+				return L.circleMarker(latlng, geojsonMarkerOptions);
+			},
+			onEachFeature: onEachFeature
+		}).addTo(map);
+		
+		
+	</script>
+
+</html>

@@ -1,0 +1,107 @@
+﻿html,body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.node {
+}
+
+.link {
+  stroke: #999;
+}
+
+#name-chooser {
+  width:200px;
+}
+
+#content {
+  border: 1px solid #ddd;
+  /*width:90%;margin:0 5% 0 5%;*/
+  background: #eee;
+  box-shadow: 0 2px 13px #ddd;
+}
+
+.depth-note {
+  font-size: 10px
+}
+
+a.toggles {
+  cursor: pointer;
+}
+
+.toggles {
+  padding-left: 8px!important;
+  padding-right: 6px!important;
+}
+
+#loading {
+  position: absolute;
+  z-index: 999;
+  top: 0%;
+  left: 0%;
+  /*
+  width: 24px;
+  height: 24px;
+  margin: -12px 0 0 -12px;
+  */
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  background: url(../img/loading.gif?yx) rgba(0,0,0,0.5) no-repeat center center;
+  display: none;
+}
+
+.icon-large-adduser, .icon-large-girl {
+  display: inline-block;
+  width: 48px;
+  height: 48px;
+  background:url(../img/glyphicons.png) no-repeat;
+}
+
+.icon-large-adduser { background-position:-288px 0px; }
+.icon-large-girl    { background-position:-192px 0px; }
+
+.link-attr {
+  display:inline-block;
+  width:13px; height:14px;
+  vertical-align:text-bottom;
+  background:#eee;
+  border:1px solid #999;
+}
+
+#head-upload-modal-body {
+  vertical-align: top;
+  font-size: 13px;
+  font-family: tahoma;
+  line-height: 13px;
+  text-align: center;
+  position: relative;
+  clear: both
+  padding: 20px 50px;
+}
+#upload-detail-box {
+  float: left;
+  text-align:  left;
+  height:  100px;
+  padding:  10px 30px;
+  margin-left:30px;
+  border-left: 1px dashed #ddd;
+}
+#upload-detail-box > input {
+  line-height: 13px; font-size: 13px;
+}
+#upload-detail-box > div {
+  margin-bottom: 20px;
+}
+
+#head-icon-size {font-size:20px;line-height:20px;}
+#upload-preview-box {
+  float: left;
+  height: 100px;
+  width: 100px;
+  padding: 10px 10px;
+  margin-left: 20px;
+  box-shadow: 0 0 3px rgba(0,0,0,0.1);
+}
