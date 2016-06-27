@@ -16,10 +16,10 @@ namespace HGenealogy.Controllers
         private readonly INewsService _newsService;
 
         public NewsController(
-            INewsService NewsService
+            INewsService newsService
             )
         {
-            _newsService = NewsService;
+            _newsService = newsService;
             //mappingInit();//暫時先這樣處理
         }
 
@@ -33,6 +33,23 @@ namespace HGenealogy.Controllers
             Mapper.Initialize(p => p.CreateMap<News, NewsModel>());
             var models = Mapper.Map<List<News>, List<NewsModel>>(result.ToList());
             return View(models);
+        }
+
+        public ActionResult Query()
+        {
+            return View();
+        }
+
+        public ActionResult GetNews(NewsQueryModel queryModel)
+        {
+            var result = _newsService.GetNewsList(queryModel);
+            if (result == null)
+                result = new List<News>();
+
+            Mapper.Initialize(p => p.CreateMap<News, NewsModel>()
+                    );
+            var resultList = Mapper.Map<List<News>, List<NewsModel>>(result);
+            return View("Index", resultList);
         }
 
 

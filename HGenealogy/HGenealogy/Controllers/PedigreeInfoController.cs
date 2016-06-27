@@ -41,7 +41,7 @@ namespace HGenealogy.Controllers
             if (result == null)
                 result = new List<PedigreeInfoModel>();
 
-            var hGPedigreeMeta = _pedigreeMetaService.GetById(pedigreeID);           
+            var hGPedigreeMeta = _pedigreeMetaService.GetById(pedigreeID);
             ViewBag.Title = string.Concat(hGPedigreeMeta.Title, "族譜資料");
             ViewBag.currentPedigreeID = pedigreeID;
             ViewBag.currentInfoType = infoType;
@@ -93,11 +93,9 @@ namespace HGenealogy.Controllers
                                 .Where(x => x.PedigreeID == pedigreeId && x.InfoType == infoType)
                                 .ToList()
                                 ;
-            //List<PedigreeInfoModel> result = new List<PedigreeInfoModel>();
             var hGPedigreeMeta = _pedigreeMetaService.GetById(pedigreeId);
 
             Mapper.Initialize(p => p.CreateMap<PedigreeInfo, PedigreeInfoModel>());
-            //Mapper.CreateMap<PedigreeInfo, PedigreeInfoModel>();
 
 
             var models = Mapper.Map<List<PedigreeInfo>, List<PedigreeInfoModel>>(tempList);

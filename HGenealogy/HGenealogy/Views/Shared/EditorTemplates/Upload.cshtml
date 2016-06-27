@@ -3,6 +3,13 @@
 @{
     <link href="~/Content/tinymce/plugins/jbimages/css/dialog.css" rel="stylesheet" />
     var modelFieldName = ViewData.TemplateInfo.HtmlFieldPrefix; //取得傳入的 model 欄位
+
+    var options = ViewData.Keys
+        .Where(item => item.StartsWith("_"))
+        .ToDictionary(item => item.Substring(1), item => ViewData[item])
+        ;
+
+    int ImageWith = options.ContainsKey("ImageWith") ? Convert.ToInt16(options["ImageWith"]) : 300;
 }
 <!--modified by nop Commerce team-->
 @*<form class="form-inline" id="upl" name="upl" action="../../jbimages/upload/" method="post" enctype="multipart/form-data" target="upload_target" onsubmit="jbImagesDialog.inProgress();">*@
@@ -17,7 +24,7 @@
         @*<input id="uploader" name="userfile" type="file" class="jbFileBox" onchange="doUpload();">*@
         <div class="form-group">
             <div class="col-md-12">
-                <input id="uploader" name="userfile" type="file"  onchange="doUpload();">
+                <input id="uploader" name="userfile" type="file" onchange="doUpload();">
             </div>
         </div>
     </p>
@@ -26,15 +33,16 @@
         @Html.HiddenFor(m => m, new { id = "@modelFieldName" })
     </div>
 
-    <div id="imageUpload" >
+    <div id="imageUpload">
         @{
             if (string.IsNullOrEmpty(Model))
             {
-                <img src="" width="300" height="300" id="@modelFieldName">
+                <img src="" width="300">
             }
             else
             {
-                <img src="@Url.Content(Model)" width="300" height="300" >
+                <img src="@Url.Content(Model)"
+                     width=@ImageWith>
             }
         }
     </div>

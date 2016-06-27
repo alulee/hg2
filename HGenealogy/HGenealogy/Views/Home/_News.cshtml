@@ -1,18 +1,10 @@
-﻿@using HGenealogy.Models.News;
+﻿@using HGenealogy.Models.Home;
 @model IEnumerable<NewsModel>
-
 
 <div class="page">
     <div class="page-title">
         <h1>新聞瀏覽</h1>
     </div>
-
-
-    <p>
-        @Html.ActionLink("新增", "Create") |
-        @Html.ActionLink("查詢", "Query")
-    </p>
-
 
     @foreach (var item in Model)
     {
@@ -32,10 +24,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="editor-btn">
-                @Html.ActionLink("編輯", "Edit", new { id = item.Id })
-                @*@Html.ActionLink("刪除", "Delete", new { id = item.Id })*@
             </div>
         </div>
     }

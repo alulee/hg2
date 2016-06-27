@@ -391,7 +391,9 @@
     <Compile Include="Models\FamilyMember\FamilyMemberNavigationModel.cs" />
     <Compile Include="Models\FamilyMember\FamilyMemberInfoModel.cs" />
     <Compile Include="Models\FamilyMember\FamilyTreeViewModels.cs" />
+    <Compile Include="Models\Home\NewsModel.cs" />
     <Compile Include="Models\News\NewsModel.cs" />
+    <Compile Include="Models\News\NewsQueryModel.cs" />
     <Compile Include="Models\PedigreeInfo\PedigreeInfoModel.cs" />
     <Compile Include="Models\PedigreeMeta\PedigreeMetaModel.cs" />
     <Compile Include="Models\PedigreeMeta\PedigreeMetaQueryModel.cs" />
@@ -917,6 +919,8 @@
       <DependentUpon>d3.v3.min.js</DependentUpon>
     </Content>
     <Content Include="Views\FamilyMembers\FamilyTreeA.cshtml" />
+    <Content Include="Views\News\Query.cshtml" />
+    <Content Include="Views\Home\_News.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\FileUpload\" />
