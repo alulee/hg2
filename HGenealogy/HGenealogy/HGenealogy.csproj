@@ -618,6 +618,7 @@
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Properties\PublishProfiles\iis.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootbox.js" />
     <Content Include="Scripts\bootbox.min.js" />
@@ -668,11 +669,6 @@
     <Content Include="Scripts\map\d3-prm\svg.css" />
     <Content Include="Scripts\map\d3\d3.js" />
     <Content Include="Scripts\map\d3\d3.min.js" />
-    <Content Include="Scripts\map\images\layers-2x.png" />
-    <Content Include="Scripts\map\images\layers.png" />
-    <Content Include="Scripts\map\images\marker-icon-2x.png" />
-    <Content Include="Scripts\map\images\marker-icon.png" />
-    <Content Include="Scripts\map\images\marker-shadow.png" />
     <Content Include="Scripts\map\leaflet\images\layers.png" />
     <Content Include="Scripts\map\leaflet\images\marker-icon.png" />
     <Content Include="Scripts\map\leaflet\images\marker-shadow.png" />

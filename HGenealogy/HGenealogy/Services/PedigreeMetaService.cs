@@ -7,6 +7,7 @@ using HGenealogy.Data.Repository;
 using HGenealogy.Services.Interface;
 using HGenealogy.Models.PedigreeMeta;
 using LinqKit;
+using System.Web.Mvc;
 
 namespace HGenealogy.Services
 {
@@ -52,6 +53,34 @@ namespace HGenealogy.Services
         {
             _pedigreeMetaRepository.Update(entity);
             _pedigreeMetaRepository.SaveChanges();
+        }
+
+        public List<SelectListItem> GetAvailablePedigreeSelectList(int currentPedigreeId = 0)
+        {
+            List<SelectListItem> availablePedigreeList = new List<SelectListItem>();
+            if (currentPedigreeId == 0)
+            {
+                availablePedigreeList.Add(new SelectListItem { Text = "請選擇族譜", Value = "", Selected = true });
+            }
+            else
+            {
+                availablePedigreeList.Add(new SelectListItem { Text = "請選擇族譜", Value = ""});
+            }
+
+            var result = this.GetAll().ToList();
+            if (result != null)
+            {
+                foreach (var item in result)
+                {
+                    availablePedigreeList.Add(new SelectListItem
+                    {
+                        Text = item.Id.ToString(),
+                        Value = item.Title,
+                        Selected = (currentPedigreeId == item.Id)
+                    });
+                }
+            }
+            return availablePedigreeList;
         }
     }
 }

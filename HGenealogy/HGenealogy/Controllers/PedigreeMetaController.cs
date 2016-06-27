@@ -120,31 +120,13 @@ namespace HGenealogy.Controllers
 
             Mapper.Initialize(p => p.CreateMap<PedigreeMeta, PedigreeMetaModel>());
             var model = Mapper.Map<PedigreeMeta, PedigreeMetaModel>(hGPedigreeMeta);
-            ViewBag.AvailablePedigreeSelectList = GetAvailablePedigreeSelectList();
+            ViewBag.AvailablePedigreeSelectList = _pedigreeMetaService.GetAvailablePedigreeSelectList(id);
 
             return PartialView("_PedigreeSecondMenu", model);
         }
 
 
-        public List<SelectListItem> GetAvailablePedigreeSelectList()
-        {
-            List<SelectListItem> availablePedigreeList = new List<SelectListItem>();
-            availablePedigreeList.Add(new SelectListItem { Text = "請選擇族譜", Value = "", Selected = true });
-            var result = _pedigreeMetaService.GetAll().ToList();
-            if (result != null)
-            {
-                foreach (var item in result)
-                {
-                    availablePedigreeList.Add(new SelectListItem
-                    {
-                        Text = item.Id.ToString(),
-                        Value = item.Title
-                    });
-                }
-            }
-
-            return availablePedigreeList;
-        }
+       
        
     }
 }

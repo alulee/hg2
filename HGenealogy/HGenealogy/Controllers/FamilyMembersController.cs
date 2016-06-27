@@ -235,6 +235,7 @@ namespace HGenealogy.Controllers
 
         }
  
+
         #endregion
  
         #region Actions
@@ -1116,21 +1117,19 @@ namespace HGenealogy.Controllers
 
         public ActionResult FamilyTreeA()
         {
+            List<SelectListItem> pedigreeMetaSelectList = new List<SelectListItem>();
+            List<SelectListItem> familyMemberSelectList = new List<SelectListItem>();
+            
             int currentPedigreeId = 0;
-
-            if (Session["currentPedigreeId"] == null ||
-                !int.TryParse(Session["currentPedigreeId"].ToString(), out currentPedigreeId))
-            {
-                //return RedirectToAction("Index", "PedigreeMeta");
-            }
-
-            var pedigreeMeta = _pedigreeMetaService.GetById(currentPedigreeId);
-            if (pedigreeMeta == null)
-                return RedirectToAction("Index", "PedigreeMeta");
-
+            if (Session["currentPedigreeId"] != null)
+                int.TryParse(Session["currentPedigreeId"].ToString(), out currentPedigreeId);
+                        
             ViewBag.currentPedigreeId = currentPedigreeId;
-            //ViewBag.currentPedigreeName = pedigreeMeta.Title;
+            ViewBag.AvailablePedigreeSelectList = _pedigreeMetaService.GetAvailablePedigreeSelectList(currentPedigreeId);
+            ViewBag.FamilyMemberSelectList = _familyMemberService.GetFamilyMembersSelectList(currentPedigreeId);
+
             ViewBag.Title = "家庭樹";
+
 
             return View();
         }

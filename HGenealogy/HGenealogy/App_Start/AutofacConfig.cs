@@ -23,8 +23,11 @@ namespace HGenealogy.App_Start
         {
             var builder = new ContainerBuilder();
 
+            //string dbpath = ConfigurationManager.AppSettings["DBPath"].ToString();
+            //AppDomain.CurrentDomain.SetData("DataDirectory", dbpath);
+
             //DbContextFactory
-            string connectionString = ConfigurationManager.ConnectionStrings["HGenealogyEntities"].ConnectionString;
+            string connectionString = ConfigurationManager.ConnectionStrings["hDatabaseEntities"].ConnectionString;
 
             builder.RegisterType<DbContextFactory>()
                     .WithParameter("connectionString", connectionString)
