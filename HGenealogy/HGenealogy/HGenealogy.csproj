@@ -917,6 +917,7 @@
     <Content Include="Views\FamilyMembers\FamilyTreeA.cshtml" />
     <Content Include="Views\News\Query.cshtml" />
     <Content Include="Views\Home\_News.cshtml" />
+    <Content Include="Views\Shared\_LayoutFull.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\FileUpload\" />

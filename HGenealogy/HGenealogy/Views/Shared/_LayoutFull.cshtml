@@ -38,9 +38,9 @@
                 </div>
 
                 <div class="btn-group">
-                    <button type="button" class="btn btn-success" aria-expanded="false">
+                    <button type="button" class="btn btn-success" aria-expanded="false">                       
                         @Html.ActionLink("族譜查詢", "Query", "PedigreeMeta")
-                    </button>
+                    </button> 
                 </div>
                 <div class="btn-group">
                     <button type="button" class="btn btn-warning" aria-expanded="false">
@@ -55,8 +55,8 @@
             </div>
             <div class="navbar-collapse collapse">
                 @*<ul class="nav navbar-nav">
-                        <li>@Html.ActionLink("首頁", "Index", "Home")</li>
-                    </ul>*@
+                    <li>@Html.ActionLink("首頁", "Index", "Home")</li>
+                </ul>*@
 
                 @*@Html.MvcSiteMap().Menu("BootstrapMenuHelperModel", false)*@
                 @Html.Partial("_LoginPartial")
@@ -66,14 +66,16 @@
 
     <div class="row"></div>
 
-    <div class=" container body-content">
+    <div class="body-content">
         @RenderBody()
         <hr />
-
-        <footer>
-            <p>&copy; @DateTime.Now.Year - 客家族譜平台</p>
-        </footer>
+        <div class="container">
+            <footer>
+                <p>&copy; @DateTime.Now.Year - 客家族譜平台</p>
+            </footer>
+        </div>
     </div>
+
 
 </body>
 </html>
