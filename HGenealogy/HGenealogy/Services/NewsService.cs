@@ -5,8 +5,8 @@ using System.Linq.Expressions;
 using HGenealogy.Data;
 using HGenealogy.Data.Repository;
 using HGenealogy.Services.Interface;
-using HGenealogy.Models.PedigreeMeta;
 using LinqKit;
+using HGenealogy.Models.News;
 
 namespace HGenealogy.Services
 {
@@ -29,6 +29,19 @@ namespace HGenealogy.Services
         {
             return _newsRepository.GetAll().Where(p => p.Id == id)
                                           .FirstOrDefault();
+        }
+
+        public List<News> GetNewsList(NewsQueryModel queryModel)
+        {
+            var filter = PredicateBuilder.True<News>();
+            if (!string.IsNullOrEmpty(queryModel.Title))
+                filter = filter.And(p => p.Title.Contains(queryModel.Title));
+
+            //var query = _pedigreeMetaRepository.GetAll().Where(filter.Compile());
+            var query = _newsRepository.GetRows(filter);
+
+            var result = query.ToList();
+            return result;
         }
 
         public void Insert(News entity)

@@ -1,4 +1,7 @@
-﻿@{
+﻿@using HGenealogy.Models.Home;
+@model IEnumerable<NewsModel>
+
+@{
     ViewBag.Title = "Home Page";
 }
 
@@ -66,6 +69,9 @@
         </table>
     </div>
 </div>
+
+<hr />
+@Html.Partial("_News",Model)
 
 <hr />
 

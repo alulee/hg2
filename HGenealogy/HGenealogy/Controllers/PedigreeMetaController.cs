@@ -14,6 +14,7 @@ namespace HGenealogy.Controllers
     public class PedigreeMetaController : Controller
     {
         private readonly IPedigreeMetaService _pedigreeMetaService;
+        private readonly string NoImageUrl = "/Content/Images/pedi.gif";
         //private readonly IPedigreeInfoService _hGPedigreeInfoService;
 
         public PedigreeMetaController(
@@ -33,7 +34,7 @@ namespace HGenealogy.Controllers
             var result = _pedigreeMetaService.GetAll();
 
             Mapper.Initialize(p => p.CreateMap<PedigreeMeta, PedigreeMetaModel>());
-            var models = Mapper.Map<List<PedigreeMeta>, List<PedigreeMetaModel>>(result.ToList());                        
+            var models = Mapper.Map<List<PedigreeMeta>, List<PedigreeMetaModel>>(result.ToList());
             return View(models);
         }
 
@@ -48,7 +49,9 @@ namespace HGenealogy.Controllers
             if (result == null)
                 result = new List<PedigreeMeta>();
 
-            Mapper.Initialize(p => p.CreateMap<PedigreeMeta, PedigreeMetaModel>());
+            Mapper.Initialize(p => p.CreateMap<PedigreeMeta, PedigreeMetaModel>()
+                    .ForMember(org => org.Image, y => y.MapFrom(s => string.IsNullOrWhiteSpace(s.Image) ? NoImageUrl : s.Image))
+                    );
             var resultList = Mapper.Map<List<PedigreeMeta>, List<PedigreeMetaModel>>(result);
             return View("Index", resultList);
         }
@@ -126,7 +129,24 @@ namespace HGenealogy.Controllers
         }
 
 
-       
-       
+        public List<SelectListItem> GetAvailablePedigreeSelectList()
+        {
+            List<SelectListItem> availablePedigreeList = new List<SelectListItem>();
+            availablePedigreeList.Add(new SelectListItem { Text = "請選擇族譜", Value = "", Selected = true });
+            var result = _pedigreeMetaService.GetAll().ToList();
+            if (result != null)
+            {
+                foreach (var item in result)
+                {
+                    availablePedigreeList.Add(new SelectListItem
+                    {
+                        Text = item.Id.ToString(),
+                        Value = item.Title
+                    });
+                }
+            }
+
+            return availablePedigreeList;
+        }
     }
 }
