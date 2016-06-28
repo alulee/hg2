@@ -452,7 +452,7 @@ namespace HGenealogy.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult SaveFamilyMember(FamilyMemberViewModel editfamilyMember, bool isAutoGenerateParents=true)
+        public ActionResult SaveFamilyMember(FamilyMemberViewModel editfamilyMember, bool isAutoGenerateParents=false)
         {
             ViewBag.Validation = ModelState.IsValid;
 
@@ -552,8 +552,9 @@ namespace HGenealogy.Controllers
 
                     #endregion
 
-
                     _familyMemberService.Update(familyMember);
+
+                    editfamilyMember.Id = familyMember.Id;
 
                     return RedirectToAction("Index");
                 }
@@ -983,7 +984,7 @@ namespace HGenealogy.Controllers
             //excelFile.AddMapping<Family>(x => x.Childrens, "子女");
 
             //SheetName
-            var excelContent = excelFile.Worksheet<FamilyMemberViewModel>("工作表1");
+            var excelContent = excelFile.Worksheet<FamilyMemberViewModel>("工作表1").ToList();
 
             #endregion
 
@@ -1045,7 +1046,7 @@ namespace HGenealogy.Controllers
                     row.Email = row.Email == null ? " " : row.Email;
                     row.MobilePhone = row.MobilePhone == null ? " " : row.MobilePhone;
 
-                    this.SaveFamilyMember(row);
+                    this.SaveFamilyMember(row, false);
 
                     isRowSuccessImported = true;
                     errorMessage.AppendFormat("編號{0}, 名字={1} 匯入成功!", row.ImportSeqNo, row.GivenName);
@@ -1077,6 +1078,39 @@ namespace HGenealogy.Controllers
                     }
                     rowIndex++;
                 }
+            }
+
+            #endregion
+
+            #region 建立滙入成功的成員 父母連結
+            
+            foreach (var row in excelContent)
+            {
+                if (row.Id == 0)
+                    continue;
+ 
+                FamilyMemberViewModel editFamilyMember = null; 
+                var currentfamilymember = _familyMemberService.GetById(row.Id);
+                if (currentfamilymember == null)
+                    continue;
+
+                // 尋找 father
+                var father = excelContent.Where(x => x.GivenName == row.FatherName && x.GenerationSeq == (row.GenerationSeq - 1)).FirstOrDefault();
+                if (father != null)
+                {
+                    var filter = PredicateBuilder.True<FamilyMember>();
+                    filter = filter.And(p => p.PedigreeId.Equals(father.PedigreeId));
+                    filter = filter.And(p => p.ImportSeqNo.Equals(father.ImportSeqNo));
+                    filter = filter.And(p => p.GivenName.Equals(father.GivenName));
+
+                    var queryresult = _familyMemberService.GetList(filter).FirstOrDefault();
+                    if (queryresult != null)
+                    {
+                        currentfamilymember.FatherMemberId = queryresult.Id;
+                        _familyMemberService.Update(currentfamilymember);
+                    }
+                }
+
             }
 
             #endregion
@@ -1135,7 +1169,7 @@ namespace HGenealogy.Controllers
         }
 
         [HttpPost]
-        public JsonResult GetFamiliesJson(string pedigreeId)
+        public JsonResult GetFamiliesJson(string pedigreeId, bool isLoadLinks = true)
         {
             var filter = PredicateBuilder.True<FamilyMember>();
             filter = filter.And(p => p.PedigreeId.ToString().Equals(pedigreeId));
@@ -1144,17 +1178,27 @@ namespace HGenealogy.Controllers
             if (queryresult != null)
             {
                 Mapper.CreateMap<FamilyMember, node>()
-                        .ForMember(x => x.name, y => y.MapFrom(a => a.FamilyName + a.GivenName))
+                        .ForMember(x => x.name, y => y.MapFrom(a => a.GenerationSeq.ToString() + "世_" + a.FamilyName + a.GivenName))
                         .ForMember(x => x.gid, y => y.MapFrom(a => a.Id))
-                        .ForMember(x => x.groupid, y => y.MapFrom(a => a.Id));
+                        .ForMember(x => x.groupid, y => y.MapFrom(a => a.GenerationSeq.ToString()));
 
                 FamilyTreeViewModel myreturn = new FamilyTreeViewModel();
                 myreturn.nodes = Mapper.Map<List<FamilyMember>, List<node>>(queryresult);
-                
-                if (myreturn.nodes != null)
+
+                myreturn.nodes.Add(
+                    new node
+                    {
+                        name = "先祖",
+                        gid = "0",
+                        groupid = "0",
+                        id = "0",
+                        imageurl = "",
+                    });
+
+                if (myreturn.nodes != null && isLoadLinks)
                 {
                     List<link> mylinks = new List<link>();
-
+ 
                     // 取得關係 links
                     foreach (var member in queryresult)
                     {
@@ -1163,7 +1207,6 @@ namespace HGenealogy.Controllers
                         #region 增加父親關聯
                         if (member.FatherMemberId > 0)
                         {
-                            
                             var father = _familyMemberService.GetById(member.FatherMemberId);
                             if (father != null)
                             {
@@ -1213,6 +1256,20 @@ namespace HGenealogy.Controllers
                                 }
                             }
                         }
+                        #endregion
+
+                        #region 增加與 root 的連結
+
+                        if (member.FatherMemberId == 0 && member.MotherMemberId == 0)
+                        {
+                            link newlink = new link();
+                            newlink.source = "0";
+                            newlink.target = member.Id.ToString();
+                            newlink.name = "子孫";
+                            newlink.value = "1";
+                            mylinks.Add(newlink);
+                        }
+                        
                         #endregion
                     }
                     myreturn.links = mylinks;

@@ -74,8 +74,8 @@ namespace HGenealogy.Services
                 {
                     availablePedigreeList.Add(new SelectListItem
                     {
-                        Text = item.Id.ToString(),
-                        Value = item.Title,
+                        Text = item.Title,
+                        Value = item.Id.ToString(),
                         Selected = (currentPedigreeId == item.Id)
                     });
                 }

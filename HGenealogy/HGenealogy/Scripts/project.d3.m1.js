@@ -81,7 +81,7 @@
                 for (i$ = 0, to$ = it.links.length; i$ < to$; ++i$) {
                     i = i$;
                     
-                    if (position[it.links[i].source] && position[it.links[i].target]) {
+                    if (position[it.links[i].source] >= 0 && position[it.links[i].target] >= 0) {
                         results$.push({
                             source: position[it.links[i].source],
                             target: position[it.links[i].target],
@@ -146,7 +146,7 @@
         return nodes.selectAll('circle').attr('stroke', lockstate ? '#f00' : '#999');
     };
 
-    gravitystate = 1;
+    gravitystate = 3;
     this.toggleGravity = function (v) {
         if (!gc1 || !playstate) {
             return;
@@ -157,22 +157,22 @@
         switch (v) {
             case 1:
                 gc1.transition().duration(750).attr('r', 3 * height / 4);
-                gc2.transition().delay(100).duration(750).attr('fill', '#bec').attr('r', height);
+                gc2.transition().delay(100).duration(750).attr('fill', '#dfe').attr('r', height);
                 d3.select('#content').transition().duration(750).style('background', '#dfe');
                 return force.gravity(0.1).start();
             case 2:
                 gc1.transition().duration(750).attr('r', 3 * height / 5);
-                gc2.transition().delay(100).duration(750).attr('fill', '#cdb').attr('r', 4 * height / 5);
+                gc2.transition().delay(100).duration(750).attr('fill', '#efd').attr('r', 4 * height / 5);
                 d3.select('#content').transition().duration(750).style('background', '#efd');
                 return force.gravity(0.2).start();
             case 3:
                 gc1.transition().duration(750).attr('r', 2 * height / 5);
-                gc2.transition().delay(100).duration(750).attr('fill', '#dca').attr('r', 3 * height / 5);
+                gc2.transition().delay(100).duration(750).attr('fill', '#fed').attr('r', 3 * height / 5);
                 d3.select('#content').transition().duration(750).style('background', '#fed');
                 return force.gravity(0.4).start();
             case 4:
                 gc1.transition().duration(750).attr('r', 3 * height / 10);
-                gc2.transition().delay(100).duration(750).attr('fill', '#eaa').attr('r', 2 * height / 5);
+                gc2.transition().delay(100).duration(750).attr('fill', '#fdd').attr('r', 2 * height / 5);
                 d3.select('#content').transition().duration(750).style('background', '#fdd');
                 return force.gravity(1.0).start();
             default:
@@ -182,8 +182,12 @@
 
     generate = function (error, graph) {
         var i$, ref$, len$, x;
-        gc2 = svg.append('circle').attr('cx', width / 2).attr('cy', height / 2).attr('r', height).attr('fill', '#bec').style('opacity', '0');
-        gc1 = svg.append('circle').attr('cx', width / 2).attr('cy', height / 2).attr('r', 3 * height / 4).attr('fill', '#fff').style('opacity', '0');
+        //gc2 = svg.append('circle').attr('cx', width / 2).attr('cy', height / 2).attr('r', height).attr('fill', '#bec').style('opacity', '0');
+        //gc1 = svg.append('circle').attr('cx', width / 2).attr('cy', height / 2).attr('r', 3 * height / 4).attr('fill', '#fff').style('opacity', '0');
+
+        gc2 = svg.append('circle').attr('cx', width / 2).attr('cy', height / 2).attr('r', height).attr('fill', '#dfe').style('opacity', '0');
+        gc1 = svg.append('circle').attr('cx', width / 2).attr('cy', height / 2).attr('r', 3 * height / 4).attr('fill', '#dfe').style('opacity', '0');
+
         for (i$ = 0, len$ = (ref$ = [gc1, gc2]).length; i$ < len$; ++i$) {
             x = ref$[i$];
             x.transition().duration(750).style('opacity', 1);
@@ -505,6 +509,29 @@
         return this.attr('unselectable', 'on').css('user-select', 'none').on('selectstart', false);
     };
 
+    updateFamilyMember = function(pedigreeId) {
+            $.ajax({
+                url: "/FamilyMembers/GetFamiliesJson",
+                data: { pedigreeId: pedigreeId, isLoadLinks: false },
+                type: 'post',
+                cache: false,
+                async: false,
+                dataType: 'json',
+                success: function (data) {
+                    $('#FamilyMemberDDL').empty(); 
+                    if (data.nodes.length > 0) {
+                        $('#FamilyMemberDDL').append($('<option></option>').val('').text(''));
+                        $.each(data.nodes, function (i, item) {
+                            if (Number(item.groupid) > 0)
+                                $('#FamilyMemberDDL').append($('<option></option>').val(item.id).text(item.groupid + "世 - " + item.name));
+                            else
+                                $('#FamilyMemberDDL').append($('<option></option>').val(item.id).text(item.name));
+                        });
+                    }
+                }
+            });
+    }
+
     $(document).ready(function () {
         var formatNomatch, formatLinkSelect, formatLinkResult, domain;
         $(document).disableSelect();
@@ -512,14 +539,27 @@
         //      selector: '[rel=tooltip]'
         //    });
         
-        $('select#pedigree-chooser').select2({
-            width: '110px',
-            placeholder: '選擇族譜',
-            formatNoMatches: formatNomatch
-        }).on('change', function (e) {
-            return initDb(e.val);
-        });
+        //$('select#PedigreeDDL').select2({
+        //    width: '110px',
+        //    placeholder: '選擇族譜',
+        //    formatNoMatches: formatNomatch
+        //}).on('change', function (e) {
+        //    return initDb(e.val);
+        //});
         
+        $('#PedigreeDDL').change(function () {
+            var selectedPedigree = $('#PedigreeDDL option:selected').val();
+            if (!selectedPedigree) {
+                selectedPedigree = '';
+            }
+            
+            if (selectedPedigree != "") {
+                updateFamilyMember(selectedPedigree);
+
+                initDb(selectedPedigree);
+            }
+        });
+
         formatLinkSelect = function (it) {
             var bk;
             if (!it.id) {
@@ -566,7 +606,7 @@
         });
         init(null, window.relationData);
         //domain = window.location.href.split("?")[1];
-        var selectedPedigree = $('#pedigree-chooser option:selected').val();
+        var selectedPedigree = $('#PedigreeDDL option:selected').val();
 
         if (!selectedPedigree) {
             selectedPedigree = '';
@@ -610,8 +650,8 @@
         return reader.readAsDataURL(f);
     };
 
-    fu = document.getElementById('head-upload');
-    fu.addEventListener('change', headIconSelect, false);
+    //fu = document.getElementById('head-upload');
+    //fu.addEventListener('change', headIconSelect, false);
 
     this.setIcon = function (name) {
         if (name) {
