@@ -24,6 +24,6 @@ namespace HGenealogy.Models.PedigreeInfo
         public string CreatedWho { get; set; }
         public string UpdatedWho { get; set; }
 
-        public HGenealogy.Models.PedigreeMeta.PedigreeMetaModel pedigreeMetaModel { get; set; }
+        //public HGenealogy.Models.PedigreeMeta.PedigreeMetaModel pedigreeMetaModel { get; set; }
     }
 }

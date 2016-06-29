@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+
 namespace HGenealogy.Models.Home
 {
     public class NewsModel

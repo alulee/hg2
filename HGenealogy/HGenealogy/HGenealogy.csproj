@@ -391,10 +391,14 @@
     <Compile Include="Models\FamilyMember\FamilyMemberNavigationModel.cs" />
     <Compile Include="Models\FamilyMember\FamilyMemberInfoModel.cs" />
     <Compile Include="Models\FamilyMember\FamilyTreeViewModels.cs" />
+    <Compile Include="Models\Home\HomeModel.cs" />
     <Compile Include="Models\Home\NewsModel.cs" />
+    <Compile Include="Models\Home\PedigreeMetaModel.cs" />
     <Compile Include="Models\News\NewsModel.cs" />
     <Compile Include="Models\News\NewsQueryModel.cs" />
+    <Compile Include="Models\PedigreeInfo\PedigreeEventModel.cs" />
     <Compile Include="Models\PedigreeInfo\PedigreeInfoModel.cs" />
+    <Compile Include="Models\PedigreeInfo\PedigreeMetaModel.cs" />
     <Compile Include="Models\PedigreeMeta\PedigreeMetaModel.cs" />
     <Compile Include="Models\PedigreeMeta\PedigreeMetaQueryModel.cs" />
     <Compile Include="Services\Acc\MenuService.cs" />
@@ -418,10 +422,12 @@
     <Compile Include="Infrastructure\SharedClass\GeoPoint.cs" />
     <Compile Include="Services\Interface\IFamilyMemberInfoService.cs" />
     <Compile Include="Services\Interface\INewsService.cs" />
+    <Compile Include="Services\Interface\IPedigreeEventService.cs" />
     <Compile Include="Services\Interface\IPedigreeInfoService.cs" />
     <Compile Include="Services\Interface\IPedigreeMetaService.cs" />
     <Compile Include="Services\FamilyMemberInfoService.cs" />
     <Compile Include="Services\NewsService.cs" />
+    <Compile Include="Services\PedigreeEventService.cs" />
     <Compile Include="Services\PedigreeInfoService.cs" />
     <Compile Include="Services\PedigreeMetaService.cs" />
     <Compile Include="Startup.cs" />
@@ -444,6 +450,10 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\familytreea.css" />
     <Content Include="Content\Images\hkslide1.png" />
+    <Content Include="Content\Images\home\carousel1.jpg" />
+    <Content Include="Content\Images\home\carousel2.jpg" />
+    <Content Include="Content\Images\home\carousel3.jpg" />
+    <Content Include="Content\Images\home\carousel4.jpg" />
     <Content Include="Content\Images\indis.gif" />
     <Content Include="Content\Images\logo.png" />
     <Content Include="Content\Images\pedi.gif" />
@@ -813,7 +823,6 @@
     <Content Include="Views\PedigreeMeta\Edit.cshtml" />
     <Content Include="Views\PedigreeMeta\Index.cshtml" />
     <Content Include="Views\PedigreeInfo\CreateOrUpdate.cshtml" />
-    <Content Include="Views\PedigreeInfo\CreateOrUpdate_bak.cshtml" />
     <Content Include="Views\PedigreeInfo\Index.cshtml" />
     <Content Include="Views\PedigreeInfo\test.cshtml" />
     <Content Include="Views\PedigreeInfo\_List.cshtml" />
@@ -918,6 +927,9 @@
     <Content Include="Views\News\Query.cshtml" />
     <Content Include="Views\Home\_News.cshtml" />
     <Content Include="Views\Shared\_LayoutFull.cshtml" />
+    <Content Include="Views\Home\Index_bak.cshtml" />
+    <Content Include="Views\PedigreeInfo\CreateOrUpdatePedigreeEvent.cshtml" />
+    <Content Include="Views\Home\_PedigreeMetaNavigator.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\FileUpload\" />
