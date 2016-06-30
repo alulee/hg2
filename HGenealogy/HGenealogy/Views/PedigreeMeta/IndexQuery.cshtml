@@ -1,0 +1,61 @@
+﻿@using HGenealogy.Models.PedigreeMeta;
+@model PedigreeMetaSimpleQueryModel
+
+<div class="container">
+
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">族譜瀏覽</h1>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        查詢您的族譜:
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <form role="form">
+                                <div class="col-lg-1">
+                                    <div class="form-group">                                      
+                                       @Html.LabelFor(model => model.FamilyName)                              
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group">
+                                        @Html.EditorFor(model => model.FamilyName)                                        
+                                        <p class="help-block"></p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-1">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Title)
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group">
+                                        @Html.EditorFor(model => model.Title)
+                                        <p class="help-block"></p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group pull-right">
+                                         
+                                        <p class="help-block">abcdee</p>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

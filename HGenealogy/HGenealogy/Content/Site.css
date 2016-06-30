@@ -18,6 +18,35 @@ body {
     border-bottom-color: lavender;
 }
 
+.largefont > a {
+    font-size : large;
+    color: white; 
+    text-decoration: none;
+}
+
+@media(min-width:768px) {
+    #page-wrapper {
+        position: inherit;
+        margin: 0 auto;
+        padding: 0 30px;
+        background-color: #fff;
+    }
+}
+
+.page-header {
+    padding-bottom: 9px;
+    margin: 40px 0 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.h1, h1 {
+    font-size: 36px;
+}
+
+
+
+
+
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;

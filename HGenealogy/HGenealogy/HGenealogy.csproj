@@ -402,6 +402,7 @@
     <Compile Include="Models\PedigreeInfo\PedigreeInfoModel.cs" />
     <Compile Include="Models\PedigreeInfo\PedigreeMetaModel.cs" />
     <Compile Include="Models\PedigreeMeta\PedigreeMetaModel.cs" />
+    <Compile Include="Models\PedigreeMeta\PedigreeMetaSimpleQueryModel.cs" />
     <Compile Include="Models\PedigreeMeta\PedigreeMetaQueryModel.cs" />
     <Compile Include="Services\Acc\MenuService.cs" />
     <Compile Include="Services\FamilyMemberService.cs" />
@@ -932,6 +933,7 @@
     <Content Include="Views\Home\Index_bak.cshtml" />
     <Content Include="Views\PedigreeInfo\CreateOrUpdatePedigreeEvent.cshtml" />
     <Content Include="Views\Home\_PedigreeMetaNavigator.cshtml" />
+    <Content Include="Views\PedigreeMeta\IndexQuery.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\FileUpload\" />

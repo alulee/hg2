@@ -38,6 +38,14 @@ namespace HGenealogy.Controllers
             return View(models);
         }
 
+        // GET: PedigreeMeta
+        public ActionResult IndexQuery()
+        {
+            ViewBag.Title = "族譜一覽"; 
+            return View();
+        }
+
+
         public ActionResult Query()
         {
             return View();
