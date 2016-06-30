@@ -1,37 +1,54 @@
 ﻿@using HGenealogy.Models.Home;
-@model IEnumerable<NewsModel>
+@model List<NewsModel>
 
-<div class="page">
-    <div class="row" style="border-bottom: 3px solid #E6E6FA;">
-        <div class="col-md-11">
-            <h4 style="color:red;"> 最新消息</h4>
+<div class="container-fluid panel panel-default">
+    <div class="row " style="border-bottom: 3px solid #0099ff;">
+        <div class="col-md-10">
+            <h4> 最新消息</h4>
         </div>
-        <div class="col-md-1">
-            @Html.ActionLink("more...", "Index", "News", null, null)
+        <div class="col-md-2">
+            <div class="btn-group btn-group" style="margin-top:3px">
+                <a href="#" class="btn btn-info">最新</a>
+                <a href="#" class="btn btn-info">熱門</a>
+            </div>
+            @*@Html.ActionLink("more...", "Index", "News", null, null)*@
         </div>
+
     </div>
+    <p />
 
-    @foreach (var item in Model)
-    {
-        <div class="container-fluid memberbox">
-            <div class="member_intro">
-                <div>
-                    <div class="member_intro_content">
-                        <div class="row">
-                            <div class="col-md-2 text-right">@Html.DisplayNameFor(model => model.Title):</div>
-                            <div class="col-md-10">@Html.DisplayFor(model => item.Title)</div>
-                        </div>
+    <div class="well well-sm">
+        <div>
+        </div>
+        @for (var i = 0; i < Model.Count(); i++)
+        {
+            string bgClass = "container-fluid";
+            if (i % 2 == 0)
+            {
+                bgClass += " bg-success";
+            }
+            else
+            {
+            }
 
-                        <div class="row">
-                            <div class="col-md-2 text-right">@Html.DisplayNameFor(model => model.Content):</div>
-                            <div class="col-md-10"> @Html.Raw(item.Content)  </div>
-                        </div>
+            @*<div class="container-fluid bg-success">*@
+            <div class="@bgClass">
+                <div class="row">
+                    @*<div class="col-md-2 text-right">@Html.DisplayNameFor(model => Model[i].Title):</div>*@
+                    @*<div class="col-md-10">@Html.DisplayFor(model => Model[i].Title)</div>*@
+                    <div class="col-md-12">
+                        <h4>@Html.ActionLink(Model[i].Title, "Detail", "News", new { id = Model[i].Id }, new { @class = "text-info" })</h4>
                     </div>
                 </div>
-            </div>
-        </div>
-    }
 
+                @*<div class="row">
+                        <div class="col-md-2 text-right">@Html.DisplayNameFor(model => Model[i].Content):</div>
+                        <div class="col-md-10"> @Html.Raw(Model[i].Content)  </div>
+                    </div>*@
+            </div>
+        }
+
+    </div>
 </div>
 
 
