@@ -34,6 +34,8 @@ namespace HGenealogy.Models.FamilyMember
             LungName = "";
             HakkaName = "";
             JobDescription = "";
+            ImageUrl = "";
+
             IsPublic = false;
             IsPublished = false;
             IsDeleted = false;
@@ -110,10 +112,12 @@ namespace HGenealogy.Models.FamilyMember
 
         public string ImportSeqNo { get; set; }
         public string JobDescription { get; set; }
+        public string ImageUrl { get; set; }
+
         public bool IsPublic { get; set; }
         public bool IsPublished { get; set; }
         public bool IsDeleted { get; set; }
-        public int DisplayOrder { get; set; }
+        public int DisplayOrder { get; set; }        
         public System.DateTime CreatedOnUtc { get; set; }
         public System.DateTime UpdatedOnUtc { get; set; }
         public string CreatedWho { get; set; }
@@ -125,7 +129,7 @@ namespace HGenealogy.Models.FamilyMember
         public string CityName { get; set; }
         public string Address1 { get; set; }
         public string FullAddress { get; set; }
-        
+                
         public bool IsLoadCurrentPedigreeMeta { get; set; }
         public PedigreeMetaModel CurrentPedigreeMeta{ get; set; }
 

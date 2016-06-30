@@ -58,6 +58,8 @@ CREATE TABLE FamilyMember
 		CONSTRAINT DF_FamilyMember_HakkaName DEFAULT '',		
 	[JobDescription] [nvarchar](Max) NOT NULL --工作職業
 		CONSTRAINT DF_FamilyMember_JobDescription DEFAULT '',
+	[ImageUrl] [nvarchar](255) NOT NULL 
+		CONSTRAINT DF_FamilyMember_ImageUrl DEFAULT '',
 	[IsPublic] [bit] NOT NULL				--是否公開
 		CONSTRAINT DF_FamilyMember_IsPublic DEFAULT 0,	
 	[IsPublished] [bit] NOT NULL			--是否發佈

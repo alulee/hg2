@@ -313,7 +313,6 @@
     <Compile Include="Data\DbContextFactory\IDbContextFactory.cs" />
     <Compile Include="Data\Family.cs">
       <DependentUpon>hgEntities.tt</DependentUpon>
-      <SubType>Code</SubType>
     </Compile>
     <Compile Include="Data\FamilyMember.cs">
       <DependentUpon>hgEntities.tt</DependentUpon>
@@ -321,9 +320,14 @@
     <Compile Include="Data\FamilyMemberInfo.cs">
       <DependentUpon>hgEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\FamilyMemberRelation.cs">
+      <DependentUpon>hgEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\FamilyMember_Picture_Mapping.cs">
+      <DependentUpon>hgEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\GenealogyMeta.cs">
       <DependentUpon>hgEntities.tt</DependentUpon>
-      <SubType>Code</SubType>
     </Compile>
     <Compile Include="Data\hgEntities.Context.cs">
       <AutoGen>True</AutoGen>
@@ -345,7 +349,6 @@
     </Compile>
     <Compile Include="Data\Menu.cs">
       <DependentUpon>hgEntities.tt</DependentUpon>
-      <SubType>Code</SubType>
     </Compile>
     <Compile Include="Data\News.cs">
       <DependentUpon>hgEntities.tt</DependentUpon>
@@ -366,7 +369,6 @@
     </Compile>
     <Compile Include="Data\TaiwanZipCode.cs">
       <DependentUpon>hgEntities.tt</DependentUpon>
-      <SubType>Code</SubType>
     </Compile>
     <Compile Include="Data\UserGeneMeta.cs">
       <DependentUpon>hgEntities.tt</DependentUpon>
