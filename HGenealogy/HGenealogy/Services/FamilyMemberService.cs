@@ -58,7 +58,7 @@ namespace HGenealogy.Services
         {
             List<SelectListItem> mySelectListItem = new List<SelectListItem>();
             var filter = PredicateBuilder.True<FamilyMember>();
-            filter = filter.And(p => p.PedigreeId.Equals(pedigreeId));
+            filter = filter.And(p => p.PedigreeId.Equals(pedigreeId) && pedigreeId > 0);
             var queryresult = this.GetList(filter);
             int index = 0;
 

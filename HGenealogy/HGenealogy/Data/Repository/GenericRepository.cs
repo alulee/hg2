@@ -59,12 +59,14 @@ namespace HGenealogy.Data.Repository
         /// <exception cref="System.NotImplementedException"></exception>
         public void Update(TEntity instance)
         {
+
             if (instance == null)
             {
                 throw new ArgumentNullException("instance");
             }
             else
             {
+
                 this._context.Entry(instance).State = EntityState.Modified;
                 //this.SaveChanges();
             }
