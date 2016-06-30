@@ -1,5 +1,5 @@
 ﻿@using HGenealogy.Models.PedigreeInfo
-@model List<PedigreeInfoModel>
+@model PedigreeMetaModel
 
 @{
     string tilte = ViewBag.Title;
@@ -32,77 +32,77 @@
                         <div class="panel-body ">
                             <div class="row">
                                 <div class="col-md-2 text-right">
-                                    @Html.DisplayNameFor(m => m.FirstOrDefault().pedigreeMetaModel.Title):
+                                    @Html.DisplayNameFor(m => m.Title):
                                 </div>
                                 <div class="col-md-4">
-                                    @Html.DisplayFor(m => m.FirstOrDefault().pedigreeMetaModel.Title)
+                                    @Html.DisplayFor(m => m.Title)
                                 </div>
                                 <div class="col-md-2 text-right">
-                                    @Html.DisplayNameFor(m => m.FirstOrDefault().pedigreeMetaModel.Editor):
+                                    @Html.DisplayNameFor(m => m.Editor):
                                 </div>
                                 <div class="col-md-4">
-                                    @Html.DisplayFor(m => m.FirstOrDefault().pedigreeMetaModel.Editor)
+                                    @Html.DisplayFor(m => m.Editor)
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-2 text-right">
-                                    @Html.DisplayNameFor(m => m.FirstOrDefault().pedigreeMetaModel.Description):
+                                    @Html.DisplayNameFor(m => m.Description):
                                 </div>
                                 <div class="col-md-10">
-                                    @Html.DisplayFor(m => m.FirstOrDefault().pedigreeMetaModel.Description)
+                                    @Html.DisplayFor(m => m.Description)
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-2 text-right">
-                                    @Html.DisplayNameFor(m => m.FirstOrDefault().pedigreeMetaModel.Image):
+                                    @Html.DisplayNameFor(m => m.Image):
                                 </div>
                                 <div class="col-md-10">
                                     @{
-                if (string.IsNullOrEmpty(Model.FirstOrDefault().pedigreeMetaModel.Image))
+                if (string.IsNullOrEmpty(Model.Image))
                 {
                     <img src="" width="300" height="300">
                 }
                 else
                 {
-                    <img src="@Url.Content(Model.FirstOrDefault().pedigreeMetaModel.Image)" width="300" height="300">
+                    <img src="@Url.Content(Model.Image)" width="300" height="300">
                 }
                                     }
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-2 text-right">
-                                    @Html.DisplayNameFor(m => m.FirstOrDefault().pedigreeMetaModel.PublishDate):
+                                    @Html.DisplayNameFor(m => m.PublishDate):
                                 </div>
                                 <div class="col-md-10">
-                                    @Html.DisplayFor(m => m.FirstOrDefault().pedigreeMetaModel.PublishDate)
+                                    @Html.DisplayFor(m => m.PublishDate)
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-2 text-right">
-                                    @Html.DisplayNameFor(m => m.FirstOrDefault().pedigreeMetaModel.Volumes):
+                                    @Html.DisplayNameFor(m => m.Volumes):
                                 </div>
                                 <div class="col-md-4">
-                                    @Html.DisplayFor(m => m.FirstOrDefault().pedigreeMetaModel.Volumes)
+                                    @Html.DisplayFor(m => m.Volumes)
                                 </div>
                                 <div class="col-md-2 text-right">
-                                    @Html.DisplayNameFor(m => m.FirstOrDefault().pedigreeMetaModel.Pages):
+                                    @Html.DisplayNameFor(m => m.Pages):
                                 </div>
                                 <div class="col-md-4">
-                                    @Html.DisplayFor(m => m.FirstOrDefault().pedigreeMetaModel.Pages)
+                                    @Html.DisplayFor(m => m.Pages)
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-2 text-right">
-                                    @Html.DisplayNameFor(m => m.FirstOrDefault().pedigreeMetaModel.FamilyName):
+                                    @Html.DisplayNameFor(m => m.FamilyName):
                                 </div>
                                 <div class="col-md-4">
-                                    @Html.DisplayFor(m => m.FirstOrDefault().pedigreeMetaModel.FamilyName)
+                                    @Html.DisplayFor(m => m.FamilyName)
                                 </div>
                                 <div class="col-md-2 text-right">
-                                    @Html.DisplayNameFor(m => m.FirstOrDefault().pedigreeMetaModel.OriginalAncestor):
+                                    @Html.DisplayNameFor(m => m.OriginalAncestor):
                                 </div>
                                 <div class="col-md-4">
-                                    @Html.DisplayFor(m => m.FirstOrDefault().pedigreeMetaModel.OriginalAncestor)
+                                    @Html.DisplayFor(m => m.OriginalAncestor)
                                 </div>
                             </div>
                         </div>
@@ -118,74 +118,74 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-md-2 text-right">
-                                    @Html.DisplayNameFor(m => m.FirstOrDefault().pedigreeMetaModel.DateMoveToTaiwan):
+                                    @Html.DisplayNameFor(m => m.DateMoveToTaiwan):
                                 </div>
                                 <div class="col-md-4">
-                                    @Html.DisplayFor(m => m.FirstOrDefault().pedigreeMetaModel.DateMoveToTaiwan)
+                                    @Html.DisplayFor(m => m.DateMoveToTaiwan)
                                 </div>
                                 <div class="col-md-2 text-right">
-                                    @Html.DisplayNameFor(m => m.FirstOrDefault().pedigreeMetaModel.AncestorToTaiwan):
+                                    @Html.DisplayNameFor(m => m.AncestorToTaiwan):
                                 </div>
                                 <div class="col-md-4">
-                                    @Html.DisplayFor(m => m.FirstOrDefault().pedigreeMetaModel.AncestorToTaiwan)
+                                    @Html.DisplayFor(m => m.AncestorToTaiwan)
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-2 text-right">
-                                    @Html.DisplayNameFor(m => m.FirstOrDefault().pedigreeMetaModel.OriginalAddress):
+                                    @Html.DisplayNameFor(m => m.OriginalAddress):
                                 </div>
                                 <div class="col-md-4">
-                                    @Html.DisplayFor(m => m.FirstOrDefault().pedigreeMetaModel.OriginalAddress)
+                                    @Html.DisplayFor(m => m.OriginalAddress)
                                 </div>
                                 <div class="col-md-2 text-right">
-                                    @Html.DisplayNameFor(m => m.FirstOrDefault().pedigreeMetaModel.TotalGenerations):
+                                    @Html.DisplayNameFor(m => m.TotalGenerations):
                                 </div>
                                 <div class="col-md-4">
-                                    @Html.DisplayFor(m => m.FirstOrDefault().pedigreeMetaModel.TotalGenerations)
+                                    @Html.DisplayFor(m => m.TotalGenerations)
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-2 text-right">
-                                    @Html.DisplayNameFor(m => m.FirstOrDefault().pedigreeMetaModel.GenerationToTaiwan):
+                                    @Html.DisplayNameFor(m => m.GenerationToTaiwan):
                                 </div>
                                 <div class="col-md-4">
-                                    @Html.DisplayFor(m => m.FirstOrDefault().pedigreeMetaModel.GenerationToTaiwan)
+                                    @Html.DisplayFor(m => m.GenerationToTaiwan)
                                 </div>
                                 <div class="col-md-2 text-right">
-                                    @Html.DisplayNameFor(m => m.FirstOrDefault().pedigreeMetaModel.LivingAreaInTaiwan):
+                                    @Html.DisplayNameFor(m => m.LivingAreaInTaiwan):
                                 </div>
                                 <div class="col-md-4">
-                                    @Html.DisplayFor(m => m.FirstOrDefault().pedigreeMetaModel.LivingAreaInTaiwan)
+                                    @Html.DisplayFor(m => m.LivingAreaInTaiwan)
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-2 text-right">
-                                    @Html.DisplayNameFor(m => m.FirstOrDefault().pedigreeMetaModel.OriginalCollector):
+                                    @Html.DisplayNameFor(m => m.OriginalCollector):
                                 </div>
                                 <div class="col-md-4">
-                                    @Html.DisplayFor(m => m.FirstOrDefault().pedigreeMetaModel.OriginalCollector)
+                                    @Html.DisplayFor(m => m.OriginalCollector)
                                 </div>
                                 <div class="col-md-2 text-right">
-                                    @Html.DisplayNameFor(m => m.FirstOrDefault().pedigreeMetaModel.TangName):
+                                    @Html.DisplayNameFor(m => m.TangName):
                                 </div>
                                 <div class="col-md-4">
-                                    @Html.DisplayFor(m => m.FirstOrDefault().pedigreeMetaModel.TangName)
+                                    @Html.DisplayFor(m => m.TangName)
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-2 text-right">
-                                    @Html.DisplayNameFor(m => m.FirstOrDefault().pedigreeMetaModel.ContentNotes):
+                                    @Html.DisplayNameFor(m => m.ContentNotes):
                                 </div>
                                 <div class="col-md-10">
-                                    @Html.DisplayFor(m => m.FirstOrDefault().pedigreeMetaModel.ContentNotes)
+                                    @Html.DisplayFor(m => m.ContentNotes)
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-2 text-right">
-                                    @Html.DisplayNameFor(m => m.FirstOrDefault().pedigreeMetaModel.IsPublic):
+                                    @Html.DisplayNameFor(m => m.IsPublic):
                                 </div>
                                 <div class="col-md-10">
-                                    @Html.DisplayFor(m => m.FirstOrDefault().pedigreeMetaModel.IsPublic)
+                                    @Html.DisplayFor(m => m.IsPublic)
                                 </div>
                             </div>
                         </div>
@@ -201,35 +201,79 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-md-2 text-right">
-                                    @Html.DisplayNameFor(m => m.FirstOrDefault().pedigreeMetaModel.CreatedOnUtc):
+                                    @Html.DisplayNameFor(m => m.CreatedOnUtc):
                                 </div>
                                 <div class="col-md-4">
-                                    @Html.DisplayFor(m => m.FirstOrDefault().pedigreeMetaModel.CreatedOnUtc)
+                                    @Html.DisplayFor(m => m.CreatedOnUtc)
                                 </div>
                                 <div class="col-md-2 text-right">
-                                    @Html.DisplayNameFor(m => m.FirstOrDefault().pedigreeMetaModel.UpdatedOnUtc):
+                                    @Html.DisplayNameFor(m => m.UpdatedOnUtc):
                                 </div>
                                 <div class="col-md-4">
-                                    @Html.DisplayFor(m => m.FirstOrDefault().pedigreeMetaModel.UpdatedOnUtc)
+                                    @Html.DisplayFor(m => m.UpdatedOnUtc)
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-2 text-right">
-                                    @Html.DisplayNameFor(m => m.FirstOrDefault().pedigreeMetaModel.CreatedWho):
+                                    @Html.DisplayNameFor(m => m.CreatedWho):
                                 </div>
                                 <div class="col-md-4">
-                                    @Html.DisplayFor(m => m.FirstOrDefault().pedigreeMetaModel.CreatedWho)
+                                    @Html.DisplayFor(m => m.CreatedWho)
                                 </div>
                                 <div class="col-md-2 text-right">
-                                    @Html.DisplayNameFor(m => m.FirstOrDefault().pedigreeMetaModel.UpdatedWho):
+                                    @Html.DisplayNameFor(m => m.UpdatedWho):
                                 </div>
                                 <div class="col-md-4">
-                                    @Html.DisplayFor(m => m.FirstOrDefault().pedigreeMetaModel.UpdatedWho)
+                                    @Html.DisplayFor(m => m.UpdatedWho)
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+            }
+            else if (currentInfoType == "Event")
+            {
+                <div class="form-group row">
+                    <div class="col-md-10">
+                        <h3>@tilte</h3>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="button" value="新增" class="btn btn-default" onclick="location.href='@Url.Action("CreatePedigreeEvent", new { pedigreeID = currentPedigreeID, infoType = currentInfoType })'" />
+                    </div>
+                </div>
+    <div class="pedigreeInfo-list">
+        @for (int i = 0; i < Model.pedigreeEventList.Count; i++)
+        {
+            var item = Model.pedigreeEventList[i];
+            if (item.Id == 0)
+            {
+                continue;
+            }
+            var collapseId = string.Concat("collapse", i.ToString());
+            var collapseHref = string.Concat("#collapse", i.ToString());
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h4 class="panel-title"></h4>
+                    <div class="row">
+                        <div class="col-md-10">
+                            <a data-toggle="collapse" href="@collapseHref">@item.EventTitle</a>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="buttons">
+                                <input type="button" class="btn btn-info" onclick="location.href='@Url.Action("EditPedigreeEvent", new { id = item.Id })'" value='修改' />
+                                <input type="button" class="btn btn-danger" value='刪除' />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="@collapseId" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        @Html.Raw(item.EventContent)
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
             }
             else
             {
@@ -242,9 +286,9 @@
                     </div>
                 </div>
                 <div class="pedigreeInfo-list">
-                    @for (int i = 0; i < Model.Count; i++)
+                    @for (int i = 0; i < Model.pedigreeInfoList.Count; i++)
                     {
-                        var item = Model[i];
+                        var item = Model.pedigreeInfoList[i];
                         if (item.Id == 0)
                         {
                             continue;

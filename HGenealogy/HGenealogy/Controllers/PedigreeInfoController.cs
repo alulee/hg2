@@ -1,5 +1,4 @@
 ﻿using HGenealogy.Data;
-using HGenealogy.Models.PedigreeMeta;
 using HGenealogy.Models.PedigreeInfo;
 using HGenealogy.Services.Interface;
 using System;
@@ -15,21 +14,24 @@ namespace HGenealogy.Controllers
     {
         private readonly IPedigreeMetaService _pedigreeMetaService;
         private readonly IPedigreeInfoService _pedigreeInfoService;
+        private readonly IPedigreeEventService _pedigreeEventService;
         private readonly int _pedigreeId;
 
         public PedigreeInfoController(
             IPedigreeMetaService pedigreeMetaService,
-            IPedigreeInfoService pedigreeInfoService
+            IPedigreeInfoService pedigreeInfoService,
+            IPedigreeEventService pedigreeEventService
             )
         {
             _pedigreeMetaService = pedigreeMetaService;
             _pedigreeInfoService = pedigreeInfoService;
+            _pedigreeEventService = pedigreeEventService;
 
             //mappingInit();//暫時先這樣處理
         }
 
         // GET: PedigreeInfo
-        public ActionResult Index(int pedigreeID, string infoType)
+        public ActionResult Index(int pedigreeID, string infoType = "Meta")
         {
             if (string.IsNullOrWhiteSpace(infoType))
                 infoType = "Meta";
@@ -37,11 +39,21 @@ namespace HGenealogy.Controllers
             if (pedigreeID == 0)
                 Redirect(Url.Action("PedigreeMeta", "Index"));
 
-            var result = GetPedigreeInfoList(pedigreeID, infoType);
-            if (result == null)
-                result = new List<PedigreeInfoModel>();
-
             var hGPedigreeMeta = _pedigreeMetaService.GetById(pedigreeID);
+            Mapper.Initialize(p => p.CreateMap<PedigreeMeta, PedigreeMetaModel>());
+            var hGPedigreeMetaModel = Mapper.Map<PedigreeMeta, PedigreeMetaModel>(hGPedigreeMeta);
+
+            if (infoType=="Event")
+            {
+                var pedigreeEvenList = GetPedigreeEventList(pedigreeID);
+                hGPedigreeMetaModel.pedigreeEventList = pedigreeEvenList;
+            }
+            else if (infoType != "Meta")
+            {
+                var pedigreeInfoList = GetPedigreeInfoList(pedigreeID, infoType);
+                hGPedigreeMetaModel.pedigreeInfoList = pedigreeInfoList;
+            }
+
             ViewBag.Title = string.Concat(hGPedigreeMeta.Title, "族譜資料");
             ViewBag.currentPedigreeID = pedigreeID;
             ViewBag.currentInfoType = infoType;
@@ -50,7 +62,7 @@ namespace HGenealogy.Controllers
             Session["currentPedigreeId"] = pedigreeID;
             Session["currentPedigreeTitle"] = hGPedigreeMeta.Title;
 
-            return View(result);
+            return View(hGPedigreeMetaModel);
         }
 
         public ActionResult Create(int pedigreeID, string infoType)
@@ -86,6 +98,37 @@ namespace HGenealogy.Controllers
             return View("CreateOrUpdate", model);
         }
 
+        public ActionResult CreatePedigreeEvent(int pedigreeID, string infoType)
+        {
+            PedigreeEventModel model = new PedigreeEventModel();
+            model.PedigreeID = pedigreeID;
+
+            var infoTypeDic = getInfoTypeDic();
+            var infoTypeC = infoTypeDic.Where(p => p.Key == infoType).FirstOrDefault().Value;
+            ViewBag.Title = string.Concat(infoTypeC, "-新增");
+            ViewBag.currentPedigreeID = pedigreeID;
+            ViewBag.currentInfoType = infoType;
+            ViewBag.infoTypeDic = infoTypeDic;
+
+            return View("CreateOrUpdatePedigreeEvent", model);
+        }
+
+        public ActionResult EditPedigreeEvent(int id)
+        {
+            var pedigreeEvent = _pedigreeEventService.GetById(id);
+
+            Mapper.Initialize(p => p.CreateMap<PedigreeEvent, PedigreeEventModel>());
+            var model = Mapper.Map<PedigreeEvent, PedigreeEventModel>(pedigreeEvent);
+            var infoTypeDic = getInfoTypeDic();
+            var infoTypeC = infoTypeDic.Where(p => p.Key == "Event").FirstOrDefault().Value;
+            ViewBag.Title = string.Concat(infoTypeC, "-修改");
+            ViewBag.currentPedigreeID = model.PedigreeID;
+            ViewBag.currentInfoType = "Event";
+            ViewBag.infoTypeDic = infoTypeDic;
+
+            ViewBag.infoTypeSelectList = getInfoTypeSelectList("Event");
+            return View("CreateOrUpdatePedigreeEvent", model);
+        }
 
         private List<PedigreeInfoModel> GetPedigreeInfoList(int pedigreeId, string infoType)
         {
@@ -93,26 +136,24 @@ namespace HGenealogy.Controllers
                                 .Where(x => x.PedigreeID == pedigreeId && x.InfoType == infoType)
                                 .ToList()
                                 ;
-            var hGPedigreeMeta = _pedigreeMetaService.GetById(pedigreeId);
 
             Mapper.Initialize(p => p.CreateMap<PedigreeInfo, PedigreeInfoModel>());
-
-
             var models = Mapper.Map<List<PedigreeInfo>, List<PedigreeInfoModel>>(tempList);
-            Mapper.Initialize(p => p.CreateMap<PedigreeMeta, PedigreeMetaModel>());
-            var pedigreeMetaModel = Mapper.Map<PedigreeMeta, PedigreeMetaModel>(hGPedigreeMeta); ;
-
-
-            if (models.Count == 0)
-            {
+            if (models==null)
                 models = new List<PedigreeInfoModel>();
-                models.Add(new PedigreeInfoModel());
-            }
+            return models;
+        }
 
-            foreach (PedigreeInfoModel model in models)
-            {
-                model.pedigreeMetaModel = pedigreeMetaModel;
-            }
+        private List<PedigreeEventModel> GetPedigreeEventList(int pedigreeId)
+        {
+            var tempList = _pedigreeEventService.GetAll()
+                                .Where(x => x.PedigreeID == pedigreeId)
+                                .ToList()
+                                ;
+            Mapper.Initialize(p => p.CreateMap<PedigreeEvent, PedigreeEventModel>());
+            var models = Mapper.Map<List<PedigreeEvent>, List<PedigreeEventModel>>(tempList);
+            if (models == null)
+                models = new List<PedigreeEventModel>();
 
             return models;
         }
@@ -142,6 +183,30 @@ namespace HGenealogy.Controllers
             return RedirectToAction("Index", "PedigreeInfo", new { pedigreeID = model.PedigreeID, infoType = model.InfoType });
         }
 
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult SavePedigreeEvent(PedigreeEventModel model)
+        {
+
+            Mapper.Initialize(p => p.CreateMap<PedigreeEventModel, PedigreeEvent>());
+            var pedigreeEvent = Mapper.Map<PedigreeEventModel, PedigreeEvent>(model);
+
+            if (pedigreeEvent.Id == 0)//新增
+            {
+                pedigreeEvent.CreatedOnUtc = System.DateTime.Now;
+                pedigreeEvent.CreatedWho = "???";
+            }
+
+            pedigreeEvent.UpdatedOnUtc = System.DateTime.Now;
+            pedigreeEvent.UpdatedWho = "???";
+
+            if (pedigreeEvent.Id == 0)//新增
+                _pedigreeEventService.Insert(pedigreeEvent);
+            else
+                _pedigreeEventService.Update(pedigreeEvent);
+
+            return RedirectToAction("Index", "PedigreeInfo", new { pedigreeID = model.PedigreeID, infoType = "Event" });
+        }
 
         private SelectList getInfoTypeSelectList(string defalutValue)
         {
@@ -167,6 +232,7 @@ namespace HGenealogy.Controllers
             infoTypeDic.Add("NameRank", "字輩昭穆");
             infoTypeDic.Add("Precept", "族規家訓");
             infoTypeDic.Add("Tomb", "祠宇墳塋");
+            infoTypeDic.Add("Event", "族譜事件");
             return infoTypeDic;
         }
     }

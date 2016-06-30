@@ -2,14 +2,18 @@
 @model IEnumerable<NewsModel>
 
 <div class="page">
-    <div class="page-title">
-        <h1>新聞瀏覽</h1>
+    <div class="row" style="border-bottom: 3px solid #E6E6FA;">
+        <div class="col-md-11">
+            <h4 style="color:red;"> 最新消息</h4>
+        </div>
+        <div class="col-md-1">
+            @Html.ActionLink("more...", "Index", "News", null, null)
+        </div>
     </div>
 
     @foreach (var item in Model)
     {
         <div class="container-fluid memberbox">
-
             <div class="member_intro">
                 <div>
                     <div class="member_intro_content">
@@ -29,3 +33,40 @@
     }
 
 </div>
+
+
+@*<div class="row">
+        @if (Model.Count() > 0)
+        {
+            <div class="col-md-4">
+                <h2>
+                    @(Model.ToList()[0].Title)
+                </h2>
+                <p>
+                    @Html.Raw(Model.ToList()[0].Content)
+                </p>
+                <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">更多 &raquo;</a></p>
+            </div>
+        }
+        @if (Model.Count() > 1)
+        {
+            <div class="col-md-4">
+                <h2>@(Model.ToList()[1].Title)</h2>
+                <p>
+                    @Html.Raw(Model.ToList()[1].Content)
+                </p>
+                <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">更多 &raquo;</a></p>
+            </div>
+
+        }
+        @if (Model.Count() > 2)
+        {
+            <div class="col-md-4">
+                <h2>@(Model.ToList()[2].Title)</h2>
+                <p>
+                    @Html.Raw(Model.ToList()[2].Content)
+                </p>
+                <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">更多 &raquo;</a></p>
+            </div>
+        }
+    </div>*@

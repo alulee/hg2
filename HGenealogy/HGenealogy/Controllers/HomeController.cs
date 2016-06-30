@@ -13,18 +13,25 @@ namespace HGenealogy.Controllers
     public class HomeController : Controller
     {
         private readonly INewsService _newsService;
+        private readonly IPedigreeMetaService _pedigreeMetaService;
 
         public HomeController(
-            INewsService newsService
+            INewsService newsService,
+            IPedigreeMetaService pedigreeMetaService
             )
         {
             _newsService = newsService;
+            _pedigreeMetaService = pedigreeMetaService;
         }
 
         public ActionResult Index()
         {
+            var homeModel = new HomeModel();
+            homeModel.newsList = GetNews();
+            homeModel.pedigreeMetaList = GetPedigreeMeta();
+
             var newsList = GetNews();
-            return View(newsList);
+            return View(homeModel);
         }
 
         public ActionResult About()
@@ -52,6 +59,19 @@ namespace HGenealogy.Controllers
             Mapper.Initialize(p => p.CreateMap<News, NewsModel>()
                     );
             var resultList = Mapper.Map<List<News>, List<NewsModel>>(result);
+
+            return resultList;
+        }
+
+        public List<PedigreeMetaModel> GetPedigreeMeta()
+        {
+            var result = _pedigreeMetaService.GetAll().ToList(); //先取全部,之後要加入取有效日期區間
+            if (result == null)
+                result = new List<PedigreeMeta>();
+
+            Mapper.Initialize(p => p.CreateMap<PedigreeMeta, PedigreeMetaModel>()
+                    );
+            var resultList = Mapper.Map<List<PedigreeMeta>, List<PedigreeMetaModel>>(result);
 
             return resultList;
         }
