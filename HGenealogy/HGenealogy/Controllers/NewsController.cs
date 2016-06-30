@@ -52,8 +52,16 @@ namespace HGenealogy.Controllers
             return View("Index", resultList);
         }
 
+        public ActionResult Detail(int id)
+        {
+            var news = _newsService.GetById(id);
 
-        //新增族譜基本資料
+            Mapper.Initialize(p => p.CreateMap<News, NewsModel>());
+            var model = Mapper.Map<News, NewsModel>(news);
+
+            return View("Detail", model);
+        }
+
         public ActionResult Create()
         {
             NewsModel model = new NewsModel();
@@ -63,7 +71,6 @@ namespace HGenealogy.Controllers
             return View("CreateOrUpdate", model);
         }
 
-        //修改族譜基本資料
         public ActionResult Edit(int id)
         {
             var news = _newsService.GetById(id);

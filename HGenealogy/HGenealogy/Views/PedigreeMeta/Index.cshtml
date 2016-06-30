@@ -7,11 +7,14 @@
         <div class="page-title">
             <h1>族譜瀏覽</h1>
         </div>
-
-
-        <p>
-            @Html.ActionLink("新增", "Create") |
-            @Html.ActionLink("查詢", "Query")
+        <p >
+            <a href='@Url.Action("Create")' class="btn btn-default">
+                <span class="glyphicon glyphicon-search"></span> 新增
+            </a>
+            @(" ")
+            <a href='@Url.Action("Query")' class="btn btn-default">
+                <span class="glyphicon glyphicon-search"></span> 查詢
+            </a>
         </p>
 
 

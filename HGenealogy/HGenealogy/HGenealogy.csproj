@@ -934,6 +934,7 @@
     <Content Include="Views\PedigreeInfo\CreateOrUpdatePedigreeEvent.cshtml" />
     <Content Include="Views\Home\_PedigreeMetaNavigator.cshtml" />
     <Content Include="Views\PedigreeMeta\IndexQuery.cshtml" />
+    <Content Include="Views\News\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\FileUpload\" />

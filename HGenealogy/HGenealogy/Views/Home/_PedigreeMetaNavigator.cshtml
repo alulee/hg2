@@ -9,24 +9,20 @@
     <div class="panel-body">
         @foreach (var item in Model)
         {
-            <div class="row">
-                <div class="col-md-4">
-                    <img src="@Url.Content(item.Image)" style="width:60px" />
-                </div>
-                <div class="col-md-8">
-                    <div class="row">
-                        <div class="col-md-12">
-                            @Html.ActionLink(item.Title, "Index", "PedigreeInfo", new { pedigreeID =item.Id},null)
-                        </div>
+            <blockquote>
+                <div class="row">
+                    <div class="col-md-3">
+                        <img src="@item.Image" class="img-rounded"  width="50" />
                     </div>
+                    <div class="col-md-9 ">
+                            <h4>@Html.ActionLink(item.Title, "Index", "PedigreeInfo", new { pedigreeID = item.Id }, new { @class="text-info"})</h4>
 
-                    <div class="row">
-                        <div class="col-md-12" style="color:#879292">@Html.DisplayFor(model => item.CreatedOnUtc )</div>
+                        <h5>@item.Description</h5>
+                        <footer>@Html.DisplayFor(model => item.CreatedOnUtc)</footer>
                     </div>
                 </div>
-            </div>
+            </blockquote>
             <hr style="border-bottom-color:#f5f5f0" />
         }
-
     </div>
 </div>
