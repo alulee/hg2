@@ -9,12 +9,14 @@ namespace HGenealogy.Models.PedigreeMeta
 {
     public class PedigreeMetaSimpleQueryModel
     {
-
+        
         [DisplayName("姓氏")]
         public string FamilyName { get; set; }
 
         [DisplayName("族譜名稱")]
         public string Title { get; set; }
-      
+
+
+        public List<PedigreeMetaModel> PedigreeMetaList;
     }
 }

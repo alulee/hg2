@@ -24,6 +24,8 @@ namespace HGenealogy.Models.FamilyMember
         public string gid { get; set; }
         public string groupid { get; set; }
         public string imageurl { get; set; }
+
+        public List<node> children;
     }
 
     public class link

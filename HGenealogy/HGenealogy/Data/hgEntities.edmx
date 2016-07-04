@@ -111,26 +111,11 @@
           <Property Name="LungName" Type="nvarchar" MaxLength="30" Nullable="false" />
           <Property Name="HakkaName" Type="nvarchar" MaxLength="30" Nullable="false" />
           <Property Name="JobDescription" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="ImageUrl" Type="nvarchar" MaxLength="255" />
           <Property Name="IsPublic" Type="bit" Nullable="false" />
           <Property Name="IsPublished" Type="bit" Nullable="false" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
           <Property Name="DisplayOrder" Type="int" Nullable="false" />
-          <Property Name="ImportSeqNo" Type="nvarchar" MaxLength="30" />
-          <Property Name="CreatedOnUtc" Type="datetime2" Precision="7" Nullable="false" />
-          <Property Name="UpdatedOnUtc" Type="datetime2" Precision="7" Nullable="false" />
-          <Property Name="CreatedWho" Type="nvarchar" MaxLength="20" Nullable="false" />
-          <Property Name="UpdatedWho" Type="nvarchar" MaxLength="20" Nullable="false" />
-          <Property Name="LastChanged" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
-        </EntityType>
-        <EntityType Name="FamilyMember_Picture_Mapping">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="FamilyMemberId" Type="int" Nullable="false" />
-          <Property Name="PictureId" Type="int" Nullable="false" />
-          <Property Name="DisplayOrder" Type="int" Nullable="false" />
+          <Property Name="ImportSeqNo" Type="nvarchar" MaxLength="50" />
           <Property Name="CreatedOnUtc" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="UpdatedOnUtc" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="CreatedWho" Type="nvarchar" MaxLength="20" Nullable="false" />
@@ -149,22 +134,8 @@
           <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Longitude" Type="decimal" Precision="28" Scale="6" />
           <Property Name="Latitude" Type="decimal" Precision="28" Scale="6" />
-          <Property Name="EventDateOnUtc" Type="datetime2" Precision="7" />
+          <Property Name="EventDateOnUtc" Type="datetime" />
           <Property Name="DisplayOrder" Type="int" Nullable="false" />
-          <Property Name="CreatedOnUtc" Type="datetime2" Precision="7" Nullable="false" />
-          <Property Name="UpdatedOnUtc" Type="datetime2" Precision="7" Nullable="false" />
-          <Property Name="CreatedWho" Type="nvarchar" MaxLength="20" Nullable="false" />
-          <Property Name="UpdatedWho" Type="nvarchar" MaxLength="20" Nullable="false" />
-          <Property Name="LastChanged" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
-        </EntityType>
-        <EntityType Name="FamilyMemberRelation">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="FamilyMemberId" Type="int" Nullable="false" />
-          <Property Name="RelatedFamilyMemberId" Type="int" Nullable="false" />
-          <Property Name="RelationType" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="CreatedOnUtc" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="UpdatedOnUtc" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="CreatedWho" Type="nvarchar" MaxLength="20" Nullable="false" />
@@ -342,9 +313,7 @@
           <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Family" EntityType="Self.Family" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FamilyMember" EntityType="Self.FamilyMember" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="FamilyMember_Picture_Mapping" EntityType="Self.FamilyMember_Picture_Mapping" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FamilyMemberInfo" EntityType="Self.FamilyMemberInfo" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="FamilyMemberRelation" EntityType="Self.FamilyMemberRelation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GenealogyMeta" EntityType="Self.GenealogyMeta" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Language" EntityType="Self.Language" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Menu" EntityType="Self.Menu" Schema="dbo" store:Type="Tables" />
@@ -365,10 +334,7 @@
           <EntitySet Name="Cities" EntityType="hDatabaseModel.City" />
           <EntitySet Name="Countries" EntityType="hDatabaseModel.Country" />
           <EntitySet Name="Families" EntityType="hDatabaseModel.Family" />
-          <EntitySet Name="FamilyMembers" EntityType="hDatabaseModel.FamilyMember" />
-          <EntitySet Name="FamilyMember_Picture_Mapping" EntityType="hDatabaseModel.FamilyMember_Picture_Mapping" />
           <EntitySet Name="FamilyMemberInfoes" EntityType="hDatabaseModel.FamilyMemberInfo" />
-          <EntitySet Name="FamilyMemberRelations" EntityType="hDatabaseModel.FamilyMemberRelation" />
           <EntitySet Name="Languages" EntityType="hDatabaseModel.Language" />
           <EntitySet Name="Menus" EntityType="hDatabaseModel.Menu" />
           <EntitySet Name="News" EntityType="hDatabaseModel.News" />
@@ -379,6 +345,7 @@
           <EntitySet Name="TaiwanZipCodes" EntityType="hDatabaseModel.TaiwanZipCode" />
           <EntitySet Name="UserGeneMetas" EntityType="hDatabaseModel.UserGeneMeta" />
           <EntitySet Name="GenealogyMetas" EntityType="hDatabaseModel.GenealogyMeta" />
+          <EntitySet Name="FamilyMembers" EntityType="hDatabaseModel.FamilyMember" />
         </EntityContainer>
         <EntityType Name="Address">
           <Key>
@@ -463,55 +430,6 @@
           <Property Name="LungName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="HakkaName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="FamilyMember">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PedigreeId" Type="Int32" Nullable="false" />
-          <Property Name="GenerationSeq" Type="Int32" Nullable="false" />
-          <Property Name="FamilyName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
-          <Property Name="GivenName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="FatherMemberId" Type="Int32" Nullable="false" />
-          <Property Name="MotherMemberId" Type="Int32" Nullable="false" />
-          <Property Name="BirthYear" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
-          <Property Name="BirthMonth" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="BirthDate" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="CurrentAddressId" Type="Int32" Nullable="false" />
-          <Property Name="Email" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="Phone" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
-          <Property Name="MobilePhone" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
-          <Property Name="Gender" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="true" />
-          <Property Name="LungName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
-          <Property Name="HakkaName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
-          <Property Name="JobDescription" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ImageUrl" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="IsPublic" Type="Boolean" Nullable="false" />
-          <Property Name="IsPublished" Type="Boolean" Nullable="false" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-          <Property Name="DisplayOrder" Type="Int32" Nullable="false" />
-          <Property Name="ImportSeqNo" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedOnUtc" Type="DateTime" Nullable="false" Precision="7" />
-          <Property Name="UpdatedOnUtc" Type="DateTime" Nullable="false" Precision="7" />
-          <Property Name="CreatedWho" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="UpdatedWho" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="LastChanged" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
-        </EntityType>
-        <EntityType Name="FamilyMember_Picture_Mapping">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FamilyMemberId" Type="Int32" Nullable="false" />
-          <Property Name="PictureId" Type="Int32" Nullable="false" />
-          <Property Name="DisplayOrder" Type="Int32" Nullable="false" />
-          <Property Name="CreatedOnUtc" Type="DateTime" Nullable="false" Precision="7" />
-          <Property Name="UpdatedOnUtc" Type="DateTime" Nullable="false" Precision="7" />
-          <Property Name="CreatedWho" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="UpdatedWho" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="LastChanged" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
-        </EntityType>
         <EntityType Name="FamilyMemberInfo">
           <Key>
             <PropertyRef Name="Id" />
@@ -524,22 +442,8 @@
           <Property Name="Address" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Longitude" Type="Decimal" Precision="28" Scale="6" />
           <Property Name="Latitude" Type="Decimal" Precision="28" Scale="6" />
-          <Property Name="EventDateOnUtc" Type="DateTime" Precision="7" />
+          <Property Name="EventDateOnUtc" Type="DateTime" Precision="3" />
           <Property Name="DisplayOrder" Type="Int32" Nullable="false" />
-          <Property Name="CreatedOnUtc" Type="DateTime" Nullable="false" Precision="7" />
-          <Property Name="UpdatedOnUtc" Type="DateTime" Nullable="false" Precision="7" />
-          <Property Name="CreatedWho" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="UpdatedWho" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="LastChanged" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
-        </EntityType>
-        <EntityType Name="FamilyMemberRelation">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FamilyMemberId" Type="Int32" Nullable="false" />
-          <Property Name="RelatedFamilyMemberId" Type="Int32" Nullable="false" />
-          <Property Name="RelationType" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="CreatedOnUtc" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="UpdatedOnUtc" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="CreatedWho" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
@@ -711,6 +615,40 @@
           <Property Name="ZhaoMu" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="TangName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="FamilyMember">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PedigreeId" Type="Int32" Nullable="false" />
+          <Property Name="GenerationSeq" Type="Int32" Nullable="false" />
+          <Property Name="FamilyName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="GivenName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FatherMemberId" Type="Int32" Nullable="false" />
+          <Property Name="MotherMemberId" Type="Int32" Nullable="false" />
+          <Property Name="BirthYear" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="BirthMonth" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="BirthDate" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="CurrentAddressId" Type="Int32" Nullable="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="MobilePhone" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Gender" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="LungName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="HakkaName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="JobDescription" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsPublic" Type="Boolean" Nullable="false" />
+          <Property Name="IsPublished" Type="Boolean" Nullable="false" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="DisplayOrder" Type="Int32" Nullable="false" />
+          <Property Name="ImportSeqNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedOnUtc" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="UpdatedOnUtc" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="CreatedWho" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedWho" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="LastChanged" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -804,57 +742,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="FamilyMembers">
-            <EntityTypeMapping TypeName="hDatabaseModel.FamilyMember">
-              <MappingFragment StoreEntitySet="FamilyMember">
-                <ScalarProperty Name="LastChanged" ColumnName="LastChanged" />
-                <ScalarProperty Name="UpdatedWho" ColumnName="UpdatedWho" />
-                <ScalarProperty Name="CreatedWho" ColumnName="CreatedWho" />
-                <ScalarProperty Name="UpdatedOnUtc" ColumnName="UpdatedOnUtc" />
-                <ScalarProperty Name="CreatedOnUtc" ColumnName="CreatedOnUtc" />
-                <ScalarProperty Name="ImportSeqNo" ColumnName="ImportSeqNo" />
-                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-                <ScalarProperty Name="IsPublished" ColumnName="IsPublished" />
-                <ScalarProperty Name="IsPublic" ColumnName="IsPublic" />
-                <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
-                <ScalarProperty Name="JobDescription" ColumnName="JobDescription" />
-                <ScalarProperty Name="HakkaName" ColumnName="HakkaName" />
-                <ScalarProperty Name="LungName" ColumnName="LungName" />
-                <ScalarProperty Name="Gender" ColumnName="Gender" />
-                <ScalarProperty Name="MobilePhone" ColumnName="MobilePhone" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="CurrentAddressId" ColumnName="CurrentAddressId" />
-                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
-                <ScalarProperty Name="BirthMonth" ColumnName="BirthMonth" />
-                <ScalarProperty Name="BirthYear" ColumnName="BirthYear" />
-                <ScalarProperty Name="MotherMemberId" ColumnName="MotherMemberId" />
-                <ScalarProperty Name="FatherMemberId" ColumnName="FatherMemberId" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="GivenName" ColumnName="GivenName" />
-                <ScalarProperty Name="FamilyName" ColumnName="FamilyName" />
-                <ScalarProperty Name="GenerationSeq" ColumnName="GenerationSeq" />
-                <ScalarProperty Name="PedigreeId" ColumnName="PedigreeId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="FamilyMember_Picture_Mapping">
-            <EntityTypeMapping TypeName="hDatabaseModel.FamilyMember_Picture_Mapping">
-              <MappingFragment StoreEntitySet="FamilyMember_Picture_Mapping">
-                <ScalarProperty Name="LastChanged" ColumnName="LastChanged" />
-                <ScalarProperty Name="UpdatedWho" ColumnName="UpdatedWho" />
-                <ScalarProperty Name="CreatedWho" ColumnName="CreatedWho" />
-                <ScalarProperty Name="UpdatedOnUtc" ColumnName="UpdatedOnUtc" />
-                <ScalarProperty Name="CreatedOnUtc" ColumnName="CreatedOnUtc" />
-                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
-                <ScalarProperty Name="PictureId" ColumnName="PictureId" />
-                <ScalarProperty Name="FamilyMemberId" ColumnName="FamilyMemberId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="FamilyMemberInfoes">
             <EntityTypeMapping TypeName="hDatabaseModel.FamilyMemberInfo">
               <MappingFragment StoreEntitySet="FamilyMemberInfo">
@@ -871,21 +758,6 @@
                 <ScalarProperty Name="InfoContent" ColumnName="InfoContent" />
                 <ScalarProperty Name="InfoTitle" ColumnName="InfoTitle" />
                 <ScalarProperty Name="InfoType" ColumnName="InfoType" />
-                <ScalarProperty Name="FamilyMemberId" ColumnName="FamilyMemberId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="FamilyMemberRelations">
-            <EntityTypeMapping TypeName="hDatabaseModel.FamilyMemberRelation">
-              <MappingFragment StoreEntitySet="FamilyMemberRelation">
-                <ScalarProperty Name="LastChanged" ColumnName="LastChanged" />
-                <ScalarProperty Name="UpdatedWho" ColumnName="UpdatedWho" />
-                <ScalarProperty Name="CreatedWho" ColumnName="CreatedWho" />
-                <ScalarProperty Name="UpdatedOnUtc" ColumnName="UpdatedOnUtc" />
-                <ScalarProperty Name="CreatedOnUtc" ColumnName="CreatedOnUtc" />
-                <ScalarProperty Name="RelationType" ColumnName="RelationType" />
-                <ScalarProperty Name="RelatedFamilyMemberId" ColumnName="RelatedFamilyMemberId" />
                 <ScalarProperty Name="FamilyMemberId" ColumnName="FamilyMemberId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
@@ -1063,6 +935,41 @@
                 <ScalarProperty Name="IsPublic" ColumnName="IsPublic" />
                 <ScalarProperty Name="GName" ColumnName="GName" />
                 <ScalarProperty Name="GID" ColumnName="GID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FamilyMembers">
+            <EntityTypeMapping TypeName="hDatabaseModel.FamilyMember">
+              <MappingFragment StoreEntitySet="FamilyMember">
+                <ScalarProperty Name="LastChanged" ColumnName="LastChanged" />
+                <ScalarProperty Name="UpdatedWho" ColumnName="UpdatedWho" />
+                <ScalarProperty Name="CreatedWho" ColumnName="CreatedWho" />
+                <ScalarProperty Name="UpdatedOnUtc" ColumnName="UpdatedOnUtc" />
+                <ScalarProperty Name="CreatedOnUtc" ColumnName="CreatedOnUtc" />
+                <ScalarProperty Name="ImportSeqNo" ColumnName="ImportSeqNo" />
+                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="IsPublished" ColumnName="IsPublished" />
+                <ScalarProperty Name="IsPublic" ColumnName="IsPublic" />
+                <ScalarProperty Name="JobDescription" ColumnName="JobDescription" />
+                <ScalarProperty Name="HakkaName" ColumnName="HakkaName" />
+                <ScalarProperty Name="LungName" ColumnName="LungName" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="MobilePhone" ColumnName="MobilePhone" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="CurrentAddressId" ColumnName="CurrentAddressId" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="BirthMonth" ColumnName="BirthMonth" />
+                <ScalarProperty Name="BirthYear" ColumnName="BirthYear" />
+                <ScalarProperty Name="MotherMemberId" ColumnName="MotherMemberId" />
+                <ScalarProperty Name="FatherMemberId" ColumnName="FatherMemberId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="GivenName" ColumnName="GivenName" />
+                <ScalarProperty Name="FamilyName" ColumnName="FamilyName" />
+                <ScalarProperty Name="GenerationSeq" ColumnName="GenerationSeq" />
+                <ScalarProperty Name="PedigreeId" ColumnName="PedigreeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

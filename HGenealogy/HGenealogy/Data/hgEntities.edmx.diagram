@@ -9,10 +9,7 @@
         <EntityTypeShape EntityType="hDatabaseModel.City" Width="1.5" PointX="2.75" PointY="0.75" />
         <EntityTypeShape EntityType="hDatabaseModel.Country" Width="1.5" PointX="4.75" PointY="0.75" />
         <EntityTypeShape EntityType="hDatabaseModel.Family" Width="1.5" PointX="2.75" PointY="4.75" />
-        <EntityTypeShape EntityType="hDatabaseModel.FamilyMember" Width="1.5" PointX="4.75" PointY="4.75" />
-        <EntityTypeShape EntityType="hDatabaseModel.FamilyMember_Picture_Mapping" Width="1.5" PointX="6.75" PointY="0.75" />
-        <EntityTypeShape EntityType="hDatabaseModel.FamilyMemberInfo" Width="1.5" PointX="6.75" PointY="4.75" />
-        <EntityTypeShape EntityType="hDatabaseModel.FamilyMemberRelation" Width="1.5" PointX="8.75" PointY="0.75" />
+        <EntityTypeShape EntityType="hDatabaseModel.FamilyMemberInfo" Width="3.25" PointX="4.5" PointY="3.875" />
         <EntityTypeShape EntityType="hDatabaseModel.Language" Width="1.5" PointX="8.75" PointY="4.75" />
         <EntityTypeShape EntityType="hDatabaseModel.Menu" Width="1.5" PointX="8.75" PointY="8.75" />
         <EntityTypeShape EntityType="hDatabaseModel.News" Width="1.5" PointX="10.75" PointY="0.75" />
@@ -23,6 +20,7 @@
         <EntityTypeShape EntityType="hDatabaseModel.TaiwanZipCode" Width="1.5" PointX="2.75" PointY="12.75" />
         <EntityTypeShape EntityType="hDatabaseModel.UserGeneMeta" Width="1.5" PointX="12.75" PointY="3.75" />
         <EntityTypeShape EntityType="hDatabaseModel.GenealogyMeta" Width="1.5" PointX="5.375" PointY="12.75" />
+        <EntityTypeShape EntityType="hDatabaseModel.FamilyMember" Width="1.5" PointX="7.375" PointY="12.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -14,6 +14,7 @@ namespace HGenealogy.Services.Interface
     {
         IQueryable<PedigreeMeta> GetAll();
         List<PedigreeMeta> GetPedigreeMetaList(PedigreeMetaQueryModel queryModel);
+        List<PedigreeMeta> GetPedigreeMetaList(PedigreeMetaSimpleQueryModel queryModel);
         PedigreeMeta GetById(int id);
         void Insert(PedigreeMeta entity);
         void Update(PedigreeMeta entity);

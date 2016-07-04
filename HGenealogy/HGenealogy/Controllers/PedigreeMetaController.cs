@@ -27,7 +27,7 @@ namespace HGenealogy.Controllers
 
 
         // GET: PedigreeMeta
-        public ActionResult Index()
+        public ActionResult Index2()
         {
             ViewBag.Title = "族譜瀏覽";
             List<PedigreeMetaModel> modelList = new List<PedigreeMetaModel>();
@@ -39,18 +39,35 @@ namespace HGenealogy.Controllers
         }
 
         // GET: PedigreeMeta
-        public ActionResult IndexQuery()
+        public ActionResult Index()
         {
             ViewBag.Title = "族譜一覽"; 
-            return View();
+            return View(new PedigreeMetaSimpleQueryModel());
+        }
+ 
+        [HttpPost]
+        public ActionResult Index(PedigreeMetaSimpleQueryModel queryModel)
+        {
+            var result = _pedigreeMetaService.GetPedigreeMetaList(queryModel);
+            if (result == null)
+                result = new List<PedigreeMeta>();
+
+            Mapper.Initialize(p => p.CreateMap<PedigreeMeta, PedigreeMetaModel>()
+                    .ForMember(org => org.Image, y => y.MapFrom(s => string.IsNullOrWhiteSpace(s.Image) ? NoImageUrl : s.Image))
+                    );
+            var resultList = Mapper.Map<List<PedigreeMeta>, List<PedigreeMetaModel>>(result);
+
+            queryModel.PedigreeMetaList = resultList;
+
+            return View(queryModel);
         }
 
-
+        // GET: PedigreeMeta
         public ActionResult Query()
         {
+            ViewBag.Title = "族譜一覽";
             return View();
         }
-
         public ActionResult GetPedigreeMeta(PedigreeMetaQueryModel queryModel)
         {
             var result = _pedigreeMetaService.GetPedigreeMetaList(queryModel);
@@ -61,7 +78,10 @@ namespace HGenealogy.Controllers
                     .ForMember(org => org.Image, y => y.MapFrom(s => string.IsNullOrWhiteSpace(s.Image) ? NoImageUrl : s.Image))
                     );
             var resultList = Mapper.Map<List<PedigreeMeta>, List<PedigreeMetaModel>>(result);
-            return View("Index", resultList);
+
+            PedigreeMetaSimpleQueryModel model = new PedigreeMetaSimpleQueryModel();
+            model.PedigreeMetaList = resultList;
+            return View("Index", model);
         }
 
         //新增族譜基本資料

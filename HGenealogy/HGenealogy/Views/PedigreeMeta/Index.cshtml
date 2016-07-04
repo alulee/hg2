@@ -1,61 +1,83 @@
 ﻿@using HGenealogy.Models.PedigreeMeta;
-@model IEnumerable<PedigreeMetaModel>
+@model PedigreeMetaSimpleQueryModel
 
 <div class="container">
 
-    <div class="page">
-        <div class="page-title">
-            <h1>族譜瀏覽</h1>
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">族譜瀏覽</h1>
+            </div>
+            <div class="pull-right">
+                <p>
+                    <a href='@Url.Action("Create")' class="btn btn-default">
+                        <span class="glyphicon glyphicon-plus-sign"></span> 新增
+                    </a>
+                     
+                </p>
+            </div>
         </div>
-        <p >
-            <a href='@Url.Action("Create")' class="btn btn-default">
-                <span class="glyphicon glyphicon-search"></span> 新增
-            </a>
-            @(" ")
-            <a href='@Url.Action("Query")' class="btn btn-default">
-                <span class="glyphicon glyphicon-search"></span> 查詢
-            </a>
-        </p>
 
-
-        @foreach (var item in Model)
-        {
-            <div class="container-fluid memberbox">
-                <div class="member_img">
-                    @*<img src="/Content/Images/pedi.gif" />*@
-                    <img src="@Url.Content(item.Image)" class="img-rounded" style="width: 100px; height:100px;" />
-                </div>
-                <div class="member_intro">
-                    <div>
-                        <div class="member_intro_content">
-                            <div class="row">
-                                <div class="col-md-2 text-right">@Html.DisplayNameFor(model => model.DateMoveToTaiwan):</div>
-                                <div class="col-md-10">@Html.DisplayFor(model => item.DateMoveToTaiwan)</div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-2 text-right">@Html.DisplayNameFor(model => model.LivingAreaInTaiwan):</div>
-                                <div class="col-md-10">@Html.DisplayFor(model => item.LivingAreaInTaiwan)</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-2 text-right">@Html.DisplayNameFor(model => model.Title):</div>
-                                <div class="col-md-10">@Html.DisplayFor(model => item.Title)</div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-2 text-right">@Html.DisplayNameFor(model => model.Description):</div>
-                                <div class="col-md-10">@Html.DisplayFor(model => item.Description)</div>
-                            </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        查詢您的族譜:
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <form role="form" action="/PedigreeMeta/Index" method="post">
+                                <div class="col-lg-1">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.FamilyName)
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group">
+                                        @Html.EditorFor(model => model.FamilyName)
+                                        <p class="help-block"></p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-1">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Title)
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group">
+                                        @Html.EditorFor(model => model.Title)
+                                        <p class="help-block"></p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group pull-right">
+                                        <input type="submit" class="btn btn-warning btn-block" value="查詢" />
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
-                </div>
-                <div class="editor-btn">
-                    @Html.ActionLink("編輯", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("詳細資料", "Index", "PedigreeInfo", new { @pedigreeID = item.Id, @infoType = "" }, null) |
-                    @Html.ActionLink("刪除", "Delete", new { id = item.Id })
+
                 </div>
             </div>
-        }
-    </div>
+        </div>
 
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        族譜列表
+                    </div>
+                    <div class="panel-body">
+                        @if (Model.PedigreeMetaList != null)
+                        {
+                            @Html.Partial("_PedigreeMetaList", Model.PedigreeMetaList);
+                        }
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </div>
+

@@ -234,8 +234,8 @@ namespace HGenealogy.Controllers
             return null;
 
         }
- 
 
+  
         #endregion
  
         #region Actions
@@ -717,20 +717,18 @@ namespace HGenealogy.Controllers
 
         public ActionResult Upload()
         {
+            List<SelectListItem> pedigreeMetaSelectList = new List<SelectListItem>();
+            List<SelectListItem> familyMemberSelectList = new List<SelectListItem>();
+
             int currentPedigreeId = 0;
-
-            if (Session["currentPedigreeId"] == null ||
-                !int.TryParse(Session["currentPedigreeId"].ToString(), out currentPedigreeId))
-            {
-                return RedirectToAction("Index", "PedigreeMeta");
-            }
-
-            var pedigreeMeta = _pedigreeMetaService.GetById(currentPedigreeId);
-            if (pedigreeMeta == null)
-                return RedirectToAction("Index", "PedigreeMeta");
+            if (Session["currentPedigreeId"] != null)
+                int.TryParse(Session["currentPedigreeId"].ToString(), out currentPedigreeId);
 
             ViewBag.currentPedigreeId = currentPedigreeId;
-            ViewBag.currentPedigreeName = pedigreeMeta.Title;
+            ViewBag.AvailablePedigreeSelectList = _pedigreeMetaService.GetAvailablePedigreeSelectList(currentPedigreeId);
+            ViewBag.FamilyMemberSelectList = _familyMemberService.GetFamilyMembersSelectList(currentPedigreeId);
+
+            ViewBag.Title = "家庭成員批次匯入";
 
             return View();
         }
@@ -740,6 +738,19 @@ namespace HGenealogy.Controllers
         {           
             JObject jo = new JObject();
             string result = string.Empty;
+            string currentPedigreeId = "";
+            
+            try{
+                currentPedigreeId = this.Request.Form["PedigreeDDL"].ToString();
+            }catch{}
+
+            if (currentPedigreeId == "")
+            {
+                jo.Add("Result", false);
+                jo.Add("Msg", "請選擇族譜!");
+                result = JsonConvert.SerializeObject(jo);
+                return Content(result, "application/json");
+            }
 
             if (file == null)
             {
@@ -772,7 +783,7 @@ namespace HGenealogy.Controllers
             {
                 var uploadResult = this.FileUploadHandler(file);
 
-                return this.Import(file.FileName);
+                return this.Import(file.FileName, currentPedigreeId);
  
                 //jo.Add("Result", !string.IsNullOrWhiteSpace(uploadResult));
                 //jo.Add("Msg", !string.IsNullOrWhiteSpace(uploadResult) ? uploadResult : "");
@@ -839,7 +850,7 @@ namespace HGenealogy.Controllers
         }
 
         [HttpPost]
-        public ActionResult Import(string savedFileName)
+        public ActionResult Import(string savedFileName, string currentPedigreeId)
         {            
             var jo = new JObject();
             string result = "";
@@ -849,7 +860,7 @@ namespace HGenealogy.Controllers
                 var fileName = string.Concat(Server.MapPath(fileSavedPath), "/", savedFileName);
 
                 var importFamilies = new List<FamilyMemberViewModel>();
-                var saveResult = this.CheckAndSaveFamilyMemberData(fileName, importFamilies);
+                var saveResult = this.CheckAndSaveFamilyMemberData(currentPedigreeId, fileName, importFamilies);
                 jo.Add("Result", saveResult.Success);
                 jo.Add("Msg",  saveResult.ErrorMessage);
             }
@@ -930,23 +941,23 @@ namespace HGenealogy.Controllers
         /// </summary>    
         [NonAction]
         public CheckResult CheckAndSaveFamilyMemberData(
+            string currentPedigreeId,
             string fileName,
             List<FamilyMemberViewModel> importFamilies)
         {
             var result = new CheckResult();
             var targetFile = new FileInfo(fileName);
 
-            int currentPedigreeId = 0;
+            int icurrentPedigreeId = 0;
 
-            if (Session["currentPedigreeId"] == null ||
-                !int.TryParse(Session["currentPedigreeId"].ToString(), out currentPedigreeId))
+            if (!int.TryParse(currentPedigreeId, out icurrentPedigreeId))
             {
                 result.Success = false;
                 result.ErrorMessage = "族譜資料錯誤";
                 return result;
             }
 
-            var pedigreeMeta = _pedigreeMetaService.GetById(currentPedigreeId);
+            var pedigreeMeta = _pedigreeMetaService.GetById(icurrentPedigreeId);
             if (pedigreeMeta == null)
             {
                 result.Success = false;
@@ -1279,6 +1290,57 @@ namespace HGenealogy.Controllers
             }
 
             return null;
+        }
+
+        [HttpPost]
+        public JsonResult GetFamiliesTreeJson(string pedigreeId, string familyMemberId="0")
+        {
+            var root = GetFamiliyTreeNodeWithChidren(pedigreeId, "0");
+            return this.Json(root);
+        }
+
+        [NonAction]
+        public node GetFamiliyTreeNodeWithChidren(string pedigreeId, string familyMemberId)
+        {
+            node returnNode = new node();
+            returnNode.children = new List<node>();
+            var filter = PredicateBuilder.True<FamilyMember>();
+
+            if (familyMemberId == "")
+                familyMemberId = "0";
+
+            if (familyMemberId == "0")
+            {
+                returnNode.id = "0";
+                returnNode.name = "先祖";
+            }
+            else
+            {
+                filter = filter.And(p => p.Id.ToString().Equals(familyMemberId));
+                var queryresult = _familyMemberService.GetList(filter).FirstOrDefault();
+
+                if (queryresult != null)
+                {
+                    returnNode.id = queryresult.Id.ToString();
+                    returnNode.name = queryresult.GivenName;
+                }
+            }
+
+            // Get chidrens 
+            filter = PredicateBuilder.True<FamilyMember>();
+            filter = filter.And(p => p.FatherMemberId.ToString().Equals(familyMemberId));
+            var querylist = _familyMemberService.GetList(filter);
+
+            if (querylist != null)
+            {
+                foreach (var member in querylist)
+                {
+                    node newnode = GetFamiliyTreeNodeWithChidren(pedigreeId, member.Id.ToString());
+                    returnNode.children.Add(newnode);
+                }
+            }
+ 
+            return returnNode;
         }
 
         #endregion

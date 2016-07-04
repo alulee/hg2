@@ -320,12 +320,6 @@
     <Compile Include="Data\FamilyMemberInfo.cs">
       <DependentUpon>hgEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="Data\FamilyMemberRelation.cs">
-      <DependentUpon>hgEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\FamilyMember_Picture_Mapping.cs">
-      <DependentUpon>hgEntities.tt</DependentUpon>
-    </Compile>
     <Compile Include="Data\GenealogyMeta.cs">
       <DependentUpon>hgEntities.tt</DependentUpon>
     </Compile>
@@ -704,6 +698,7 @@
     <Content Include="Scripts\map\raphael\rlayer-src.js" />
     <Content Include="Scripts\map\raphael\rlayer.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\project.d3.dndtree.js" />
     <Content Include="Scripts\project.d3.m1.js" />
     <Content Include="Scripts\project.family.js" />
     <Content Include="Scripts\project.js" />
@@ -824,7 +819,7 @@
     <Content Include="Views\PedigreeMeta\CreateOrUpdate.cshtml" />
     <Content Include="Views\PedigreeMeta\CreateOrUpdate2.cshtml" />
     <Content Include="Views\PedigreeMeta\Edit.cshtml" />
-    <Content Include="Views\PedigreeMeta\Index.cshtml" />
+    <Content Include="Views\PedigreeMeta\IndexBackup.cshtml" />
     <Content Include="Views\PedigreeInfo\CreateOrUpdate.cshtml" />
     <Content Include="Views\PedigreeInfo\Index.cshtml" />
     <Content Include="Views\PedigreeInfo\test.cshtml" />
@@ -933,8 +928,11 @@
     <Content Include="Views\Home\Index_bak.cshtml" />
     <Content Include="Views\PedigreeInfo\CreateOrUpdatePedigreeEvent.cshtml" />
     <Content Include="Views\Home\_PedigreeMetaNavigator.cshtml" />
-    <Content Include="Views\PedigreeMeta\IndexQuery.cshtml" />
+    <Content Include="Views\PedigreeMeta\Index.cshtml" />
     <Content Include="Views\News\Detail.cshtml" />
+    <Content Include="Views\PedigreeMeta\_PedigreeMetaList.cshtml" />
+    <Content Include="Views\Shared\_TopMenu.cshtml" />
+    <Content Include="Views\FamilyMembers\FamilyTreeA2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\FileUpload\" />

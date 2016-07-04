@@ -37,7 +37,20 @@ namespace HGenealogy.Services
             var result = query.ToList();
             return result;
         }
+        public List<PedigreeMeta> GetPedigreeMetaList(PedigreeMetaSimpleQueryModel queryModel)
+        {
+            var filter = PredicateBuilder.True<PedigreeMeta>();
+            if (!string.IsNullOrEmpty(queryModel.Title))
+                filter = filter.And(p => p.Title.Contains(queryModel.Title));
 
+            if (!string.IsNullOrEmpty(queryModel.FamilyName))
+                filter = filter.And(p => p.FamilyName.Contains(queryModel.FamilyName));
+
+            var query = _pedigreeMetaRepository.GetRows(filter);
+
+            var result = query.ToList();
+            return result;
+        }
         public PedigreeMeta GetById(int id)
         {
             return _pedigreeMetaRepository.GetAll().Where(p => p.Id == id)

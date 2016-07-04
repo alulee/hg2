@@ -5,32 +5,87 @@
     ViewBag.Title = "Family Member Upload";
     string currentPedigreeName = ViewBag.currentPedigreeName;
     int currentPedigreeId = ViewBag.currentPedigreeId;
+    IEnumerable<SelectListItem> AvailablePedigreeList = ViewBag.AvailablePedigreeSelectList == null ? null : (IEnumerable<SelectListItem>)ViewBag.AvailablePedigreeSelectList;
+    IEnumerable<SelectListItem> FamilyMemberList = ViewBag.FamilyMemberSelectList == null ? null : (IEnumerable<SelectListItem>)ViewBag.FamilyMemberSelectList;
+
 
 }
-<div class="container-fluid">
-    <h2>族譜資料批次匯入</h2>
-    <h3>步驟一</h3>
-    <p><span>上傳檔案並匯入家族成員資料...</span></p>
-    <div class="well">
-        <h4>
-            <a href="~/Content/家族成員資料匯入範例.xls">家族成員資料匯入範例檔</a>
-        </h4>
-        <h5> 格式說明：</h5>
-    </div>
+<div class="container">
 
+    <div id="page-wrapper">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">族譜資料批次匯入</h1>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        家族成員上傳匯入說明:
+                    </div>
+                    <div class="panel-body">
+                        <h4>
+                            <a href="~/Content/家族成員資料匯入範例.xls">>>> 請下載家族成員資料匯入範例檔</a>
+                        </h4>
+                        <br />
+                        <h4>
+                            格式說明：
+                        </h4>
+                        <div class="alert-info">
+                            <h4>必要資料：</h4>
+                            <p>
+                                <span class="largefont">序號: 每一筆成員資料的編號，同一族譜不可重覆。</span>
+                            </p>
+                            <p>
+                                <span class="largefont">父: 父親名字(不含姓氏)。</span>
+                            </p>
+                            <p>
+                                <span class="largefont">母: 母親姓名</span>
+                            </p>
+                            <p>
+                                <span class="largefont">本人: 本人名字(不含姓氏)。</span>
+                            </p>
+                            <p>
+                                <span class="largefont">世代: 世代別（阿拉伯數字）。</span>
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
     <hr />
 
+    
 
 
     <form id="UploadForm" action="@Url.Action("UploadConfirm", "FamilyMembers")" method="post" enctype="multipart/form-data">
         <!--<form id="UploadForm" action="#" method="post" enctype="multipart/form-data">-->
+        <h3>步驟一: 挑選要匯入成員的族譜</h3>
+        <nav class="navbar navbar-default pedigree-choose" role="navigation">
+            <div class="container-fluid">
+                <div class="collapse navbar-collapse">
+
+                    <ul class="nav navbar-nav">
+                        <li>
+                            族譜:
+                            @Html.DropDownList("PedigreeDDL", AvailablePedigreeList)
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
 
         <h3>步驟二</h3>
         <p><span>上傳檔案並匯入家族成員資料...</span></p>
 
 
         <div class="well">
-            
+
             <div class="fileinput fileinput-new input-group" data-provides="fileinput">
                 <div class="form-control" data-trigger="fileinput">
                     <i class="glyphicon glyphicon-file fileinput-exists"></i>
@@ -70,7 +125,7 @@
     @*@Html.Partial("_UploadFile")*@
 
     @section scripts
-    {
+        {
         <script src="~/Scripts/bootbox.js"></script>
         <script src="~/Scripts/jquery.form.js"></script>
         <script src="~/Scripts/project.js"></script>
@@ -86,3 +141,4 @@
         </script>
     }
 </div>
+                

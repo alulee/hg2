@@ -29,10 +29,7 @@ namespace HGenealogy.Data
         public virtual DbSet<City> Cities { get; set; }
         public virtual DbSet<Country> Countries { get; set; }
         public virtual DbSet<Family> Families { get; set; }
-        public virtual DbSet<FamilyMember> FamilyMembers { get; set; }
-        public virtual DbSet<FamilyMember_Picture_Mapping> FamilyMember_Picture_Mapping { get; set; }
         public virtual DbSet<FamilyMemberInfo> FamilyMemberInfoes { get; set; }
-        public virtual DbSet<FamilyMemberRelation> FamilyMemberRelations { get; set; }
         public virtual DbSet<Language> Languages { get; set; }
         public virtual DbSet<Menu> Menus { get; set; }
         public virtual DbSet<News> News { get; set; }
@@ -43,5 +40,6 @@ namespace HGenealogy.Data
         public virtual DbSet<TaiwanZipCode> TaiwanZipCodes { get; set; }
         public virtual DbSet<UserGeneMeta> UserGeneMetas { get; set; }
         public virtual DbSet<GenealogyMeta> GenealogyMetas { get; set; }
+        public virtual DbSet<FamilyMember> FamilyMembers { get; set; }
     }
 }
