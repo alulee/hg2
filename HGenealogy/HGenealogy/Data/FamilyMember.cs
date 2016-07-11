@@ -33,6 +33,7 @@ namespace HGenealogy.Data
         public string LungName { get; set; }
         public string HakkaName { get; set; }
         public string JobDescription { get; set; }
+        public string ImageUrl { get; set; }
         public bool IsPublic { get; set; }
         public bool IsPublished { get; set; }
         public bool IsDeleted { get; set; }

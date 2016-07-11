@@ -1293,14 +1293,84 @@ namespace HGenealogy.Controllers
         }
 
         [HttpPost]
-        public JsonResult GetFamiliesTreeJson(string pedigreeId, string familyMemberId="0")
+        public JsonResult GetFamiliesTreeJson(string pedigreeId, string familyMemberId="0", string generationCount="6")
         {
-            var root = GetFamiliyTreeNodeWithChidren(pedigreeId, "0");
+            #region check data
+
+            int iGenerationCount = 6;
+            try
+            {
+                Int32.TryParse(generationCount, out iGenerationCount);
+            }
+            catch { iGenerationCount = 6; }
+
+            int currentMemberId = 0;
+            if (!Int32.TryParse(familyMemberId, out currentMemberId))
+                return null;
+
+            var member = _familyMemberService.GetById(currentMemberId);
+            if (member == null)
+                return null;
+
+            if (member.FatherMemberId <= 0)
+                return null;
+            
+            #endregion
+
+            #region 先求祖先輩 Abs((iGenerationCount - 1)/2) 在樹中的成員
+            
+            int ancestorGenerationCount = Math.Abs((iGenerationCount - 1) / 2);
+            FamilyMember currentCheckMember = member;
+            node ancestoerNode = new node{children = new List<node>()};
+            List<FamilyMember> memberListInTree = new List<FamilyMember>();
+
+            memberListInTree.Add(member);
+            while (ancestorGenerationCount > 0)
+            {
+                if (currentCheckMember.FatherMemberId <= 0)
+                    break;
+
+                FamilyMember currentFatherMember = _familyMemberService.GetById(currentCheckMember.FatherMemberId);
+                if(currentFatherMember != null)
+                {
+                    memberListInTree.Insert(0, currentFatherMember);
+                    currentCheckMember = currentFatherMember;
+                    ancestorGenerationCount--;
+                }
+            }
+
+            #endregion
+
+            #region 求子孫輩 Abs((iGenerationCount - 1)/2) 在樹中的成員
+
+            int ancestorGenerationCount = Math.Abs((iGenerationCount - 1) / 2);
+            FamilyMember currentCheckMember = member;
+            node ancestoerNode = new node { children = new List<node>() };
+            List<FamilyMember> memberListInTree = new List<FamilyMember>();
+
+            memberListInTree.Add(member);
+            while (ancestorGenerationCount > 0)
+            {
+                if (currentCheckMember.FatherMemberId <= 0)
+                    break;
+
+                FamilyMember currentFatherMember = _familyMemberService.GetById(currentCheckMember.FatherMemberId);
+                if (currentFatherMember != null)
+                {
+                    memberListInTree.Insert(0, currentFatherMember);
+                    currentCheckMember = currentFatherMember;
+                    ancestorGenerationCount--;
+                }
+            }
+
+            #endregion
+
+
             return this.Json(root);
         }
 
         [NonAction]
-        public node GetFamiliyTreeNodeWithChidren(string pedigreeId, string familyMemberId)
+        public node GetFamiliyTreeNodeWithChidren(string pedigreeId, string familyMemberId, int generationCount)
         {
             node returnNode = new node();
             returnNode.children = new List<node>();
@@ -1333,14 +1403,57 @@ namespace HGenealogy.Controllers
 
             if (querylist != null)
             {
-                foreach (var member in querylist)
+                int leftGenerationCount = generationCount - 1;
+                if (leftGenerationCount > 0)
                 {
-                    node newnode = GetFamiliyTreeNodeWithChidren(pedigreeId, member.Id.ToString());
-                    returnNode.children.Add(newnode);
+                    foreach (var member in querylist)
+                    {
+                        node newnode = GetFamiliyTreeNodeWithChidren(pedigreeId, member.Id.ToString(), leftGenerationCount);
+                        returnNode.children.Add(newnode);
+                    }
                 }
             }
- 
             return returnNode;
+        }
+
+        public node GetFatherNodeWithNextGeneration(string pedigreeId, string familyMemberId, node currentNode)
+        {
+            int currentMemberId = 0;
+            if(!Int32.TryParse(familyMemberId, out currentMemberId))
+                return null;
+
+            var member = _familyMemberService.GetById(currentMemberId);
+            if(member == null)
+                return null;
+
+            if(member.FatherMemberId <= 0)
+                return null;
+
+            FamilyMember father = _familyMemberService.GetById(member.FatherMemberId);
+            if (father != null)
+            {
+                node returnNode = new node();
+                returnNode.children = new List<node>();
+                var filter = PredicateBuilder.True<FamilyMember>();
+                filter = filter.And(p => p.Id.Equals(father.Id));
+                var queryresult = _familyMemberService.GetList(filter).ToList();
+
+                if (queryresult != null)
+                {
+                    int leftGenerationCount = generationCount - 1;
+                    foreach (var m in queryresult)
+                    {
+                        returnNode.children.Add(new node
+                        {
+                            id = m.Id.ToString(),
+                            name = m.GivenName,
+                            imageurl = m.ImageUrl
+                        });
+                    }                    
+                }
+                return returnNode;
+            }
+            return null;
         }
 
         #endregion
