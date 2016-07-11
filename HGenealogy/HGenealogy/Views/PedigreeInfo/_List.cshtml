@@ -60,11 +60,11 @@
                                     @{
                 if (string.IsNullOrEmpty(Model.Image))
                 {
-                    <img src="" width="300" height="300">
+                                    <img src="" width="300" height="300">
                 }
                 else
                 {
-                    <img src="@Url.Content(Model.Image)" width="300" height="300">
+                                    <img src="@Url.Content(Model.Image)" width="300" height="300">
                 }
                                     }
                                 </div>
@@ -239,55 +239,60 @@
                     </div>
                     <div class="col-md-2">
                         @{
-                            var url = Url.Action("CreatePedigreeEvent", new { pedigreeID = currentPedigreeID, infoType = currentInfoType });
+                var url = Url.Action("CreatePedigreeEvent", new { pedigreeID = currentPedigreeID, infoType = currentInfoType });
                         }
                         <a href='@url' class="btn btn-default">
                             <span class="glyphicon glyphicon-plus"></span> 新增
                         </a>
                     </div>
                 </div>
-    <div class="pedigreeInfo-list">
-        @for (int i = 0; i < Model.pedigreeEventList.Count; i++)
-        {
-            var item = Model.pedigreeEventList[i];
-            if (item.Id == 0)
-            {
-                continue;
-            }
-            var collapseId = string.Concat("collapse", i.ToString());
-            var collapseHref = string.Concat("#collapse", i.ToString());
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h4 class="panel-title"></h4>
-                    <div class="row">
-                        <div class="col-md-10">
-                            <a data-toggle="collapse" href="@collapseHref">@item.EventTitle</a>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="buttons">
-                                <input type="button" class="btn btn-info" onclick="location.href='@Url.Action("EditPedigreeEvent", new { id = item.Id })'" value='修改' />
-                                <input type="button" class="btn btn-danger" value='刪除' />
+                <div class="pedigreeInfo-list">
+                    @for (int i = 0; i < Model.pedigreeEventList.Count; i++)
+                    {
+                        var item = Model.pedigreeEventList[i];
+                        if (item.Id == 0)
+                        {
+                            continue;
+                        }
+                        var collapseId = string.Concat("collapse", i.ToString());
+                        var collapseHref = string.Concat("#collapse", i.ToString());
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                <h4 class="panel-title"></h4>
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <a data-toggle="collapse" href="@collapseHref">@item.EventTitle</a>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="buttons">
+                                            <input type="button" class="btn btn-info" onclick="location.href='@Url.Action("EditPedigreeEvent", new { id = item.Id })'" value='修改' />
+                                            <input type="button" class="btn btn-danger" value='刪除' />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="@collapseId" class="panel-collapse collapse in">
+                                <div class="panel-body">
+                                    @Html.Raw(item.EventContent)
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    }
                 </div>
-                <div id="@collapseId" class="panel-collapse collapse in">
-                    <div class="panel-body">
-                        @Html.Raw(item.EventContent)
-                    </div>
-                </div>
-            </div>
-        }
-    </div>
             }
             else
             {
                 <div class="form-group row">
-                    <div class="col-md-10">
+                    <div class="col-md-9">
                         <h3>@tilte</h3>
                     </div>
-                    <div class="col-md-2">
-                        <input type="button" value="新增" class="btn btn-default" onclick="location.href='@Url.Action("Create", new { pedigreeID = currentPedigreeID, infoType = currentInfoType })'" />
+                    <div class="col-md-3 ">
+                        @if (currentInfoType == "Preface")
+                        {
+                            <input type="button" value="自動產生譜序" class="btn btn-default pull-right" />
+                        }
+                        <input type="button" value="新增" class="btn btn-default pull-right" onclick="location.href='@Url.Action("Create", new { pedigreeID = currentPedigreeID, infoType = currentInfoType })'" />
+                        
                     </div>
                 </div>
                 <div class="pedigreeInfo-list">

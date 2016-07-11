@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
+using HGenealogy.SharedClass;
 
 namespace HGenealogy.Controllers
 {
@@ -197,6 +198,20 @@ namespace HGenealogy.Controllers
                 pedigreeEvent.CreatedWho = "???";
             }
 
+            //取得經緯度
+            if (!string.IsNullOrWhiteSpace(pedigreeEvent.EventPlace))
+            {
+                string jsonAddress = GeoUtil.convertAddressToJsonString(pedigreeEvent.EventPlace);
+                double[] latlng = GeoUtil.getLatLng(jsonAddress);
+                decimal latitude, longitude;
+
+                if (Decimal.TryParse(latlng[0].ToString(), out latitude))
+                    pedigreeEvent.Latitude = latitude;
+
+                if (Decimal.TryParse(latlng[1].ToString(), out longitude))
+                    pedigreeEvent.Longitude = longitude;
+            }
+
             pedigreeEvent.UpdatedOnUtc = System.DateTime.Now;
             pedigreeEvent.UpdatedWho = "???";
 
@@ -232,7 +247,7 @@ namespace HGenealogy.Controllers
             infoTypeDic.Add("NameRank", "字輩昭穆");
             infoTypeDic.Add("Precept", "族規家訓");
             infoTypeDic.Add("Tomb", "祠宇墳塋");
-            infoTypeDic.Add("Event", "族譜事件");
+            infoTypeDic.Add("Event", "時空紀事");
             return infoTypeDic;
         }
     }
