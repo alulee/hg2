@@ -38,8 +38,10 @@
                 世系圖表
                 <span class="caret"></span>
             </a>
-            <ul class="dropdown-menu">
-                <li><a href="#">世系圖</a></li>
+            <ul class="dropdown-menu">                
+                <li>
+                    @Html.ActionLink("世系圖", "FamilyTreeA", "FamilyMembers")
+                </li>
                 <li>
                     @Html.ActionLink("通訊錄", "Index", "FamilyMembers")
                 </li>
