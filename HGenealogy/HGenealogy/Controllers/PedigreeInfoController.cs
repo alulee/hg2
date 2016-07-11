@@ -44,7 +44,7 @@ namespace HGenealogy.Controllers
             Mapper.Initialize(p => p.CreateMap<PedigreeMeta, PedigreeMetaModel>());
             var hGPedigreeMetaModel = Mapper.Map<PedigreeMeta, PedigreeMetaModel>(hGPedigreeMeta);
 
-            if (infoType=="Event")
+            if (infoType == "Event")
             {
                 var pedigreeEvenList = GetPedigreeEventList(pedigreeID);
                 hGPedigreeMetaModel.pedigreeEventList = pedigreeEvenList;
@@ -140,7 +140,7 @@ namespace HGenealogy.Controllers
 
             Mapper.Initialize(p => p.CreateMap<PedigreeInfo, PedigreeInfoModel>());
             var models = Mapper.Map<List<PedigreeInfo>, List<PedigreeInfoModel>>(tempList);
-            if (models==null)
+            if (models == null)
                 models = new List<PedigreeInfoModel>();
             return models;
         }
@@ -198,19 +198,22 @@ namespace HGenealogy.Controllers
                 pedigreeEvent.CreatedWho = "???";
             }
 
-            //取得經緯度
-            if (!string.IsNullOrWhiteSpace(pedigreeEvent.EventPlace))
-            {
-                string jsonAddress = GeoUtil.convertAddressToJsonString(pedigreeEvent.EventPlace);
-                double[] latlng = GeoUtil.getLatLng(jsonAddress);
-                decimal latitude, longitude;
+            if (string.IsNullOrWhiteSpace(pedigreeEvent.EventPlace))
+                pedigreeEvent.EventPlace="";
 
-                if (Decimal.TryParse(latlng[0].ToString(), out latitude))
-                    pedigreeEvent.Latitude = latitude;
+            ////取得經緯度
+            //if (!string.IsNullOrWhiteSpace(pedigreeEvent.EventPlace))
+            //{
+            //    string jsonAddress = GeoUtil.convertAddressToJsonString(pedigreeEvent.EventPlace);
+            //    double[] latlng = GeoUtil.getLatLng(jsonAddress);
+            //    decimal latitude, longitude;
 
-                if (Decimal.TryParse(latlng[1].ToString(), out longitude))
-                    pedigreeEvent.Longitude = longitude;
-            }
+            //    if (Decimal.TryParse(latlng[0].ToString(), out latitude))
+            //        pedigreeEvent.Latitude = latitude;
+
+            //    if (Decimal.TryParse(latlng[1].ToString(), out longitude))
+            //        pedigreeEvent.Longitude = longitude;
+            //}
 
             pedigreeEvent.UpdatedOnUtc = System.DateTime.Now;
             pedigreeEvent.UpdatedWho = "???";
@@ -221,6 +224,26 @@ namespace HGenealogy.Controllers
                 _pedigreeEventService.Update(pedigreeEvent);
 
             return RedirectToAction("Index", "PedigreeInfo", new { pedigreeID = model.PedigreeID, infoType = "Event" });
+        }
+
+        [HttpPost]
+        public JsonResult GetEventPlaceRelation(string eventPlace)
+        {
+
+            //取得經緯度
+            if (!string.IsNullOrWhiteSpace(eventPlace))
+            {
+                string jsonAddress = GeoUtil.convertAddressToJsonString(eventPlace);
+                double[] latlng = GeoUtil.getLatLng(jsonAddress);
+                decimal latitude, longitude;
+
+                Decimal.TryParse(latlng[0].ToString(), out latitude);
+                Decimal.TryParse(latlng[1].ToString(), out longitude);
+
+                return Json(new { success = true, latitude = latitude, longitude = longitude });
+            }
+
+            return null;
         }
 
         private SelectList getInfoTypeSelectList(string defalutValue)

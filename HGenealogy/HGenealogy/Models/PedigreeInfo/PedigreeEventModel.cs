@@ -19,6 +19,7 @@ namespace HGenealogy.Models.PedigreeInfo
         public string EventContent { get; set; }
         [DisplayName("日期")]
         [Required]
+        [DataType(DataType.Date)]
         public System.DateTime EventDateOnUtc { get; set; }
         [DisplayName("地點")]
         [Required]

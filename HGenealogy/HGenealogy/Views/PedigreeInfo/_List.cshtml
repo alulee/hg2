@@ -21,7 +21,21 @@
         <div id="home" class="tab-pane fade in active">
             @if (currentInfoType == "Meta")
             {
-                <h2>@tilte</h2>
+
+                <div class="row">
+                    <div class="col-md-10">
+                        <h3>@tilte</h3>
+                    </div>
+                    <div class="col-md-2">
+                        @{
+                var url = Url.Action("Edit", "PedigreeMeta", new { id = Model.Id });
+                        }
+                        <a href='@url' class="btn btn-default">
+                            <span class="glyphicon glyphicon-edit"></span> 修改
+                        </a>
+                    </div>
+                </div>
+
                 <div class="panel panel-info">
                     <div class="panel-heading ">
                         <h4 class="panel-title">
@@ -60,11 +74,11 @@
                                     @{
                 if (string.IsNullOrEmpty(Model.Image))
                 {
-                                    <img src="" width="300" height="300">
+                    <img src="" width="300" height="300">
                 }
                 else
                 {
-                                    <img src="@Url.Content(Model.Image)" width="300" height="300">
+                    <img src="@Url.Content(Model.Image)" width="300" height="300">
                 }
                                     }
                                 </div>
@@ -292,7 +306,7 @@
                             <input type="button" value="自動產生譜序" class="btn btn-default pull-right" />
                         }
                         <input type="button" value="新增" class="btn btn-default pull-right" onclick="location.href='@Url.Action("Create", new { pedigreeID = currentPedigreeID, infoType = currentInfoType })'" />
-                        
+
                     </div>
                 </div>
                 <div class="pedigreeInfo-list">

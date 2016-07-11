@@ -1,187 +1,135 @@
 ﻿@model HGenealogy.Models.PedigreeMeta.PedigreeMetaModel
 
 @{Html.EnableClientValidation();}
-@*@using (Html.BeginForm())
-    {*@
-
 <hr />
 
 @using (Ajax.BeginForm("SaveHGPedigreeMeta", "PedigreeMeta", null, new AjaxOptions
-        {
-            HttpMethod = "POST",
-            UpdateTargetId = "createDialog",
-            OnSuccess = "onSaveSuccess",
-            OnFailure = "onSaveFail(error)"
-        }, new { id = "createForm", role = "form" }))
+{
+    HttpMethod = "POST",
+    UpdateTargetId = "createDialog",
+    OnSuccess = "onSaveSuccess",
+    OnFailure = "onSaveFail(error)"
+}, new { id = "createForm", role = "form" }))
 {
     @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.CreatedOnUtc)
+    @Html.HiddenFor(model => model.UpdatedOnUtc)
+    @Html.HiddenFor(model => model.CreatedWho)
+    @Html.HiddenFor(model => model.UpdatedWho)
 
-    <div class="form-horizontal">
-        <h1>@ViewBag.Title</h1>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
-        @Html.HiddenFor(model => model.CreatedOnUtc)
-        @Html.HiddenFor(model => model.UpdatedOnUtc)
-        @Html.HiddenFor(model => model.CreatedWho)
-        @Html.HiddenFor(model => model.UpdatedWho)
-        @*@Html.HiddenFor(model => model.Image)*@
+    <div class="well-lg">
+        <div class="dfp-main">
+            <h1>@ViewBag.Title</h1>
+            <h2 class="form-title">
+                <span>基本資料</span>
+            </h2>
+            <div class="dfp-form-title">
+                <label for="Title">族譜名稱</label>
+                <span class="dfp-form-required">*</span>
+            </div>
 
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="dfp-input col-sm-4">
                 @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
             </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Editor, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="clearfix"> </div>
+            <div class="dfp-form-title">
+                <label for="Editor">編纂者</label>
+                <span class="dfp-form-required">*</span>
+            </div>
+            <div class="dfp-input col-sm-4">
                 @Html.EditorFor(model => model.Editor, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Editor, "", new { @class = "text-danger" })
             </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="clearfix"> </div>
+            <div class="dfp-form-title">
+                <label for="Editor">簡述</label>
+                <span class="dfp-form-required">*</span>
+            </div>
+            <div class="dfp-input col-sm-8">
                 @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
             </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="clearfix"> </div>
+            <div class="dfp-form-title">
+                <label for="Editor">族譜圖片</label>
+                <span class="dfp-form-required">*</span>
+            </div>
+            <div class="dfp-input col-sm-4">
                 @Html.EditorFor(model => model.Image, "Upload")
             </div>
-        </div>
+            <div class="clearfix"> </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.PublishDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.PublishDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PublishDate, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Volumes, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Volumes, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Volumes, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Pages, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Pages, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Pages, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.FamilyName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.FamilyName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.FamilyName, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.OriginalAncestor, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.OriginalAncestor, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.OriginalAncestor, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.DateMoveToTaiwan, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <h2 class="form-title">
+                <span>入臺資料</span>
+            </h2>
+            <div class="dfp-input col-sm-4">
+                <label for="DateMoveToTaiwan">入臺年代</label>
                 @Html.EditorFor(model => model.DateMoveToTaiwan, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.DateMoveToTaiwan, "", new { @class = "text-danger" })
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.AncestorToTaiwan, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="dfp-input col-sm-4">
+                <label for="AncestorToTaiwan">入臺祖</label>
                 @Html.EditorFor(model => model.AncestorToTaiwan, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.AncestorToTaiwan, "", new { @class = "text-danger" })
             </div>
-        </div>
+            <div class="clearfix"> </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.OriginalAddress, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="dfp-input col-sm-4">
+                <label for="DateMoveToTaiwan">原籍</label>
                 @Html.EditorFor(model => model.OriginalAddress, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.OriginalAddress, "", new { @class = "text-danger" })
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.TotalGenerations, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="dfp-input col-sm-4">
+                <label for="TotalGenerations">世代數</label>
                 @Html.EditorFor(model => model.TotalGenerations, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.TotalGenerations, "", new { @class = "text-danger" })
             </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.GenerationToTaiwan, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="clearfix"> </div>
+            <div class="dfp-input col-sm-4">
+                <label for="GenerationToTaiwan">入臺世代</label>
                 @Html.EditorFor(model => model.GenerationToTaiwan, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.GenerationToTaiwan, "", new { @class = "text-danger" })
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.LivingAreaInTaiwan, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="dfp-input col-sm-4">
+                <label for="LivingAreaInTaiwan">入臺包含地區</label>
                 @Html.EditorFor(model => model.LivingAreaInTaiwan, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.LivingAreaInTaiwan, "", new { @class = "text-danger" })
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.OriginalCollector, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="clearfix"> </div>
+            <div class="dfp-input col-sm-4">
+                <label for="OriginalCollector">原件珍藏者(單位)</label>
                 @Html.EditorFor(model => model.OriginalCollector, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.OriginalCollector, "", new { @class = "text-danger" })
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.ContentNotes, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ContentNotes, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ContentNotes, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.TangName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="dfp-input col-sm-4">
+                <label for="TangName">堂號</label>
                 @Html.EditorFor(model => model.TangName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.TangName, "", new { @class = "text-danger" })
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.IsPublic, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-1">
-                    @Html.EditorFor(model => model.IsPublic, new { htmlAttributes = new { @class = "form-control pull-left" } })
-                    @Html.ValidationMessageFor(model => model.IsPublic, "", new { @class = "text-danger " })
+            <div class="clearfix"> </div>
+            <div class="dfp-input col-sm-8">
+                <label for="ContentNotes">附註</label>
+                @Html.EditorFor(model => model.ContentNotes, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ContentNotes, "", new { @class = "text-danger" })
             </div>
-        </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10 ">
-                <button type="submit" class="btn  btn-danger pull-left">
+            <div class="dfp-checkbox">
+                @Html.EditorFor(model => model.IsPublic, null)
+                <label for="IsPublic">是否公開</label>
+            </div>
+
+
+            <div class="col-md-12 ">
+                <button type="submit" class="btn-lg  btn-primary center-block">
                     <span class="glyphicon glyphicon-floppy-save"></span> 存檔
                 </button>
             </div>
@@ -189,7 +137,7 @@
     </div>
 }
 
-<div >
+<div class="pull-left">
     @Html.ActionLink("返回族譜瀏灠", "Index")
 </div>
 

@@ -1,123 +1,129 @@
 ﻿
 
 .center-2 {
-	float: right;
-	width: 85%;
+    float: right;
+    width: 85%;
 }
+
 .side-2 {
-	float: left;
-	width: 15%;
+    float: left;
+    width: 15%;
 }
 
 a {
-	color: inherit;
-	cursor: pointer;
+    color: inherit;
+    cursor: pointer;
 }
 
-a:active {
-	outline: none;
-}
+    a:active {
+        outline: none;
+    }
 
-th{
-    background-color:#eff5f5;
-    font-weight:bold;
+th {
+    background-color: #eff5f5;
+    font-weight: bold;
 }
 
 /*********** GLOBAL STYLES **********/
 .page {
-	min-height: 300px;
+    min-height: 300px;
 }
 
 .page-title {
-	min-height: 50px;
-	margin: 0 0 25px;
-	/*border-bottom: 1px solid #ddd;*/
-	border-bottom: 3px solid #990073;
-	padding: 6px 10px;
+    min-height: 50px;
+    margin: 0 0 25px;
+    /*border-bottom: 1px solid #ddd;*/
+    border-bottom: 3px solid #990073;
+    padding: 6px 10px;
 }
 
-.pedigree-info-list-page
-{
+.pedigree-info-list-page {
     min-height: 200px;
-	border: 1px solid #ddd;
-	margin: 0 0 25px;
-	padding: 6px 10px;
+    border: 1px solid #ddd;
+    margin: 0 0 25px;
+    padding: 6px 10px;
 }
 
 /*** COLUMN ***/
 
 
 .block {
-	float: none;
-	width: auto;
-	margin: 0 0 20px;
-}
-.block .title {
-	margin: 0;
-	border-bottom: 1px solid #ddd;
-	background: none;
-	cursor: auto;
-}
-.block .title strong {
-	font-weight: bold;
-}
-.block .listbox {
-	display: block;
-	border-bottom: none;
+    float: none;
+    width: auto;
+    margin: 0 0 20px;
 }
 
-.block a.product-picture {
-	display: inline-block;
-	position: relative;
-	width: 30%;
-	margin: 0 0 0 -15px;
-	vertical-align: middle;
-}
+    .block .title {
+        margin: 0;
+        border-bottom: 1px solid #ddd;
+        background: none;
+        cursor: auto;
+    }
+
+        .block .title strong {
+            font-weight: bold;
+        }
+
+    .block .listbox {
+        display: block;
+        border-bottom: none;
+    }
+
+    .block a.product-picture {
+        display: inline-block;
+        position: relative;
+        width: 30%;
+        margin: 0 0 0 -15px;
+        vertical-align: middle;
+    }
 
 
 /*********** SIDE COLUMN ***********/
 .block {
-	max-width: 600px; /*width limit in mobile*/
-	min-height: 50px;
-	margin: auto;
-	text-align: left;
-}
-.block .title {
-	position: relative;
-	margin: 0 0 10px;
-	border-bottom: 1px solid #ddd;
-	padding: 12px 30px 12px 10px;
-	font-size: 20px;
-	color: #444;
-}
-.block .title strong {
-	font-weight: bold;
+    max-width: 600px; /*width limit in mobile*/
+    min-height: 50px;
+    margin: auto;
+    text-align: left;
 }
 
+    .block .title {
+        position: relative;
+        margin: 0 0 10px;
+        border-bottom: 1px solid #ddd;
+        padding: 12px 30px 12px 10px;
+        font-size: 20px;
+        color: #444;
+    }
 
-.block .listbox {
-	/*display: none;*/
-	border-bottom: 1px solid #ddd;
-	padding: 10px 0px;
-}
-.block .list li {
-	padding: 3px 0 3px 5px;
-    list-style-type:none;   /*去除點*/
-}
+        .block .title strong {
+            font-weight: bold;
+        }
 
 
-.block .list a {
-	display: inline-block;
-	position: relative;
-	padding: 5px 0;
-	font-size: 16px;
-    font-weight:bold;
-	/*color: #444;*/
-    color: #4ab2f1;
-    -webkit-transition: all 0.1s ease;
-	transition: all 0.1s ease;
-}
-/*.block .list a:before {
+    .block .listbox {
+        /*display: none;*/
+        border-bottom: 1px solid #ddd;
+        padding: 10px 0px;
+    }
+
+    .block .list li {
+        padding: 3px 0 3px 5px;
+        list-style-type: none; /*去除點*/
+    }
+
+
+    .block .list a {
+        display: inline-block;
+        position: relative;
+        padding: 5px 0;
+        font-size: 16px;
+        font-weight: bold;
+        /*color: #444;*/
+        color: #4ab2f1;
+        -webkit-transition: all 0.1s ease;
+        transition: all 0.1s ease;
+    }
+    /*.block .list a:before {
 	content: "";
 	position: absolute;
 	top: 12px;
@@ -127,17 +133,19 @@ th{
 	background-color: #ddd;
 }*/
 
-.block .list .active {
-    background-color:white;
-}
-.block .list .active > a {
-	/*color: #4ab2f1;*/
-    color: green;
-}
-.block .list a:hover {
-	color: #00cc00;
-	/*color: #4ab2f1;*/
-}
+    .block .list .active {
+        background-color: white;
+    }
+
+        .block .list .active > a {
+            /*color: #4ab2f1;*/
+            color: green;
+        }
+
+    .block .list a:hover {
+        color: #00cc00;
+        /*color: #4ab2f1;*/
+    }
 
 /*********** PedigreeMeta **********/
 /*.pedigree-meta-query-page{
@@ -148,18 +156,18 @@ th{
 }*/
 
 /*********** PedigreeInfo **********/
-.block-pedigree-info-navigation{
+.block-pedigree-info-navigation {
     /*background-color: #f9f9f9;*/
-    background-color:white;
+    background-color: white;
 }
 
-.pedigree-info-list-page .info{
-	margin: 0 0 10px;
-	border-top: 1px solid #e6e6e6;
-	background-color: #f9f9f9;
+.pedigree-info-list-page .info {
+    margin: 0 0 10px;
+    border-top: 1px solid #e6e6e6;
+    background-color: #f9f9f9;
     padding: 20px;
-	line-height: 26px;
-	color: #444;
+    line-height: 26px;
+    color: #444;
 }
 
 
@@ -174,5 +182,67 @@ th{
 
 
 
+.dfp-main {
+    margin-bottom: 30px;
+    padding: 0;
+    background-color: white;
+    /*color: #333;*/
+    text-align: left;
+}
+
+    .dfp-main h1 {
+        text-align: center;
+    }
+
+    .dfp-main h2 {
+        font-size: 20px;
+        margin-bottom: 20px;
+        color: #000;
+        padding-left: 7.5px;
+        padding-right: 7.5px;
+    }
+
+        .dfp-main h2.form-title {
+            color: #0054a4;
+            display: block;
+        }
+
+.dfp-form-title {
+    font-size: 20px;
+    margin-top: 20px;
+    padding-top: 0;
+    padding-left: 7.5px;
+}
+
+.dfp-form-required {
+    color: #e50049;
+    font-size: 12px;
+    vertical-align: top;
+    padding-left: 2px;
+}
 
 
+
+button, input, optgroup, select, textarea {
+    font: inherit;
+    margin: 0;
+}
+
+.dfp-input {
+    padding: 3px 7.5px 0;
+}
+
+    .dfp-input input {
+        max-width: 100%;
+        color: #0054a4;
+    }
+
+.dfp-checkbox, .dfp-radio {
+    padding: 5px 7.5px 0;
+    clear: left;
+}
+
+.clearfix:before, .clearfix:after {
+    content: " ";
+    display: table;
+}
