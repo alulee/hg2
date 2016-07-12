@@ -1,7 +1,7 @@
 ﻿@model String
 
 @{
-    <link href="~/Content/tinymce/plugins/jbimages/css/dialog.css" rel="stylesheet" />
+    @*<link href="~/Content/tinymce/plugins/jbimages/css/dialog.css" rel="stylesheet" />*@
     var modelFieldName = ViewData.TemplateInfo.HtmlFieldPrefix; //取得傳入的 model 欄位
 
     var options = ViewData.Keys
@@ -50,7 +50,7 @@
 
 <!--modified by nop Commerce team-->
 <!--<iframe id="upload_target" name="upload_target" src="ci/index.php/blank"></iframe>-->
-<iframe id="upload_target" name="upload_target" src=""></iframe>
+@*<iframe id="upload_target" name="upload_target" src=""></iframe>*@
 <script>
     function doUpload() {
         var data = new FormData();
