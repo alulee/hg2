@@ -23,28 +23,25 @@
                     <li class="largefont">
                         @Html.ActionLink("家族分佈", "Index", "VisualGenealogy", new { area = "Genealogy" }, null)
                     </li>
- 
+
                     <li class="largefont"><a href="#">時間地圖</a></li>
-                 </ul>
+                </ul>
             </div>
 
             <div class="btn-group">
-                <button type="button" class="btn btn-success largefont" aria-expanded="false">
+                <button type="button" class="btn btn-warning largefont" aria-expanded="false">
                     @Html.ActionLink("族譜查詢", "Query", "PedigreeMeta")
                 </button>
             </div>
-            <div class="btn-group">
+            @*<div class="btn-group">
                 <button type="button" class="btn btn-warning largefont" aria-expanded="false">
-                    <a href="#">族譜資源</a> 
+                    <a href="#">族譜資源</a>
                 </button>
-            </div>
+            </div>*@
             <div class="btn-group">
                 <button type="button" class="btn btn-primary dropdown-toggle largefont" data-toggle="dropdown" aria-expanded="false">
-                    <a href="#">
-                        族譜管理
+                        <a>族譜管理</a>
                         <span class="caret"></span>
-                    </a>
-
                 </button>
                 <ul class="dropdown-menu" role="menu">
                     <li class="largefont">@Html.ActionLink("族譜管理", "Query", "PedigreeMeta")</li>
@@ -54,7 +51,6 @@
                     <li class="largefont">
                         @Html.ActionLink("最新消息管理", "Index", "News")
                     </li>
-                    <li class="largefont"><a href="#">家族分佈</a></li>
                 </ul>
             </div>
         </div>
@@ -64,7 +60,7 @@
                 </ul>*@
 
             @*@Html.MvcSiteMap().Menu("BootstrapMenuHelperModel", false)*@
-            @Html.Partial("_LoginPartial")
+            @*@Html.Partial("_LoginPartial")*@
         </div>
     </div>
 </div>

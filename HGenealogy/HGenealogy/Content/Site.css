@@ -10,7 +10,7 @@ body {
     background-color:whitesmoke;
 }
 
-.navbar-fixed-top .firstmenu {
+.navbar-fixed-top, .firstmenu {
     background-color: white;
     font-size: medium;
     padding-top: 10px;
