@@ -1295,6 +1295,9 @@ namespace HGenealogy.Controllers
         [HttpPost]
         public JsonResult GetFamiliesTreeJson(string pedigreeId, string familyMemberId="0", string generationCount="6")
         {
+            node rootnode = null;
+            int leftGenerationCount = 0;
+
             #region check data
 
             int iGenerationCount = 6;
@@ -1312,114 +1315,49 @@ namespace HGenealogy.Controllers
             if (member == null)
                 return null;
 
-            if (member.FatherMemberId <= 0)
-                return null;
-            
             #endregion
 
-            #region 先求祖先輩 Abs((iGenerationCount - 1)/2) 在樹中的成員
-            
-            int ancestorGenerationCount = Math.Abs((iGenerationCount - 1) / 2);
             FamilyMember currentCheckMember = member;
-            node ancestoerNode = new node{children = new List<node>()};
-            List<FamilyMember> memberListInTree = new List<FamilyMember>();
+            node currentNode = new node {
+                id = currentCheckMember.Id.ToString(),
+                name = currentCheckMember.GivenName,
+                imageurl = currentCheckMember.ImageUrl, 
+                children = new List<node>()
+            };
+            rootnode = currentNode;
 
-            memberListInTree.Add(member);
-            while (ancestorGenerationCount > 0)
+            #region 先求祖先輩在樹中的成員, 共計   Abs((iGenerationCount - 1)/2) 位祖先
+
+            int ancestorGenerationCount = Math.Abs((iGenerationCount - 1) / 2);            
+            node currentCheckNode = currentNode;
+            leftGenerationCount = iGenerationCount - 1; // 扣除傳入的 FamilyMemberId 這代，可再向祖先輩或子孫輩延伸的代數
+            while (ancestorGenerationCount > 0 && currentCheckNode != null)
             {
-                if (currentCheckMember.FatherMemberId <= 0)
+                node fathernode = GetFatherNodeWithNextGeneration(currentCheckNode);
+                if (fathernode == null)
                     break;
 
-                FamilyMember currentFatherMember = _familyMemberService.GetById(currentCheckMember.FatherMemberId);
-                if(currentFatherMember != null)
-                {
-                    memberListInTree.Insert(0, currentFatherMember);
-                    currentCheckMember = currentFatherMember;
-                    ancestorGenerationCount--;
-                }
+                rootnode = fathernode;
+                currentCheckNode = fathernode;
+                ancestorGenerationCount--;
+                leftGenerationCount--;
             }
 
             #endregion
 
-            #region 求子孫輩 Abs((iGenerationCount - 1)/2) 在樹中的成員
+            #region 求子孫輩在樹中的成員
 
-            int ancestorGenerationCount = Math.Abs((iGenerationCount - 1) / 2);
-            FamilyMember currentCheckMember = member;
-            node ancestoerNode = new node { children = new List<node>() };
-            List<FamilyMember> memberListInTree = new List<FamilyMember>();
-
-            memberListInTree.Add(member);
-            while (ancestorGenerationCount > 0)
-            {
-                if (currentCheckMember.FatherMemberId <= 0)
-                    break;
-
-                FamilyMember currentFatherMember = _familyMemberService.GetById(currentCheckMember.FatherMemberId);
-                if (currentFatherMember != null)
-                {
-                    memberListInTree.Insert(0, currentFatherMember);
-                    currentCheckMember = currentFatherMember;
-                    ancestorGenerationCount--;
-                }
-            }
-
+            GetChildrenNode(currentNode, leftGenerationCount);
+           
             #endregion
 
-
-            return this.Json(root);
+            return this.Json(rootnode);
         }
-
-        [NonAction]
-        public node GetFamiliyTreeNodeWithChidren(string pedigreeId, string familyMemberId, int generationCount)
-        {
-            node returnNode = new node();
-            returnNode.children = new List<node>();
-            var filter = PredicateBuilder.True<FamilyMember>();
-
-            if (familyMemberId == "")
-                familyMemberId = "0";
-
-            if (familyMemberId == "0")
-            {
-                returnNode.id = "0";
-                returnNode.name = "先祖";
-            }
-            else
-            {
-                filter = filter.And(p => p.Id.ToString().Equals(familyMemberId));
-                var queryresult = _familyMemberService.GetList(filter).FirstOrDefault();
-
-                if (queryresult != null)
-                {
-                    returnNode.id = queryresult.Id.ToString();
-                    returnNode.name = queryresult.GivenName;
-                }
-            }
-
-            // Get chidrens 
-            filter = PredicateBuilder.True<FamilyMember>();
-            filter = filter.And(p => p.FatherMemberId.ToString().Equals(familyMemberId));
-            var querylist = _familyMemberService.GetList(filter);
-
-            if (querylist != null)
-            {
-                int leftGenerationCount = generationCount - 1;
-                if (leftGenerationCount > 0)
-                {
-                    foreach (var member in querylist)
-                    {
-                        node newnode = GetFamiliyTreeNodeWithChidren(pedigreeId, member.Id.ToString(), leftGenerationCount);
-                        returnNode.children.Add(newnode);
-                    }
-                }
-            }
-            return returnNode;
-        }
-
-        public node GetFatherNodeWithNextGeneration(string pedigreeId, string familyMemberId, node currentNode)
+ 
+        public node GetFatherNodeWithNextGeneration(node currentNode)
         {
             int currentMemberId = 0;
-            if(!Int32.TryParse(familyMemberId, out currentMemberId))
+            if (!Int32.TryParse(currentNode.id, out currentMemberId))
                 return null;
 
             var member = _familyMemberService.GetById(currentMemberId);
@@ -1432,28 +1370,73 @@ namespace HGenealogy.Controllers
             FamilyMember father = _familyMemberService.GetById(member.FatherMemberId);
             if (father != null)
             {
-                node returnNode = new node();
-                returnNode.children = new List<node>();
+                node returnNode = new node()
+                {
+                    id = father.Id.ToString(),
+                    name = father.GivenName,
+                    imageurl = father.ImageUrl,
+                    children = new List<node>()
+                };
+                
+                // 取得父輩所有的兒子
                 var filter = PredicateBuilder.True<FamilyMember>();
-                filter = filter.And(p => p.Id.Equals(father.Id));
+                filter = filter.And(p => p.FatherMemberId.Equals(father.Id));
                 var queryresult = _familyMemberService.GetList(filter).ToList();
 
                 if (queryresult != null)
-                {
-                    int leftGenerationCount = generationCount - 1;
+                {                   
                     foreach (var m in queryresult)
                     {
-                        returnNode.children.Add(new node
+                        if (m.Id.ToString() == currentNode.id)
                         {
-                            id = m.Id.ToString(),
-                            name = m.GivenName,
-                            imageurl = m.ImageUrl
-                        });
+                            returnNode.children.Add(currentNode);
+                        }
+                        else
+                        {
+                            returnNode.children.Add(new node
+                            {
+                                id = m.Id.ToString(),
+                                name = m.GivenName,
+                                imageurl = m.ImageUrl,
+                                children = new List<node>()
+                            });
+                        }
                     }                    
                 }
                 return returnNode;
             }
             return null;
+        }
+
+        public void GetChildrenNode(node currentNode, int generationCount)
+        {
+            var filter = PredicateBuilder.True<FamilyMember>();
+
+            filter = PredicateBuilder.True<FamilyMember>();
+            filter = filter.And(p => p.FatherMemberId.ToString().Equals(currentNode.id));
+            var querylist = _familyMemberService.GetList(filter);
+
+            if (querylist != null)
+            {
+                int leftGenerationCount = generationCount - 1;
+                if (leftGenerationCount > 0)
+                {
+                    foreach (var member in querylist)
+                    {
+                        node newnode = new node
+                        {
+                            id = member.Id.ToString(),
+                            name = member.GivenName,
+                            imageurl = member.ImageUrl,
+                            children = new List<node>()
+                        };
+
+                        currentNode.children.Add(newnode);
+                        GetChildrenNode(newnode, leftGenerationCount);
+                    }
+                }
+            }
+
         }
 
         #endregion

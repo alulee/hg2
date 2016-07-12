@@ -332,7 +332,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*/
             scale = zoomListener.scale();
             x = -source.y0;
             y = -source.x0;
-            x = x * scale + viewerWidth / 2;
+            x = x * scale + viewerWidth / 4;
             y = y * scale + viewerHeight / 2;
             d3.select('g').transition()
                 .duration(duration)
@@ -358,8 +358,8 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*/
 
         function click(d) {
             if (d3.event.defaultPrevented) return; // click suppressed
-            d = toggleChildren(d);
-            update(d);
+            //d = toggleChildren(d);
+            //update(d);
             centerNode(d);
         }
 
@@ -388,8 +388,9 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*/
                 links = tree.links(nodes);
 
             // Set widths between levels based on maxLabelLength.
-            nodes.forEach(function(d) {
-                d.y = (d.depth * (maxLabelLength * 15)); //maxLabelLength * 10px
+            nodes.forEach(function (d) {
+                d.y = (d.depth * 180); //maxLabelLength * 10px
+                // d.y = (d.depth * (maxLabelLength * 60)); //maxLabelLength * 10px
                 // alternatively to keep a fixed scale one can set a fixed depth per level
                 // Normalize for fixed-depth by commenting out below line
                 // d.y = (d.depth * 500); //500px per level.
@@ -469,7 +470,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*/
 
             // Change the circle fill depending on whether it has children and is collapsed
             node.select("circle.nodeCircle")
-                .attr("r", 20)
+                .attr("r", 30)
                 .style("fill", function(d) {
                     return d._children ? "lightsteelblue" : "#fff";
                 });
@@ -556,10 +557,10 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*/
 
         // Layout the tree initially and center on the root node.
         update(root);
-        //centerNode(root);
+        centerNode(root);
     };
 
-    updateTree = function (pdeigreeId, familyMemberId, generationCount) {
+    updateTree = function (pedigreeId, familyMemberId, generationCount) {
 
         // Get JSON data    
         var url = "/FamilyMembers/GetFamiliesTreeJson";
@@ -571,10 +572,34 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*/
             async: false,
             dataType: 'json',
             success: function (data) {
+                $("#tree-container").html("");
                 treeJSON(data);
             }
         });
     };
+
+    updateFamilyMember = function (pedigreeId) {
+        $.ajax({
+            url: "/FamilyMembers/GetFamiliesJson",
+            data: { pedigreeId: pedigreeId, isLoadLinks: false },
+            type: 'post',
+            cache: false,
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                $('#FamilyMemberDDL').empty();
+                if (data.nodes.length > 0) {
+                    $('#FamilyMemberDDL').append($('<option></option>').val('').text(''));
+                    $.each(data.nodes, function (i, item) {
+                        if (Number(item.groupid) > 0)
+                            $('#FamilyMemberDDL').append($('<option></option>').val(item.id).text(item.groupid + "世 - " + item.name));
+                        else
+                            $('#FamilyMemberDDL').append($('<option></option>').val(item.id).text(item.name));
+                    });
+                }
+            }
+        });
+    }
 
     $(document).ready(function () {
         $('#PedigreeDDL').change(function () {
