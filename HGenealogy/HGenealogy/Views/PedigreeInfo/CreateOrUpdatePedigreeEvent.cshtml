@@ -6,7 +6,7 @@
     string currentInfoType = ViewBag.currentInfoType;
     IDictionary<string, string> infoTypeDic = ViewBag.infoTypeDic;
 }
-@using (Html.BeginForm("SavePedigreeEvent", "PedigreeInfo", FormMethod.Post))
+@using (Html.BeginForm("SavePedigreeEvent", "PedigreeInfo", FormMethod.Post, new {@id="eventForm" }))
 {
 
     @Html.AntiForgeryToken()
@@ -95,19 +95,53 @@
             {
                 format: "yyyy/MM/dd",
                 culture: "zh-CHT"
+                //,
+                //change: function () {
+                //    var value = this.value();
+                //    console.log(value);     //value is the selected date in the datepicker
+                //}
             }
             );
 
-        $("#Longitude").attr("readonly",true);
+        $("#Longitude").attr("readonly", true);
         $("#Latitude").attr("readonly", true);
     });
+
+    //$("#EventDateOnUtc").kendoValidator({
+    //    rules: {
+    //        date: function (input) {
+    //            var d = kendo.parseDate(input.val(), "yyyy-MM-dd");
+    //            return d instanceof Date;
+    //        }
+    //    }
+    //});
+
+    $("#EventDateOnUtc").kendoValidator({
+        rules: {
+            //implement your custom date validation
+            dateValidation: function (e) {
+                var currentDate = kendo.parseDate(e.val());
+                console.log(currentDate);
+                //Check if Date parse is successful
+                if (currentDate==null) {
+                    return false;
+                }
+                return true;
+            }
+        },
+        messages: {
+            //Define your custom validation massages
+            required: "日期未輸入",
+            dateValidation: "日期格式錯誤，請檢核！"
+        }
+    });
+
 
     $("#EventPlace").change(function () {
         var eventPlace = $("#EventPlace").val();
 
         console.log(eventPlace);
-        if (eventPlace == null || eventPlace == "")
-        {
+        if (eventPlace == null || eventPlace == "") {
             $("#Latitude").val(0);
             $("#Longitude").val(0);
             return;
@@ -120,8 +154,7 @@
                 eventPlace: eventPlace
             },
             success: function (response) {
-                if (response.success==true)
-                {
+                if (response.success == true) {
                     $("#Latitude").val(response.latitude);
                     $("#Longitude").val(response.longitude);
                 }

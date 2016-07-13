@@ -12,10 +12,13 @@ namespace HGenealogy.Models.PedigreeMeta
         [DisplayName("族譜編號")]
         public int Id { get; set; }
         [DisplayName("族譜名稱")]
+        [Required]
         public string Title { get; set; }
         [DisplayName("編纂者")]
+        [Required]
         public string Editor { get; set; }
         [DisplayName("簡述")]
+        [Required]
         public string Description { get; set; }
         [DisplayName("族譜圖片")]
         public string Image { get; set; }
