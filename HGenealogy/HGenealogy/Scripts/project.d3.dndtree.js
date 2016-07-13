@@ -419,12 +419,16 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*/
                 });
 
             nodeEnter.append("image")
-            .attr("x", -15)
-            .attr("y", -15)
-            .attr("width", 30)
-            .attr("height", 30)
+            .attr("x", -25)
+            .attr("y", -25)
+            .attr("width", 45)
+            .attr("height", 45)
             .attr("xlink:href", function (d) {
-                return d.ImageUrl;
+
+                if (d.imageurl)
+                    return "..\\" + d.imageurl;
+                else
+                    return null;
             });
 
 

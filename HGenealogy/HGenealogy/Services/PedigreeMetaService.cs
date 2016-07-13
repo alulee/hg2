@@ -25,6 +25,7 @@ namespace HGenealogy.Services
         {
             return _pedigreeMetaRepository.GetAll();
         }
+
         public List<PedigreeMeta> GetPedigreeMetaList(PedigreeMetaQueryModel queryModel)
         {
             var filter = PredicateBuilder.True<PedigreeMeta>();
@@ -37,6 +38,7 @@ namespace HGenealogy.Services
             var result = query.ToList();
             return result;
         }
+
         public List<PedigreeMeta> GetPedigreeMetaList(PedigreeMetaSimpleQueryModel queryModel)
         {
             var filter = PredicateBuilder.True<PedigreeMeta>();
@@ -51,6 +53,7 @@ namespace HGenealogy.Services
             var result = query.ToList();
             return result;
         }
+        
         public PedigreeMeta GetById(int id)
         {
             return _pedigreeMetaRepository.GetAll().Where(p => p.Id == id)
@@ -62,6 +65,7 @@ namespace HGenealogy.Services
             _pedigreeMetaRepository.Create(entity);
             _pedigreeMetaRepository.SaveChanges();
         }
+        
         public void Update(PedigreeMeta entity)
         {
             _pedigreeMetaRepository.Update(entity);

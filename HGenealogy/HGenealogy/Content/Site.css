@@ -28,7 +28,7 @@ body {
     #page-wrapper {
         position: inherit;
         margin: 0 auto;
-        padding: 0 30px;
+        padding: 10px 30px;
         background-color: #fff;
     }
 }
@@ -83,7 +83,7 @@ body {
 .gender-input span {
     margin: 0 10px 0 0;
 }
-.gender-input, .birthday-input, .country-input, .stateprovince-input, .city-input{
+.gender-input, .birthday-input, .country-input, .stateprovince-input, .city-input, .ddl-input{
     display: block;
     height: 34px;
     padding: 6px 12px;
@@ -116,23 +116,26 @@ body {
     margin-left:10px;
 }
 .country-input {
-    min-width: 80px;
-    max-width: 80px; 
+    min-width: 100%;
+    max-width: 100%; 
     display: inline-block;
 }
 .stateprovince-input {
-    min-width:70px;
-    max-width: 150px; 
-    display: inline-block;
-    margin-left:10px;
+    min-width:100%;
+    max-width: 100%; 
+    display: inline-block;    
 }
 .city-input {
-    min-width:100px;
-    max-width: 150px; 
+    min-width:100%;
+    max-width: 100%; 
     display: inline-block;
-    margin-left:10px;
 }
-
+.ddl-input{
+    min-width:100%;
+    max-width: 100%; 
+    display: inline-block;
+}
+}
 .pedigree-sec-menu-head { 
     border-bottom: 1px solid #ffd800;
 }

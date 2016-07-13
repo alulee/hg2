@@ -36,6 +36,10 @@ CREATE TABLE FamilyMember
 		CONSTRAINT DF_FamilyMember_FatherMemberId DEFAULT 0,
 	[MotherMemberId] [int] NOT NULL	--母
 		CONSTRAINT DF_FamilyMember_MotherMemberId DEFAULT 0,
+	[MateMemberId] [int] NOT NULL	--配偶
+		CONSTRAINT DF_FamilyMember_MateMemberId DEFAULT 0,		
+	[Title] [nvarchar](30) NOT NULL --稱謂
+		CONSTRAINT DF_FamilyMember_Title DEFAULT '',
 	[BirthYear] [nvarchar](30) NOT NULL --出生年
 		CONSTRAINT DF_FamilyMember_BirthYear DEFAULT '',
 	[BirthMonth] [nvarchar](10) NOT NULL --出生月份

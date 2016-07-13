@@ -1,6 +1,5 @@
 ﻿@using HGenealogy.Models.FamilyMember
-@model IEnumerable<HGenealogy.Models.FamilyMember.FamilyMemberViewModel>
-
+@model FamilyMemberSimpleQueryModel
 @{
     ViewBag.Title = "Index";
     string currentPedigreeName = ViewBag.currentPedigreeName;
@@ -10,8 +9,8 @@
  
 @{ ViewData["SelectedPedigreeSecondMenu"] = "MemberList";}
 
-<div class="pedigreecontainer container-fluid">
-   
+<div class="container">
+
     <div class="container-fluid pedigree-sec-menu-wrap">
 
         <div class="container-fluid pedigree-sec-menu">
@@ -21,42 +20,85 @@
 
         <hr />
     </div>
-  
 
     <hr />
 
-    <h4>通訊錄</h4>
-
-    <div class="newfm float-right">
-        <p>
-            @Html.ActionLink("建立新會員", "Create")
-        </p>
-    </div>
-    <div class="clearfix"></div>
-
-    @foreach (var item in Model)
-    {
-        <div class="container-fluid memberbox">
-            <div class="member_img">
-                <img src="/Content/Images/indis.gif" />
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-md-8">
+                <h1 class="page-header">通訊錄</h1>
             </div>
-            <div class="member_intro">
-                <div>
-                    <h4><strong>@Html.DisplayFor(model => item.GivenName)</strong></h4>
-                    <div class="member_intro_content">
+            <div class="col-md-4">
+                <div class="pull-right">
+                    <p>
+                        <a href='@Url.Action("Create")' class="btn btn-default">
+                            <span class="glyphicon glyphicon-plus-sign"></span> 建立新會員
+                        </a>
 
-                        <p>個人摘要：@Html.DisplayFor(model => item.Description)</p>
+                    </p>
+                </div>
+            </div>
+        </div>
 
-                        <p>現居地址：@Html.DisplayFor(model => item.CurrentAddress.FullAdress)</p>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        查詢家族成員:
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <form role="form" action="/FamilyMembers/Index" method="post">
+                                <div class="col-md-1">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.GivenName)
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        @Html.EditorFor(model => model.GivenName)
+                                        <p class="help-block"></p>
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.GenearationSeq)
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        @Html.EditorFor(model => model.GenearationSeq)
+                                        <p class="help-block"></p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group pull-right">
+                                        <input type="submit" class="btn btn-warning btn-block" value="查詢" />
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="editor-btn">
-                @Html.ActionLink("編輯", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("詳細資料", "Meta", new { id = item.Id }) |
-                @Html.ActionLink("刪除", "Delete", new { id = item.Id })
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        家族成員列表
+                    </div>
+                    <div class="panel-body">
+                        @if (Model.FamilyMemberList != null)
+                        {
+                            @Html.Partial("_FamilyMemberList", Model.FamilyMemberList);
+                        }
+                    </div>
+                </div>
+
             </div>
         </div>
-    }
 
+    </div>
 </div>

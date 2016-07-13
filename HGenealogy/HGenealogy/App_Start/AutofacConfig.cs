@@ -11,7 +11,6 @@ using HGenealogy.Data.DbContextFactory;
 using HGenealogy.Data.Repository;
 using HGenealogy.Services;
 using HGenealogy.Services.Interface;
-using HGenealogy.Services.Genealogy;
 using HGenealogy.Core;
 using HGenealogy.Fakes;
 
@@ -46,8 +45,6 @@ namespace HGenealogy.App_Start
             builder.RegisterType<PedigreeMetaService>().As<IPedigreeMetaService>().InstancePerLifetimeScope();
             builder.RegisterType<PedigreeInfoService>().As<IPedigreeInfoService>().InstancePerLifetimeScope();
             builder.RegisterType<PedigreeEventService>().As<IPedigreeEventService>().InstancePerLifetimeScope();
-            builder.RegisterType<FamilyService>().As<IFamilyService>().InstancePerLifetimeScope();
-            builder.RegisterType<GeneMetaService>().As<IGeneMetaService>().InstancePerLifetimeScope();
             builder.RegisterType<FamilyMemberService>().As<IFamilyMemberService>().InstancePerLifetimeScope();
             builder.RegisterType<FamilyMemberInfoService>().As<IFamilyMemberInfoService>().InstancePerLifetimeScope();
             builder.RegisterType<AddressService>().As<IAddressService>().InstancePerLifetimeScope();

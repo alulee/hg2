@@ -7,6 +7,7 @@ using HGenealogy.Data;
 using HGenealogy.Data.Repository;
 using System.Linq.Expressions;
 using System.Web.Mvc;
+using HGenealogy.Models.FamilyMember;
 
 namespace HGenealogy.Services.Interface
 {
@@ -18,5 +19,9 @@ namespace HGenealogy.Services.Interface
         void Update(FamilyMember entity);
         List<FamilyMember> GetList(Expression<Func<FamilyMember, bool>> filter);
         List<SelectListItem> GetFamilyMembersSelectList(int pedigreeId);
+        List<FamilyMember> GetFamilyMemberList(FamilyMemberSimpleQueryModel queryModel);
+        List<FamilyMember> GetFamilyMemberListByPedigreeId(string pedigreeId);
+        List<FamilyMember> GetFamilyMemberListByFatherMemberId(string fatherMemberId);
+        List<FamilyMember> GetLinealFamilyTreeByID(string pedigreeId, string familyMemberId);
     }
 }

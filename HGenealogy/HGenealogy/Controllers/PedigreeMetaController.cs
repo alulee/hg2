@@ -42,12 +42,13 @@ namespace HGenealogy.Controllers
         public ActionResult Index()
         {
             ViewBag.Title = "族譜一覽"; 
-            return View(new PedigreeMetaSimpleQueryModel());
+            return Index(new PedigreeMetaSimpleQueryModel());
         }
  
         [HttpPost]
         public ActionResult Index(PedigreeMetaSimpleQueryModel queryModel)
         {
+            ViewBag.Title = "族譜一覽"; 
             var result = _pedigreeMetaService.GetPedigreeMetaList(queryModel);
             if (result == null)
                 result = new List<PedigreeMeta>();

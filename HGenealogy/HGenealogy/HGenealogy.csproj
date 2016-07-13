@@ -276,15 +276,10 @@
     <Compile Include="Areas\Acc\AccAreaRegistration.cs" />
     <Compile Include="Areas\Acc\Controllers\MenusController.cs" />
     <Compile Include="Areas\Acc\Provider\GeneDynamicNodeProvider.cs" />
-    <Compile Include="Areas\Genealogy\Controllers\FamiliesController.cs">
+    <Compile Include="Controllers\VisualGenealogyController.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Areas\Genealogy\Controllers\GenealogyMetaController.cs" />
-    <Compile Include="Areas\Genealogy\Controllers\VisualGenealogyController.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Areas\Genealogy\GenealogyAreaRegistration.cs" />
-    <Compile Include="Areas\Genealogy\Models\VisualGenealogy\RouteViewModel.cs" />
+    <Compile Include="Models\VisualGenealogy\RouteViewModel.cs" />
     <Compile Include="Controllers\AccountController.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -311,16 +306,16 @@
     </Compile>
     <Compile Include="Data\DbContextFactory\DbContextFactory.cs" />
     <Compile Include="Data\DbContextFactory\IDbContextFactory.cs" />
-    <Compile Include="Data\Family.cs">
-      <DependentUpon>hgEntities.tt</DependentUpon>
-    </Compile>
     <Compile Include="Data\FamilyMember.cs">
       <DependentUpon>hgEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\FamilyMemberInfo.cs">
       <DependentUpon>hgEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="Data\GenealogyMeta.cs">
+    <Compile Include="Data\FamilyMemberRelation.cs">
+      <DependentUpon>hgEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\FamilyMember_Picture_Mapping.cs">
       <DependentUpon>hgEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\hgEntities.Context.cs">
@@ -387,9 +382,11 @@
     <Compile Include="Models\FamilyMember\FamilyMemberNavigationModel.cs" />
     <Compile Include="Models\FamilyMember\FamilyMemberInfoModel.cs" />
     <Compile Include="Models\FamilyMember\FamilyTreeViewModels.cs" />
+    <Compile Include="Models\FamilyMember\FamilyMemberSimpleQueryModel.cs" />
     <Compile Include="Models\Home\HomeModel.cs" />
     <Compile Include="Models\Home\NewsModel.cs" />
     <Compile Include="Models\Home\PedigreeMetaModel.cs" />
+    <Compile Include="Models\VisualGenealogy\VisualPedigreeMetaViewModels.cs" />
     <Compile Include="Models\News\NewsModel.cs" />
     <Compile Include="Models\News\NewsQueryModel.cs" />
     <Compile Include="Models\PedigreeInfo\PedigreeEventModel.cs" />
@@ -400,18 +397,12 @@
     <Compile Include="Models\PedigreeMeta\PedigreeMetaQueryModel.cs" />
     <Compile Include="Services\Acc\MenuService.cs" />
     <Compile Include="Services\FamilyMemberService.cs" />
-    <Compile Include="Services\Genealogy\FamilyService.cs" />
-    <Compile Include="Services\Genealogy\GeneMetaService.cs" />
     <Compile Include="Services\AddressService.cs" />
     <Compile Include="Services\Interface\IFamilyMemberService.cs" />
-    <Compile Include="Services\Interface\IFamilyService.cs" />
     <Compile Include="Services\Interface\IAddressService.cs" />
-    <Compile Include="Services\Interface\IGeneMetaService.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\FamilyMetaData.cs" />
     <Compile Include="Models\FamilyMember\FamilyMemberViewModels.cs" />
-    <Compile Include="Models\FamilyViewModels.cs" />
-    <Compile Include="Models\GeneMetaViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MenuViewModel.cs" />
@@ -436,11 +427,6 @@
     </Content>
     <Content Include="App_Data\SQL\Tables\%28A030%29tbAddress.sql" />
     <Content Include="App_Data\SQL\Tables\Temp\族譜 SCRIPT.sql" />
-    <Content Include="Areas\Genealogy\Views\Families\Create.cshtml" />
-    <Content Include="Areas\Genealogy\Views\Families\Delete.cshtml" />
-    <Content Include="Areas\Genealogy\Views\Families\Details.cshtml" />
-    <Content Include="Areas\Genealogy\Views\Families\Edit.cshtml" />
-    <Content Include="Areas\Genealogy\Views\Families\Index.cshtml" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -607,13 +593,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Areas\Genealogy\Views\web.config" />
-    <Content Include="Areas\Genealogy\Views\_ViewStart.cshtml" />
-    <Content Include="Areas\Genealogy\Views\Shared\_Layout.cshtml" />
-    <Content Include="Areas\Genealogy\Views\GenealogyMeta\Create.cshtml" />
-    <Content Include="Areas\Genealogy\Views\GenealogyMeta\Delete.cshtml" />
-    <Content Include="Areas\Genealogy\Views\GenealogyMeta\Edit.cshtml" />
-    <Content Include="Areas\Genealogy\Views\GenealogyMeta\Index.cshtml" />
     <Content Include="Areas\Acc\Views\web.config" />
     <Content Include="Mvc.sitemap" />
     <Content Include="Areas\Acc\Views\_ViewStart.cshtml" />
@@ -623,31 +602,14 @@
     <Content Include="Areas\Acc\Views\Menus\Details.cshtml" />
     <Content Include="Areas\Acc\Views\Menus\Edit.cshtml" />
     <Content Include="Areas\Acc\Views\Menus\Index.cshtml" />
-    <Content Include="Areas\Genealogy\Views\Shared\DisplayTemplates\BootstrapMenuHelperModel.cshtml" />
-    <Content Include="Areas\Genealogy\Views\Shared\DisplayTemplates\CanonicalHelperModel.cshtml" />
-    <Content Include="Areas\Genealogy\Views\Shared\DisplayTemplates\MenuHelperModel.cshtml" />
-    <Content Include="Areas\Genealogy\Views\Shared\DisplayTemplates\MetaRobotsHelperModel.cshtml" />
-    <Content Include="Areas\Genealogy\Views\Shared\DisplayTemplates\SiteMapHelperModel.cshtml" />
-    <Content Include="Areas\Genealogy\Views\Shared\DisplayTemplates\SiteMapNodeModel.cshtml" />
-    <Content Include="Areas\Genealogy\Views\Shared\DisplayTemplates\SiteMapNodeModelList.cshtml" />
-    <Content Include="Areas\Genealogy\Views\Shared\DisplayTemplates\SiteMapPathHelperModel.cshtml" />
-    <Content Include="Areas\Genealogy\Views\Shared\DisplayTemplates\SiteMapTitleHelperModel.cshtml" />
-    <Content Include="Areas\Genealogy\Views\Shared\GenealogyNotSelected.cshtml" />
-    <Content Include="Areas\Genealogy\Views\VisualGenealogy\_RoutDetails.cshtml" />
-    <Content Include="Areas\Genealogy\Views\VisualGenealogy\Index.cshtml" />
-    <Content Include="Areas\Genealogy\Views\GeneExcel\UploadTest.cshtml" />
+    <Content Include="Views\VisualGenealogy\_RoutDetails.cshtml" />
+    <Content Include="Views\VisualGenealogy\Index.cshtml" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\jasny-bootstrap.css.map" />
-    <Content Include="Areas\Genealogy\Views\GeneExcel\_UploadFile.cshtml" />
-    <Content Include="Areas\Genealogy\Views\ZipCode\Index.cshtml" />
-    <Content Include="Areas\Genealogy\Views\ZipCode\_UploadFile.cshtml" />
-    <Content Include="Areas\Genealogy\Views\GeneExcel\Upload.cshtml" />
-    <Content Include="Areas\Genealogy\Views\Families\_FamilyTreeList.cshtml" />
-    <Content Include="Areas\Genealogy\Views\GenealogyMeta\_GeneMetaList.cshtml" />
     <EntityDeploy Include="Data\hgEntities.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>hgEntities.Designer.cs</LastGenOutput>
@@ -995,9 +957,12 @@
     <Content Include="Views\PedigreeMeta\_PedigreeMetaList.cshtml" />
     <Content Include="Views\Shared\_TopMenu.cshtml" />
     <Content Include="Views\FamilyMembers\FamilyTreeA2.cshtml" />
+    <Content Include="Views\FamilyMembers\CreateOrUpdateBackup.cshtml" />
+    <Content Include="Views\FamilyMembers\_FamilyMemberList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\FileUpload\" />
+    <Folder Include="Services\Genealogy\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

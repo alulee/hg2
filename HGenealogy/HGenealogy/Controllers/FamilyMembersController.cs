@@ -38,6 +38,7 @@ namespace HGenealogy.Controllers
         private static Queue<string> myMessageQuere = new Queue<string>();
         private static int myCurrentRow = 0;
         private string fileSavedPath = WebConfigurationManager.AppSettings["UploadPath"];
+        private readonly string NoImageUrl = "/Content/Images/indis.gif";
 
         #endregion
 
@@ -182,8 +183,8 @@ namespace HGenealogy.Controllers
                 }
                 #endregion
             }
-            
-            // 讀取目前選取的族譜
+
+            #region 讀取目前選取的族譜
             if (model.IsLoadCurrentPedigreeMeta)
             {
                 int currentPedigreeMetaId = Session["currentPedigreeId"] == null ? 0 : Convert.ToInt16(Session["currentPedigreeId"]);
@@ -197,6 +198,38 @@ namespace HGenealogy.Controllers
                     }
                 }
             }
+            #endregion
+
+            #region 載入目前選定族譜的所有家族成員
+            
+            if (model.IsLoadPedigreeMembers)
+            {
+                int currentPedigreeMetaId = Session["currentPedigreeId"] == null ? 0 : Convert.ToInt16(Session["currentPedigreeId"]);
+                if (currentPedigreeMetaId != 0)
+                {
+                    model.AvailableFatherMemberList = _familyMemberService.GetFamilyMembersSelectList(currentPedigreeMetaId);
+                    model.AvailableMotherMemberList = _familyMemberService.GetFamilyMembersSelectList(currentPedigreeMetaId);
+                    model.AvailableMateMemberList = _familyMemberService.GetFamilyMembersSelectList(currentPedigreeMetaId);
+                }
+
+                var selectitem = model.AvailableFatherMemberList.Where(x => x.Value == model.FatherMemberId.ToString()).FirstOrDefault();
+                if(selectitem !=null)
+                {
+                    selectitem.Selected = true;
+                }
+                selectitem = model.AvailableMotherMemberList.Where(x => x.Value == model.MotherMemberId.ToString()).FirstOrDefault();
+                if (selectitem != null)
+                {
+                    selectitem.Selected = true;
+                }
+                selectitem = model.AvailableMateMemberList.Where(x => x.Value == model.MateMemberId.ToString()).FirstOrDefault();
+                if (selectitem != null)
+                {
+                    selectitem.Selected = true;
+                }
+            }
+            
+            #endregion
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
@@ -243,37 +276,44 @@ namespace HGenealogy.Controllers
         #region FamilyMember 
 
         // GET: FamilyMembersViewModel
-        public ActionResult Index(int page = 1)
+        public ActionResult Index()
+        {
+            return Index(new FamilyMemberSimpleQueryModel());
+        }
+
+        [HttpPost]
+        public ActionResult Index(FamilyMemberSimpleQueryModel queryModel)
         {
             int currentPedigreeId = 0;
- 
+
             if (Session["currentPedigreeId"] == null ||
                 !int.TryParse(Session["currentPedigreeId"].ToString(), out currentPedigreeId))
             {
                 return RedirectToAction("Index", "PedigreeMeta");
-               
+
             }
 
             var pedigreeMeta = _pedigreeMetaService.GetById(currentPedigreeId);
             if (pedigreeMeta == null)
                 return RedirectToAction("Index", "PedigreeMeta");
- 
-            var familyMemberList = this._familyMemberService
-                                    .GetAll()
-                                    .ToList<FamilyMember>();
+            
+            
+            queryModel.PedigreeId = currentPedigreeId.ToString();
 
-            int currentPage = page < 1 ? 1 : page;
-           
-            List<FamilyMemberViewModel> familyMemberViewModelList = Mapper.Map<List<FamilyMember>, List<FamilyMemberViewModel>>(familyMemberList);
-            ViewBag.currentPedigreeId = currentPedigreeId;
-            ViewBag.currentPedigreeName = pedigreeMeta.Title;
-
-            foreach (var item in familyMemberViewModelList)
+            var result = this._familyMemberService.GetFamilyMemberList(queryModel);
+            if (result == null)
+                result = new List<FamilyMember>();
+       
+            var resultList = Mapper.Map<List<FamilyMemberViewModel>>(result);
+            foreach (var item in resultList)
             {
                 try
                 {
                     if (item.CurrentAddressId != 0)
                         item.CurrentAddress = Mapper.Map<AddressViewModel>(_addressService.GetById(item.CurrentAddressId));
+
+                    if (string.IsNullOrEmpty(item.ImageUrl))
+                        item.ImageUrl = NoImageUrl;
 
                     if (item.CurrentAddress != null)
                     {
@@ -286,9 +326,16 @@ namespace HGenealogy.Controllers
                 catch { }
             }
 
-            return View(familyMemberViewModelList.ToPagedList(currentPage, 15));
- 
+
+            queryModel.FamilyMemberList = resultList;
+            
+            ViewBag.Title = "通訊錄";
+            ViewBag.currentPedigreeId = currentPedigreeId;
+            ViewBag.currentPedigreeTitle = pedigreeMeta.Title; ;
+
+            return View(queryModel);
         }
+
 
         public ActionResult IndexByPedigree()
         {
@@ -400,14 +447,16 @@ namespace HGenealogy.Controllers
             var pedigreeMeta = _pedigreeMetaService.GetById(currentPedigreeId);
             if (pedigreeMeta == null)
                 return RedirectToAction("Index", "PedigreeMeta");
- 
-            FamilyMember familyMember = new FamilyMember();
-            var familyMemberViewModel = Mapper.Map<FamilyMember, FamilyMemberViewModel>(familyMember);
+
+            FamilyMemberViewModel familyMemberViewModel = new FamilyMemberViewModel(); 
 
             familyMemberViewModel.IsLoadAddressSelectList = true;
             familyMemberViewModel.IsLoadCurrentPedigreeMeta = true;
+            familyMemberViewModel.IsLoadPedigreeMembers = true;
 
             PrepareFamilyMemberViewModel(familyMemberViewModel);
+
+            familyMemberViewModel.PedigreeId = currentPedigreeId;
 
             ViewBag.Title = "建立新的家族成員";
             return View("CreateOrUpdate", familyMemberViewModel);
@@ -440,6 +489,8 @@ namespace HGenealogy.Controllers
             var familyMemberViewModel = Mapper.Map<FamilyMember, FamilyMemberViewModel>(familyMember);
             familyMemberViewModel.IsLoadAddressSelectList = true;
             familyMemberViewModel.IsLoadCurrentPedigreeMeta = true;
+            familyMemberViewModel.IsLoadPedigreeMembers = true;
+            
 
             PrepareFamilyMemberViewModel(familyMemberViewModel);
 
@@ -462,16 +513,22 @@ namespace HGenealogy.Controllers
                 
                 try
                 {
-                    Address currentAddress = null;
+                    familyMember.BirthYear = familyMember.BirthYear ?? "";
+                    familyMember.BirthMonth = familyMember.BirthMonth ?? "";
+                    familyMember.BirthDate = familyMember.BirthDate ?? "";
+                    familyMember.LungName = familyMember.LungName ?? "";
+                    familyMember.HakkaName = familyMember.HakkaName ?? "";
+                    familyMember.Email = familyMember.Email ?? "";
+                    familyMember.Phone = familyMember.Phone ?? "";
+                    familyMember.MobilePhone = familyMember.MobilePhone ?? ""; 
+
                     if (familyMember.Id == 0)
                     {
                         // 新增
                         familyMember.CreatedWho = "sa";
                         familyMember.UpdatedWho = "sa";
                         _familyMemberService.Insert(familyMember);
-
-                        // 新增地址
-                        // currentAddress = _addressService.GetNewAddress();
+ 
                     }
                     else
                     {
@@ -482,6 +539,7 @@ namespace HGenealogy.Controllers
 
                     #region 地址處理
 
+                    Address currentAddress = null;
                     string country = editfamilyMember.CountryName == null ? "" : editfamilyMember.CountryName;                    
                     string stateProvince = editfamilyMember.StateProvinceName == null ? "" : editfamilyMember.StateProvinceName;
                     string city = editfamilyMember.CityName == null ? "" : editfamilyMember.CityName;
@@ -551,7 +609,7 @@ namespace HGenealogy.Controllers
                     }
 
                     #endregion
-
+ 
                     _familyMemberService.Update(familyMember);
 
                     editfamilyMember.Id = familyMember.Id;
@@ -563,6 +621,12 @@ namespace HGenealogy.Controllers
                     Console.Write(e.ToString());
                 }
              }
+
+            editfamilyMember.IsLoadAddressSelectList = true;
+            editfamilyMember.IsLoadCurrentPedigreeMeta = true;
+            editfamilyMember.IsLoadPedigreeMembers = true;
+
+            PrepareFamilyMemberViewModel(editfamilyMember);
 
             return View("CreateOrUpdate", editfamilyMember);
         }
@@ -1436,9 +1500,83 @@ namespace HGenealogy.Controllers
                     }
                 }
             }
-
         }
 
+        public VisualPedigreeRouteViewModel GetPedigreeRouteViewModel(FamilyMember familyMember)
+        {
+            VisualPedigreeRouteViewModel pedigreeroute = new VisualPedigreeRouteViewModel();
+            pedigreeroute.FamilyMemberId = familyMember.Id;
+            pedigreeroute.GenerationSeq = familyMember.GenerationSeq.ToString();
+            pedigreeroute.GivenName = familyMember.GivenName;
+            if (familyMember.CurrentAddressId > 0)
+            {
+                var address = _addressService.GetById(familyMember.CurrentAddressId);
+                if (address != null)
+                {
+                    pedigreeroute.Longitude = address.Longitude;
+                    pedigreeroute.Latitude = address.Latitude;
+                    pedigreeroute.FullAddress = address.Country + " " +
+                                                  address.StateProvince + " " +
+                                                  address.City + " " +
+                                                  address.Address1;
+                }
+            }
+
+            return pedigreeroute;
+        }
+
+        [HttpPost]
+        public JsonResult GetFamilyListForDisMapJson(string pedigreeId, string familyMemberId)
+        {
+            List<FamilyMember> familyTree = new List<FamilyMember>();
+
+            int fid = 0;
+            if (familyMemberId == null || !int.TryParse(familyMemberId, out fid))
+            {
+                return Json(familyTree);
+            }
+
+            familyTree = this._familyMemberService.GetLinealFamilyTreeByID(pedigreeId, familyMemberId);
+
+            if (familyTree == null)
+            {
+                return Json(familyTree);
+            }
+
+            var orderedfamilyTree = familyTree.OrderBy(x => x.GenerationSeq);
+            List<VisualPedigreeRouteViewModel> pedigreeRouteList = new List<VisualPedigreeRouteViewModel>();
+            List<VisualPedigreeRouteViewModel[]> familychain = new List<VisualPedigreeRouteViewModel[]>();
+
+            foreach (var f in orderedfamilyTree)
+            {
+                FamilyMember ftemp = f;
+                List<VisualPedigreeRouteViewModel> newfamilychain = new List<VisualPedigreeRouteViewModel>();
+                VisualPedigreeRouteViewModel pedigreeroute = GetPedigreeRouteViewModel(ftemp);
+
+                if (pedigreeroute != null)
+                    pedigreeRouteList.Add(pedigreeroute);
+
+                while (true && pedigreeroute != null)
+                {
+                    newfamilychain.Add(pedigreeroute);
+
+                    if ( ftemp.FatherMemberId == 0)
+                        break;
+
+                    var father = orderedfamilyTree.Where(x => x.Id.ToString() == ftemp.FatherMemberId.ToString()).FirstOrDefault();
+                    if (father != null)
+                    {
+                        ftemp = father;
+                        pedigreeroute = GetPedigreeRouteViewModel(father);
+                    }
+                }
+                familychain.Add(newfamilychain.ToArray());
+            }
+
+            return Json(new KeyValuePair<VisualPedigreeRouteViewModel[], List<VisualPedigreeRouteViewModel[]>>(pedigreeRouteList.ToArray(), familychain));
+
+        }
+        
         #endregion
 
         #region Navigation

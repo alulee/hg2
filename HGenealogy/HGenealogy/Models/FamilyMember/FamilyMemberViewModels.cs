@@ -23,6 +23,7 @@ namespace HGenealogy.Models.FamilyMember
             Description = "";
             FatherMemberId = 0;
             MotherMemberId = 0;
+            MateMemberId = 0;
             BirthYear = "";
             BirthMonth = "";
             BirthDate = "";
@@ -57,11 +58,15 @@ namespace HGenealogy.Models.FamilyMember
             IsLoadParentPedigreeMeta = false;
             IsLoadAddressSelectList = false;
             IsLoadFamilyMemberInfos = false;
+            IsLoadPedigreeMembers = false;
 
             AvailableCountries = new List<SelectListItem>();
             AvailableStateProvinces = new List<SelectListItem>();
             AvailableCities = new List<SelectListItem>();
             AvailablePedigreeMeta = new List<SelectListItem>();
+            AvailableFatherMemberList = new List<SelectListItem>();
+            AvailableMotherMemberList = new List<SelectListItem>();
+            AvailableMateMemberList = new List<SelectListItem>(); 
         }
 
         public int Id { get; set; }
@@ -74,6 +79,7 @@ namespace HGenealogy.Models.FamilyMember
         [Display(Name = "名")]
         public string GivenName { get; set; }
 
+        [Required]
         [Display(Name = "個人摘要")]
         public string Description { get; set; }
 
@@ -84,6 +90,7 @@ namespace HGenealogy.Models.FamilyMember
  
         public int FatherMemberId { get; set; }
         public int MotherMemberId { get; set; }
+        public int MateMemberId { get; set; }
         public string GGrandFatherName { get; set; }
         public string GrandFatherName { get; set; }
         public string FatherName { get; set; }
@@ -100,9 +107,15 @@ namespace HGenealogy.Models.FamilyMember
         [Display(Name = "電子郵件")]
         public string Email { get; set; }
 
+        [Display(Name = "電話")]
         public string Phone { get; set; }
+
+        [Display(Name = "行動電話")]
         public string MobilePhone { get; set; }
         public string Gender { get; set; }
+
+        [DisplayName("稱謂")]
+        public string Title { get; set; }
 
         [DisplayName("郎名")]
         public string LungName { get; set; }
@@ -143,8 +156,14 @@ namespace HGenealogy.Models.FamilyMember
         public IList<SelectListItem> AvailableCities { get; set; }
         public IList<SelectListItem> AvailablePedigreeMeta { get; set; }
 
+        public bool IsLoadPedigreeMembers { get; set; } 
+        public IList<SelectListItem> AvailableFatherMemberList { get; set; }
+        public IList<SelectListItem> AvailableMotherMemberList { get; set; }
+        public IList<SelectListItem> AvailableMateMemberList { get; set; }
+
         public bool IsLoadFamilyMemberInfos { get; set; }
         public IList<FamilyMemberInfoModel> FamilyMemberInfos { get; set; }
+
 
     }
 

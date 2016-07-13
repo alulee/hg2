@@ -22,6 +22,7 @@ namespace HGenealogy.Data
         public string Description { get; set; }
         public int FatherMemberId { get; set; }
         public int MotherMemberId { get; set; }
+        public int MateMemberId { get; set; }
         public string BirthYear { get; set; }
         public string BirthMonth { get; set; }
         public string BirthDate { get; set; }
@@ -30,6 +31,7 @@ namespace HGenealogy.Data
         public string Phone { get; set; }
         public string MobilePhone { get; set; }
         public string Gender { get; set; }
+        public string Title { get; set; }
         public string LungName { get; set; }
         public string HakkaName { get; set; }
         public string JobDescription { get; set; }

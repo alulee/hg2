@@ -3,9 +3,6 @@
 @model FamilyMemberViewModel
 
 
-<h2>家族成員資料維護</h2>
-<hr />
-
 @ViewBag.Validation
 @foreach (ModelState modelState in ViewData.ModelState.Values)
 {
@@ -24,127 +21,211 @@
         }, new { id = "createForm", role = "form" }))
 {
     @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.PedigreeId)
+    @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.CreatedOnUtc)
+    @Html.HiddenFor(model => model.UpdatedOnUtc)
+    @Html.HiddenFor(model => model.CreatedWho)
+    @Html.HiddenFor(model => model.UpdatedWho)
 
-
-    <div class="form-horizontal">
-        <h4>@ViewBag.Title</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
-        @Html.HiddenFor(model => model.CreatedOnUtc)
-        @Html.HiddenFor(model => model.UpdatedOnUtc)
-        @Html.HiddenFor(model => model.CreatedWho)
-        @Html.HiddenFor(model => model.UpdatedWho)
-
-
-        <div class="form-group">
-            <label class="control-label">所屬族譜</label>
-            <div class="col-md-4">
-                @Html.EditorFor(model => model.CurrentPedigreeMeta.Title, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">@ViewBag.Title</h1>
             </div>
         </div>
 
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.FamilyName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.FamilyName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                @Html.ValidationMessageFor(model => model.FamilyName, "", new { @class = "text-danger" })
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h4>@Model.FamilyName @Model.GivenName </h4>
             </div>
-        </div>
+            <div class="panel-body">
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.GivenName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.GivenName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.GivenName, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.GenerationSeq, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.GenerationSeq, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.GenerationSeq, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ImageUrl, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ImageUrl, "Upload")
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2">性別</label>
-            <div class="col-md-10">
-                <div class="gender-input">
-                    <span class="male">
-                        @Html.RadioButton("Gender", "M", (Model.Gender == "M"), new { id = "gender-male" })
-                        <label class="forcheckbox" for="gender-male">男</label>
-                    </span>
-                    <span class="female">
-                        @Html.RadioButton("Gender", "F", (Model.Gender == "F"), new { id = "gender-female" })
-                        <label class="forcheckbox" for="gender-female">女</label>
-                    </span>
+                <div class="dfp-form-title">
+                    <label for="Title">族譜相關</label>
+                    <span class="dfp-form-required">*</span>
                 </div>
-            </div>
-        </div>
 
-        <div class="form-group">
-            <div class="inputs date-of-birth">
-                <label class="control-label col-md-2">生日</label>
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.BirthYear, new { htmlAttributes = new { @class = "birthday-input birthday-input-year", placeholder = "YYYY" } })
-                    <span> 年</span>
-                    @Html.EditorFor(model => model.BirthMonth, new { htmlAttributes = new { @class = "birthday-input birthday-input-month", placeholder = "MM" } })
-                    <span> 月</span>
-                    @Html.EditorFor(model => model.BirthDate, new { htmlAttributes = new { @class = "birthday-input birthday-input-date", placeholder = "DD" } })
-                    <span> 日</span>
+                <div class="dfp-input col-sm-4">
+                    <label for="Title">所屬族譜</label>
+                    @Html.EditorFor(model => model.CurrentPedigreeMeta.Title, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.CurrentPedigreeMeta.Title, "", new { @class = "text-danger" })
                 </div>
-            </div>
-        </div>
-        <hr />
+                <div class="dfp-input col-sm-4">
+                    @Html.LabelFor(model => model.GenerationSeq, htmlAttributes: new { @for = "Title" })
+                    @Html.EditorFor(model => model.GenerationSeq, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.GenerationSeq, "", new { @class = "text-danger" })
+                </div>
+                <div class="dfp-input col-sm-4">
+                    @Html.LabelFor(model => model.Title, htmlAttributes: new { @for = "Title" })
+                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                </div>
 
-        <!--地址-->
-        <div class="form-group">
-            <div class="inputs address">
-                <label class="control-label col-md-2">目前居住城市</label>
-                <div class="col-md-10">
+
+                <!--親屬-->
+                <div class="clearfix"> </div>
+                <div class="dfp-form-title">
+                    <label for="Title">親屬</label>
+                    <span class="dfp-form-required">*</span>
+                </div>
+
+                <div class="dfp-input col-sm-4">
+                    <label for="Title">父親</label>
+                    <span class="dfp-form-required">*</span>
+                    @Html.DropDownList("FatherMemberId", (IEnumerable<SelectListItem>)Model.AvailableFatherMemberList, "", new { @class = "ddl-input" })
+                </div>
+
+                <div class="dfp-input col-sm-4">
+                    <label for="Title">母親</label>
+                    @Html.DropDownList("MotherMemberId", (IEnumerable<SelectListItem>)Model.AvailableMotherMemberList, "", new { @class = "ddl-input" })
+                </div>
+                <div class="dfp-input col-sm-4">
+                    <label for="Title">配偶</label>
+                    <span class="dfp-form-required">*</span>
+                    @Html.DropDownList("MateMemberId", (IEnumerable<SelectListItem>)Model.AvailableMateMemberList, "", new { @class = "ddl-input" })
+                </div>
+
+                <div class="clearfix"> </div>
+
+                <div class="dfp-form-title">
+                    <label for="Title">姓名</label>
+                </div>
+
+                <div class="dfp-input col-sm-4">
+                    @Html.LabelFor(model => model.FamilyName, htmlAttributes: new { @for = "Title" })
+                    <span class="dfp-form-required">*</span>
+                    @Html.EditorFor(model => model.FamilyName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.FamilyName, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="dfp-input col-sm-4">
+                    @Html.LabelFor(model => model.GivenName, htmlAttributes: new { @for = "Title" })
+                    <span class="dfp-form-required">*</span>
+                    @Html.EditorFor(model => model.GivenName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.GivenName, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="clearfix"> </div>
+                <div class="dfp-input col-sm-4">
+                    @Html.LabelFor(model => model.LungName, htmlAttributes: new { @for = "Title" })
+                    @Html.EditorFor(model => model.LungName, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+
+                <div class="dfp-input col-sm-4">
+                    @Html.LabelFor(model => model.HakkaName, htmlAttributes: new { @for = "Title" })
+                    @Html.EditorFor(model => model.HakkaName, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+                <div class="clearfix"> </div>
+                <div class="dfp-form-title">
+                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @for = "Title" })
+                    <span class="dfp-form-required">*</span>
+                </div>
+                <div class="dfp-input col-sm-12">
+                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="clearfix"> </div>
+
+                <div class="dfp-form-title">
+                    <label for="Title">頭像</label>
+                </div>
+                <div class="dfp-input col-sm-4">
+                    @Html.EditorFor(model => model.ImageUrl, "Upload")
+                </div>
+
+                <div class="clearfix"> </div>
+
+                <div class="dfp-form-title">
+                    <label for="Title">性別</label>
+                </div>
+                <div class="dfp-input col-sm-4">
+                    <div class="gender-input">
+                        <span class="male">
+                            @Html.RadioButton("Gender", "M", (Model.Gender == "M"), new { id = "gender-male" })
+                            <label class="forcheckbox" for="gender-male">男</label>
+                        </span>
+                        <span class="female">
+                            @Html.RadioButton("Gender", "F", (Model.Gender == "F"), new { id = "gender-female" })
+                            <label class="forcheckbox" for="gender-female">女</label>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="clearfix"> </div>
+
+                <div class="dfp-form-title">
+                    <label for="Title">生日</label>
+                </div>
+                <div class="dfp-input col-sm-10">
+                    <div class="inputs date-of-birth">
+                        @Html.EditorFor(model => model.BirthYear, new { htmlAttributes = new { @class = "birthday-input birthday-input-year", placeholder = "YYYY" } })
+                        <span> 年</span>
+                        @Html.EditorFor(model => model.BirthMonth, new { htmlAttributes = new { @class = "birthday-input birthday-input-month", placeholder = "MM" } })
+                        <span> 月</span>
+                        @Html.EditorFor(model => model.BirthDate, new { htmlAttributes = new { @class = "birthday-input birthday-input-date", placeholder = "DD" } })
+                        <span> 日</span>
+                    </div>
+                </div>
+
+                <!--地址-->
+                <div class="clearfix"> </div>
+                <div class="dfp-form-title">
+                    <label for="Title">目前居住地址</label>
+                </div>
+                <div class="dfp-input col-sm-4">
+                    <label for="Title">國家</label>
+                    <span class="dfp-form-required">*</span>
                     @Html.DropDownList("CountryName", (IEnumerable<SelectListItem>)Model.AvailableCountries, "", new { @class = "country-input", id = "Countries" })
+                </div>
+
+                <div class="dfp-input col-sm-4">
+                    <label for="Title">省州</label>
                     @Html.DropDownList("StateProvinceName", (IEnumerable<SelectListItem>)Model.AvailableStateProvinces, "", new { @class = "stateprovince-input", id = "StateProvinces" })
+                </div>
+                <div class="dfp-input col-sm-4">
+                    <label for="Title">城市</label>
                     @Html.DropDownList("CityName", (IEnumerable<SelectListItem>)Model.AvailableCities, "", new { @class = "city-input", id = "Cities" })
                 </div>
-            </div>
-
-        </div>
-
-        <div class="form-group">
-            <div class="inputs address">
-                <label class="control-label col-md-2">目前居住地址</label>
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Address1, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Address1, "", new { @class = "text-danger" })
+                <div class="dfp-input col-sm-12">
+                    <label for="Title">詳細地址</label>
+                    <div class="inputs date-of-birth">
+                        @Html.EditorFor(model => model.Address1, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
                 </div>
-            </div>
-        </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="確認存檔" class="btn btn-default" />
+                <div class="clearfix"> </div>
+                <div class="dfp-form-title">
+                    <label for="Title">聯絡方式</label>
+                </div>
+                <div class="dfp-input col-sm-4">
+                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @for = "Title" })                  
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control"} })                   
+                </div>
+                <div class="dfp-input col-sm-4">
+                    @Html.LabelFor(model => model.Phone, htmlAttributes: new { @for = "Title" })
+                    @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+                <div class="dfp-input col-sm-4">
+                    @Html.LabelFor(model => model.MobilePhone, htmlAttributes: new { @for = "Title" })
+                    @Html.EditorFor(model => model.MobilePhone, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+
+                <div class="clearfix"> </div>
+                <div class="dfp-form-title">
+                </div>
+                <div class="dfp-input col-sm-offset-10 col-sm-2">
+                    <input type="submit" value="確認存檔" class="btn btn-lg btn-info" />
+                </div>
+
             </div>
+
         </div>
     </div>
 }
+<hr />
 
 <div>
     @Html.ActionLink("回到成員列表", "Index")
