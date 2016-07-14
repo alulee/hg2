@@ -565,11 +565,10 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*/
     };
 
     updateTree = function (pedigreeId, familyMemberId, generationCount) {
-
-        // Get JSON data    
-        var url = "/FamilyMembers/GetFamiliesTreeJson";
+        
+        // Get JSON data         
         $.ajax({
-            url: url,
+            url: $('#getFamiliesTreeJsonUrl').text().trim(),
             data: { pedigreeId: pedigreeId, familyMemberId: familyMemberId, generationCount: generationCount },
             type: 'post',
             cache: false,
@@ -584,7 +583,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*/
 
     updateFamilyMember = function (pedigreeId) {
         $.ajax({
-            url: "/FamilyMembers/GetFamiliesJson",
+            url: $('#getFamiliesJsonUrl').text().trim(),
             data: { pedigreeId: pedigreeId, isLoadLinks: false },
             type: 'post',
             cache: false,

@@ -422,7 +422,7 @@
         var selectedPedigree = domain;
  
         if ($.trim(selectedPedigree).length > 0) {
-            var url = "/FamilyMembers/GetFamiliesJson?pedigreeId=" + selectedPedigree;
+            var url = "~/FamilyMembers/GetFamiliesJson?pedigreeId=" + selectedPedigree;
             $.ajax({
                 url: url,
                 data: { pedigreeId: selectedPedigree },
@@ -511,7 +511,7 @@
 
     updateFamilyMember = function(pedigreeId) {
             $.ajax({
-                url: "/FamilyMembers/GetFamiliesJson",
+                url: "~/FamilyMembers/GetFamiliesJson",
                 data: { pedigreeId: pedigreeId, isLoadLinks: false },
                 type: 'post',
                 cache: false,

@@ -10,10 +10,10 @@
   </PropertyGroup>
   <ItemGroup>
     <File Include="App_Data/hDatabase.mdf">
-      <publishTime>06/27/2016 13:41:18</publishTime>
+      <publishTime>07/09/2016 07:13:58</publishTime>
     </File>
     <File Include="App_Data/hDatabase_log.ldf">
-      <publishTime>06/27/2016 13:41:18</publishTime>
+      <publishTime>07/09/2016 07:13:58</publishTime>
     </File>
     <File Include="App_Data/SQL/Tables/%28A030%29tbAddress.sql">
       <publishTime>06/01/2016 00:17:56</publishTime>
@@ -166,7 +166,7 @@
       <publishTime>04/19/2015 12:52:27</publishTime>
     </File>
     <File Include="bin/HGenealogy.dll">
-      <publishTime>06/27/2016 13:41:32</publishTime>
+      <publishTime>07/14/2016 09:02:43</publishTime>
     </File>
     <File Include="bin/ICSharpCode.SharpZipLib.dll">
       <publishTime>04/15/2015 03:42:57</publishTime>
@@ -178,7 +178,7 @@
       <publishTime>06/02/2016 10:08:47</publishTime>
     </File>
     <File Include="bin/LinqToExcel.dll">
-      <publishTime>04/16/2015 03:24:41</publishTime>
+      <publishTime>07/13/2016 19:58:29</publishTime>
     </File>
     <File Include="bin/log4net.dll">
       <publishTime>04/16/2015 03:24:41</publishTime>
@@ -280,13 +280,13 @@
       <publishTime>04/11/2015 15:19:00</publishTime>
     </File>
     <File Include="bin/Remotion.Data.Linq.dll">
-      <publishTime>04/16/2015 03:24:41</publishTime>
+      <publishTime>07/13/2016 19:58:29</publishTime>
     </File>
     <File Include="bin/Remotion.dll">
-      <publishTime>04/16/2015 03:24:41</publishTime>
+      <publishTime>07/13/2016 19:58:29</publishTime>
     </File>
     <File Include="bin/Remotion.Interfaces.dll">
-      <publishTime>04/16/2015 03:24:41</publishTime>
+      <publishTime>07/13/2016 19:58:29</publishTime>
     </File>
     <File Include="bin/System.Net.Http.Formatting.dll">
       <publishTime>05/04/2015 16:49:20</publishTime>
@@ -403,10 +403,25 @@
       <publishTime>04/15/2015 21:47:45</publishTime>
     </File>
     <File Include="Content/familytreea.css">
-      <publishTime>06/26/2016 15:37:59</publishTime>
+      <publishTime>06/27/2016 18:01:23</publishTime>
+    </File>
+    <File Include="Content/hakkageneology.jpg">
+      <publishTime>06/26/2015 02:14:15</publishTime>
     </File>
     <File Include="Content/Images/hkslide1.png">
       <publishTime>05/22/2016 22:52:44</publishTime>
+    </File>
+    <File Include="Content/Images/home/carousel1.jpg">
+      <publishTime>11/17/2014 11:48:40</publishTime>
+    </File>
+    <File Include="Content/Images/home/carousel2.jpg">
+      <publishTime>06/30/2016 09:52:24</publishTime>
+    </File>
+    <File Include="Content/Images/home/carousel3.jpg">
+      <publishTime>06/30/2016 09:52:24</publishTime>
+    </File>
+    <File Include="Content/Images/home/carousel4.jpg">
+      <publishTime>06/30/2016 09:52:24</publishTime>
     </File>
     <File Include="Content/Images/indis.gif">
       <publishTime>01/13/2011 16:22:04</publishTime>
@@ -417,6 +432,27 @@
     <File Include="Content/Images/pedi.gif">
       <publishTime>01/13/2011 16:21:58</publishTime>
     </File>
+    <File Include="Content/Images/uploaded/ella_sri_lanka.jpg">
+      <publishTime>06/21/2016 08:56:09</publishTime>
+    </File>
+    <File Include="Content/Images/uploaded/g1.jpg">
+      <publishTime>07/01/2016 10:51:24</publishTime>
+    </File>
+    <File Include="Content/Images/uploaded/g1.png">
+      <publishTime>07/01/2016 06:18:56</publishTime>
+    </File>
+    <File Include="Content/Images/uploaded/source.gif">
+      <publishTime>07/14/2016 09:14:38</publishTime>
+    </File>
+    <File Include="Content/Images/uploaded/test1.png">
+      <publishTime>06/27/2016 19:17:17</publishTime>
+    </File>
+    <File Include="Content/Images/uploaded/test12.jpg">
+      <publishTime>06/07/2016 09:08:33</publishTime>
+    </File>
+    <File Include="Content/Images/uploaded/test3.jpg">
+      <publishTime>07/01/2016 05:53:45</publishTime>
+    </File>
     <File Include="Content/jasny-bootstrap.css">
       <publishTime>04/15/2015 21:47:45</publishTime>
     </File>
@@ -426,14 +462,164 @@
     <File Include="Content/jasny-bootstrap.min.css">
       <publishTime>04/15/2015 21:47:45</publishTime>
     </File>
+    <File Include="Content/kendo/2016.2.607/Bootstrap/editor.png">
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Content/kendo/2016.2.607/Bootstrap/imagebrowser.png">
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Content/kendo/2016.2.607/Bootstrap/indeterminate.gif">
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Content/kendo/2016.2.607/Bootstrap/loading-image.gif">
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Content/kendo/2016.2.607/Bootstrap/loading.gif">
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Content/kendo/2016.2.607/Bootstrap/loading_2x.gif">
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Content/kendo/2016.2.607/Bootstrap/markers.png">
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Content/kendo/2016.2.607/Bootstrap/markers_2x.png">
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Content/kendo/2016.2.607/Bootstrap/slider-h.gif">
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Content/kendo/2016.2.607/Bootstrap/slider-v.gif">
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Content/kendo/2016.2.607/Bootstrap/sprite.png">
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Content/kendo/2016.2.607/Bootstrap/sprite_2x.png">
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Content/kendo/2016.2.607/Bootstrap/sprite_kpi.png">
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Content/kendo/2016.2.607/Bootstrap/sprite_kpi_2x.png">
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Content/kendo/2016.2.607/kendo.bootstrap.min.css">
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Content/kendo/2016.2.607/kendo.common-bootstrap.min.css">
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Content/leaflet.css">
+      <publishTime>05/23/2014 09:11:06</publishTime>
+    </File>
     <File Include="Content/PagedList.css">
       <publishTime>04/15/2015 21:07:02</publishTime>
     </File>
     <File Include="Content/Site.css">
-      <publishTime>06/23/2016 18:11:14</publishTime>
+      <publishTime>07/12/2016 12:13:21</publishTime>
     </File>
     <File Include="Content/siteAllen.css">
-      <publishTime>06/21/2016 08:20:25</publishTime>
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Content/themes/base/accordion.css">
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Content/themes/base/all.css">
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Content/themes/base/autocomplete.css">
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Content/themes/base/base.css">
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Content/themes/base/button.css">
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Content/themes/base/core.css">
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Content/themes/base/datepicker.css">
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Content/themes/base/dialog.css">
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Content/themes/base/draggable.css">
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Content/themes/base/images/ui-bg_flat_0_aaaaaa_40x100.png">
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Content/themes/base/images/ui-bg_flat_75_ffffff_40x100.png">
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Content/themes/base/images/ui-bg_glass_55_fbf9ee_1x400.png">
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Content/themes/base/images/ui-bg_glass_65_ffffff_1x400.png">
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Content/themes/base/images/ui-bg_glass_75_dadada_1x400.png">
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Content/themes/base/images/ui-bg_glass_75_e6e6e6_1x400.png">
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Content/themes/base/images/ui-bg_glass_95_fef1ec_1x400.png">
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Content/themes/base/images/ui-bg_highlight-soft_75_cccccc_1x100.png">
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Content/themes/base/images/ui-icons_222222_256x240.png">
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Content/themes/base/images/ui-icons_2e83ff_256x240.png">
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Content/themes/base/images/ui-icons_454545_256x240.png">
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Content/themes/base/images/ui-icons_888888_256x240.png">
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Content/themes/base/images/ui-icons_cd0a0a_256x240.png">
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Content/themes/base/menu.css">
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Content/themes/base/progressbar.css">
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Content/themes/base/resizable.css">
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Content/themes/base/selectable.css">
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Content/themes/base/selectmenu.css">
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Content/themes/base/slider.css">
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Content/themes/base/sortable.css">
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Content/themes/base/spinner.css">
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Content/themes/base/tabs.css">
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Content/themes/base/theme.css">
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Content/themes/base/tooltip.css">
+      <publishTime>07/12/2016 08:40:22</publishTime>
     </File>
     <File Include="Content/tinymce/langs/readme.md">
       <publishTime>06/07/2016 09:08:33</publishTime>
@@ -553,7 +739,7 @@
       <publishTime>06/07/2016 09:08:34</publishTime>
     </File>
     <File Include="Content/tinymce/plugins/jbimages/css/dialog.css">
-      <publishTime>06/07/2016 09:08:34</publishTime>
+      <publishTime>07/12/2016 09:24:20</publishTime>
     </File>
     <File Include="Content/tinymce/plugins/jbimages/dialog-v4.htm">
       <publishTime>06/07/2016 09:08:34</publishTime>
@@ -729,8 +915,11 @@
     <File Include="Content/tinymce/tinymce.min.js">
       <publishTime>06/07/2016 09:08:34</publishTime>
     </File>
+    <File Include="Content/家族成員資料匯入範例.xls">
+      <publishTime>06/28/2016 12:01:51</publishTime>
+    </File>
     <File Include="Data/hgEntities.edmx.diagram">
-      <publishTime>06/24/2016 10:56:53</publishTime>
+      <publishTime>07/13/2016 13:43:57</publishTime>
     </File>
     <File Include="favicon.ico">
       <publishTime>04/09/2015 02:57:44</publishTime>
@@ -757,7 +946,7 @@
       <publishTime>04/11/2015 11:13:17</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>06/02/2016 10:08:46</publishTime>
+      <publishTime>07/13/2016 19:58:35</publishTime>
     </File>
     <File Include="Scripts/bootbox.js">
       <publishTime>04/16/2015 03:48:14</publishTime>
@@ -779,6 +968,9 @@
     </File>
     <File Include="Scripts/es5-shim.min.js">
       <publishTime>06/01/2015 06:10:19</publishTime>
+    </File>
+    <File Include="Scripts/flare.json">
+      <publishTime>07/02/2016 21:57:00</publishTime>
     </File>
     <File Include="Scripts/jasny-bootstrap.js">
       <publishTime>04/15/2015 21:47:45</publishTime>
@@ -821,6 +1013,18 @@
     </File>
     <File Include="Scripts/jquery.validate.unobtrusive.min.js">
       <publishTime>04/09/2015 02:57:50</publishTime>
+    </File>
+    <File Include="Scripts/kendo/2016.2.607/cultures/kendo.culture.zh-CHT.min.js">
+      <publishTime>07/12/2016 08:40:22</publishTime>
+    </File>
+    <File Include="Scripts/kendo/2016.2.607/kendo.all.min.js">
+      <publishTime>07/12/2016 08:40:23</publishTime>
+    </File>
+    <File Include="Scripts/kendo/2016.2.607/kendo.datepicker.min.js">
+      <publishTime>07/12/2016 08:40:23</publishTime>
+    </File>
+    <File Include="Scripts/kendo/2016.2.607/kendo.datetimepicker.min.js">
+      <publishTime>07/12/2016 08:40:23</publishTime>
     </File>
     <File Include="Scripts/linq.js">
       <publishTime>06/01/2015 06:10:20</publishTime>
@@ -1203,8 +1407,11 @@
     <File Include="Scripts/modernizr-2.6.2.js">
       <publishTime>04/09/2015 02:57:49</publishTime>
     </File>
+    <File Include="Scripts/project.d3.dndtree.js">
+      <publishTime>07/13/2016 22:10:40</publishTime>
+    </File>
     <File Include="Scripts/project.d3.m1.js">
-      <publishTime>06/27/2016 10:12:25</publishTime>
+      <publishTime>07/13/2016 21:35:19</publishTime>
     </File>
     <File Include="Scripts/project.extends.js">
       <publishTime>06/27/2014 01:11:04</publishTime>
@@ -1399,7 +1606,7 @@
       <publishTime>05/26/2016 18:16:06</publishTime>
     </File>
     <File Include="Scripts/_references.js">
-      <publishTime>06/25/2016 16:53:54</publishTime>
+      <publishTime>07/02/2016 21:54:10</publishTime>
     </File>
     <File Include="Views/Account/ConfirmEmail.cshtml">
       <publishTime>04/09/2015 02:57:51</publishTime>
@@ -1444,7 +1651,10 @@
       <publishTime>06/21/2016 02:01:41</publishTime>
     </File>
     <File Include="Views/FamilyMembers/CreateOrUpdate.cshtml">
-      <publishTime>06/22/2016 10:08:49</publishTime>
+      <publishTime>07/13/2016 11:59:52</publishTime>
+    </File>
+    <File Include="Views/FamilyMembers/CreateOrUpdateBackup.cshtml">
+      <publishTime>07/12/2016 09:35:33</publishTime>
     </File>
     <File Include="Views/FamilyMembers/CreateOrUpdateInfo.cshtml">
       <publishTime>06/16/2016 17:26:08</publishTime>
@@ -1456,19 +1666,25 @@
       <publishTime>06/16/2016 17:49:44</publishTime>
     </File>
     <File Include="Views/FamilyMembers/FamilyTreeA.cshtml">
-      <publishTime>06/27/2016 10:24:54</publishTime>
+      <publishTime>07/13/2016 21:57:04</publishTime>
     </File>
     <File Include="Views/FamilyMembers/FamilyTreeA1.cshtml">
       <publishTime>06/24/2016 16:06:26</publishTime>
     </File>
+    <File Include="Views/FamilyMembers/FamilyTreeA2.cshtml">
+      <publishTime>07/02/2016 21:51:11</publishTime>
+    </File>
     <File Include="Views/FamilyMembers/Index.cshtml">
-      <publishTime>06/22/2016 10:40:59</publishTime>
+      <publishTime>07/13/2016 18:08:21</publishTime>
     </File>
     <File Include="Views/FamilyMembers/Meta.cshtml">
-      <publishTime>06/22/2016 11:16:18</publishTime>
+      <publishTime>07/13/2016 18:13:45</publishTime>
     </File>
     <File Include="Views/FamilyMembers/Upload.cshtml">
-      <publishTime>06/24/2016 10:32:34</publishTime>
+      <publishTime>07/01/2016 08:29:35</publishTime>
+    </File>
+    <File Include="Views/FamilyMembers/_FamilyMemberList.cshtml">
+      <publishTime>07/13/2016 18:14:03</publishTime>
     </File>
     <File Include="Views/FamilyMembers/_InfoList.cshtml">
       <publishTime>06/16/2016 17:58:16</publishTime>
@@ -1483,7 +1699,16 @@
       <publishTime>04/09/2015 02:57:44</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>05/24/2016 11:51:45</publishTime>
+      <publishTime>07/01/2016 06:32:36</publishTime>
+    </File>
+    <File Include="Views/Home/Index_bak.cshtml">
+      <publishTime>06/30/2016 09:52:24</publishTime>
+    </File>
+    <File Include="Views/Home/_News.cshtml">
+      <publishTime>07/01/2016 05:53:45</publishTime>
+    </File>
+    <File Include="Views/Home/_PedigreeMetaNavigator.cshtml">
+      <publishTime>07/01/2016 05:53:45</publishTime>
     </File>
     <File Include="Views/Jbimages/Upload.cshtml">
       <publishTime>06/07/2016 09:08:35</publishTime>
@@ -1507,28 +1732,37 @@
       <publishTime>05/09/2015 08:54:51</publishTime>
     </File>
     <File Include="Views/News/CreateOrUpdate.cshtml">
-      <publishTime>06/24/2016 09:51:14</publishTime>
+      <publishTime>07/01/2016 05:53:45</publishTime>
+    </File>
+    <File Include="Views/News/Detail.cshtml">
+      <publishTime>07/01/2016 05:53:45</publishTime>
     </File>
     <File Include="Views/News/Index.cshtml">
-      <publishTime>06/24/2016 09:51:14</publishTime>
+      <publishTime>06/27/2016 19:17:18</publishTime>
+    </File>
+    <File Include="Views/News/Query.cshtml">
+      <publishTime>07/01/2016 05:52:50</publishTime>
     </File>
     <File Include="Views/PedigreeInfo/CreateOrUpdate.cshtml">
-      <publishTime>06/24/2016 09:51:14</publishTime>
+      <publishTime>07/12/2016 08:40:23</publishTime>
+    </File>
+    <File Include="Views/PedigreeInfo/CreateOrUpdatePedigreeEvent.cshtml">
+      <publishTime>07/13/2016 18:17:36</publishTime>
     </File>
     <File Include="Views/PedigreeInfo/CreateOrUpdate_bak.cshtml">
       <publishTime>05/26/2016 11:02:06</publishTime>
     </File>
     <File Include="Views/PedigreeInfo/Index.cshtml">
-      <publishTime>06/22/2016 10:42:52</publishTime>
+      <publishTime>06/30/2016 09:52:24</publishTime>
     </File>
     <File Include="Views/PedigreeInfo/test.cshtml">
       <publishTime>05/26/2016 11:01:43</publishTime>
     </File>
     <File Include="Views/PedigreeInfo/_List.cshtml">
-      <publishTime>06/21/2016 08:20:25</publishTime>
+      <publishTime>07/12/2016 08:40:23</publishTime>
     </File>
     <File Include="Views/PedigreeMeta/CreateOrUpdate.cshtml">
-      <publishTime>06/24/2016 09:51:14</publishTime>
+      <publishTime>07/12/2016 09:36:00</publishTime>
     </File>
     <File Include="Views/PedigreeMeta/CreateOrUpdate2.cshtml">
       <publishTime>05/23/2016 15:06:12</publishTime>
@@ -1537,10 +1771,16 @@
       <publishTime>05/23/2016 15:16:54</publishTime>
     </File>
     <File Include="Views/PedigreeMeta/Index.cshtml">
-      <publishTime>06/21/2016 09:01:27</publishTime>
+      <publishTime>07/13/2016 13:38:03</publishTime>
+    </File>
+    <File Include="Views/PedigreeMeta/IndexBackup.cshtml">
+      <publishTime>07/01/2016 05:53:46</publishTime>
     </File>
     <File Include="Views/PedigreeMeta/Query.cshtml">
-      <publishTime>06/02/2016 10:08:46</publishTime>
+      <publishTime>06/27/2016 19:17:18</publishTime>
+    </File>
+    <File Include="Views/PedigreeMeta/_PedigreeMetaList.cshtml">
+      <publishTime>07/13/2016 13:31:54</publishTime>
     </File>
     <File Include="Views/Shared/DisplayTemplates/BootstrapMenuHelperModel.cshtml">
       <publishTime>04/11/2015 10:30:17</publishTime>
@@ -1573,7 +1813,7 @@
       <publishTime>06/07/2016 09:08:35</publishTime>
     </File>
     <File Include="Views/Shared/EditorTemplates/Upload.cshtml">
-      <publishTime>06/24/2016 09:51:14</publishTime>
+      <publishTime>07/12/2016 09:36:00</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>04/09/2015 02:57:51</publishTime>
@@ -1582,13 +1822,25 @@
       <publishTime>04/09/2015 02:57:51</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>06/27/2016 13:33:28</publishTime>
+      <publishTime>07/13/2016 18:17:36</publishTime>
+    </File>
+    <File Include="Views/Shared/_LayoutFull.cshtml">
+      <publishTime>07/13/2016 18:17:36</publishTime>
     </File>
     <File Include="Views/Shared/_LoginPartial.cshtml">
       <publishTime>05/10/2015 01:17:24</publishTime>
     </File>
     <File Include="Views/Shared/_PedigreeSecondMenu.cshtml">
-      <publishTime>06/22/2016 11:41:23</publishTime>
+      <publishTime>07/13/2016 17:54:29</publishTime>
+    </File>
+    <File Include="Views/Shared/_TopMenu.cshtml">
+      <publishTime>07/13/2016 17:16:38</publishTime>
+    </File>
+    <File Include="Views/VisualGenealogy/Index.cshtml">
+      <publishTime>07/14/2016 09:37:55</publishTime>
+    </File>
+    <File Include="Views/VisualGenealogy/_RoutDetails.cshtml">
+      <publishTime>04/25/2015 06:15:44</publishTime>
     </File>
     <File Include="Views/Web.config">
       <publishTime>04/11/2015 02:56:18</publishTime>
@@ -1597,7 +1849,7 @@
       <publishTime>04/09/2015 02:57:44</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>06/27/2016 13:41:34</publishTime>
+      <publishTime>07/14/2016 09:02:45</publishTime>
     </File>
   </ItemGroup>
 </Project>

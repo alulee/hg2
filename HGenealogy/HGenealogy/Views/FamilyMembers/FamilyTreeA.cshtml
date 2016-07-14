@@ -59,9 +59,9 @@
 
 }
 <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script> 
-
+ 
 <div class="container">
-    <h2>FamilyTree</h2>
+    <h2>ViewBag.Title</h2>
     <nav class="navbar navbar-default pedigree-choose" role="navigation">
         <div class="container-fluid">
             <div class="collapse navbar-collapse">
@@ -85,5 +85,11 @@
 
 <div id="tree-container">
  
+</div>
+<div style="display: none;" id="getFamiliesTreeJsonUrl">
+    @Url.Action("GetFamiliesTreeJson", "FamilyMembers")
+</div>
+ <div style="display: none;" id="getFamiliesJsonUrl">
+    @Url.Action("GetFamiliesJson", "FamilyMembers")
 </div>
 <script src="~/Scripts/project.d3.dndtree.js"></script>

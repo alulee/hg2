@@ -77,8 +77,9 @@
     <Reference Include="LinqKit">
       <HintPath>..\packages\LinqKit.1.1.3.1\lib\net45\LinqKit.dll</HintPath>
     </Reference>
-    <Reference Include="LinqToExcel">
-      <HintPath>..\packages\LinqToExcel.1.10.1\lib\LinqToExcel.dll</HintPath>
+    <Reference Include="LinqToExcel, Version=1.10.1.0, Culture=neutral, PublicKeyToken=9c8ea65a58f03f1f, processorArchitecture=MSIL">
+      <HintPath>..\packages\LinqToExcel_x64.1.10.1\lib\LinqToExcel.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -130,14 +131,17 @@
     <Reference Include="protobuf-net">
       <HintPath>..\packages\protobuf-net.2.0.0.668\lib\net40\protobuf-net.dll</HintPath>
     </Reference>
-    <Reference Include="Remotion">
-      <HintPath>..\packages\LinqToExcel.1.10.1\lib\Remotion.dll</HintPath>
+    <Reference Include="Remotion, Version=1.13.52.2, Culture=neutral, PublicKeyToken=0669cf0452175907, processorArchitecture=MSIL">
+      <HintPath>..\packages\LinqToExcel_x64.1.10.1\lib\Remotion.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Remotion.Data.Linq">
-      <HintPath>..\packages\LinqToExcel.1.10.1\lib\Remotion.Data.Linq.dll</HintPath>
+    <Reference Include="Remotion.Data.Linq, Version=1.13.52.2, Culture=neutral, PublicKeyToken=0669cf0452175907, processorArchitecture=MSIL">
+      <HintPath>..\packages\LinqToExcel_x64.1.10.1\lib\Remotion.Data.Linq.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Remotion.Interfaces">
-      <HintPath>..\packages\LinqToExcel.1.10.1\lib\Remotion.Interfaces.dll</HintPath>
+    <Reference Include="Remotion.Interfaces, Version=1.13.52.2, Culture=neutral, PublicKeyToken=0669cf0452175907, processorArchitecture=MSIL">
+      <HintPath>..\packages\LinqToExcel_x64.1.10.1\lib\Remotion.Interfaces.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -432,6 +436,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\familytreea.css" />
+    <Content Include="Content\hakkageneology.jpg" />
     <Content Include="Content\Images\hkslide1.png" />
     <Content Include="Content\Images\home\carousel1.jpg" />
     <Content Include="Content\Images\home\carousel2.jpg" />
@@ -465,6 +470,7 @@
     <Content Include="Content\kendo\2016.2.607\Bootstrap\sprite_kpi_2x.png" />
     <Content Include="Content\kendo\2016.2.607\kendo.bootstrap.min.css" />
     <Content Include="Content\kendo\2016.2.607\kendo.common-bootstrap.min.css" />
+    <Content Include="Content\leaflet.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\siteAllen.css" />
     <Content Include="Content\themes\base\accordion.css" />
@@ -636,6 +642,7 @@
     <Content Include="Content\tinymce\skins\lightgray\fonts\tinymce.eot" />
     <Content Include="Content\tinymce\skins\lightgray\fonts\tinymce.ttf" />
     <Content Include="Content\tinymce\skins\lightgray\fonts\tinymce.woff" />
+    <Content Include="Content\家族成員資料匯入範例.xls" />
     <None Include="MvcSiteMapSchema.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -646,6 +653,7 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Properties\PublishProfiles\iis.pubxml" />
+    <Content Include="Scripts\flare.json" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootbox.js" />
     <Content Include="Scripts\bootbox.min.js" />
@@ -670,8 +678,6 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <None Include="Scripts\linq-vsdoc.js" />
-    <Content Include="Scripts\kendo.all.min.js" />
-    <Content Include="Scripts\kendo.culture.zh-CHT.min.js" />
     <Content Include="Scripts\kendo\2016.2.607\cultures\kendo.culture.zh-CHT.min.js" />
     <Content Include="Scripts\kendo\2016.2.607\kendo.all.min.js" />
     <Content Include="Scripts\kendo\2016.2.607\kendo.datepicker.min.js" />
