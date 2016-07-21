@@ -55,7 +55,7 @@ namespace HGenealogy.Controllers
                 hGPedigreeMetaModel.pedigreeInfoList = pedigreeInfoList;
             }
 
-            ViewBag.Title = string.Concat(hGPedigreeMeta.Title, "族譜資料");
+            ViewBag.Title = string.Concat(hGPedigreeMeta.Title, "");
             ViewBag.currentPedigreeID = pedigreeID;
             ViewBag.currentInfoType = infoType;
             ViewBag.infoTypeDic = getInfoTypeDic();
@@ -131,6 +131,24 @@ namespace HGenealogy.Controllers
             return View("CreateOrUpdatePedigreeEvent", model);
         }
 
+        public ActionResult TimeMapA()
+        {
+            List<SelectListItem> pedigreeMetaSelectList = new List<SelectListItem>();
+            List<SelectListItem> familyMemberSelectList = new List<SelectListItem>();
+
+            int currentPedigreeId = 0;
+            if (Session["currentPedigreeId"] != null)
+                int.TryParse(Session["currentPedigreeId"].ToString(), out currentPedigreeId);
+
+            ViewBag.currentPedigreeId = currentPedigreeId;
+            ViewBag.AvailablePedigreeSelectList = _pedigreeMetaService.GetAvailablePedigreeSelectList(currentPedigreeId);
+            
+            ViewBag.Title = "族譜時空記事地圖";
+
+
+            return View();
+        }
+
         private List<PedigreeInfoModel> GetPedigreeInfoList(int pedigreeId, string infoType)
         {
             var tempList = _pedigreeInfoService.GetAll()
@@ -158,6 +176,7 @@ namespace HGenealogy.Controllers
 
             return models;
         }
+
 
         [HttpPost]
         [ValidateInput(false)]
@@ -273,5 +292,56 @@ namespace HGenealogy.Controllers
             infoTypeDic.Add("Event", "時空紀事");
             return infoTypeDic;
         }
+
+        /// <summary>
+        /// 取得時間地圖 json 格式的 dataset
+        /// </summary>
+        /// <param name="pedigreeId"></param>
+        /// <returns></returns>
+        public ActionResult GetEventTimeMapJson(int pedigreeId)
+        {
+            var eventlist = this.GetPedigreeEventList(pedigreeId);
+            if (eventlist != null)
+            {
+                var returnobj1 = (from eventdata in eventlist
+                                 select new
+                                 {
+                                     start = eventdata.EventDateStartOnUtc == null ? "" : eventdata.EventDateStartOnUtc.Year.ToString(),
+                                     end = eventdata.EventDateEndOnUtc == null ? "" : eventdata.EventDateEndOnUtc.Year.ToString(),
+                                     point = new GeoPoint2
+                                            {
+                                                lat = eventdata.Latitude,
+                                                lon = eventdata.Longitude,
+                                            },
+
+                                     title = eventdata.EventTitle,
+                                     options = new TimeMapOptions
+                                                {
+                                                    infoHtml = eventdata.EventContent,
+                                                    theme = "yellow"
+                                                }
+
+                                 }).ToList();
+
+                List<object> returnobjcts = new List<object>();
+                var returnobj2 = new
+                {
+                    id = "artists",
+                    title = "Artists",
+                    theme = "orange",
+                    type = "basic",
+                    options = (new
+                    {
+                        items = returnobj1
+                    })
+                };
+                returnobjcts.Add(returnobj2 as object);
+
+                return Json(returnobjcts);
+            }
+
+           return null;
+        }
+
     }
 }

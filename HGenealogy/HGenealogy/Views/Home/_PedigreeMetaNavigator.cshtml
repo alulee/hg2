@@ -12,7 +12,7 @@
             <blockquote>
                 <div class="row">
                     <div class="col-md-3">
-                        <img src="@item.Image" class="img-rounded"  width="50" />
+                        <img src="@Url.Content(item.Image)" class="img-rounded"  width="50" />
                     </div>
                     <div class="col-md-9 ">
                             <h4>@Html.ActionLink(item.Title, "Index", "PedigreeInfo", new { pedigreeID = item.Id }, new { @class="text-info"})</h4>

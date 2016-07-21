@@ -38,7 +38,7 @@ namespace HGenealogy.Controllers
         private static Queue<string> myMessageQuere = new Queue<string>();
         private static int myCurrentRow = 0;
         private string fileSavedPath = WebConfigurationManager.AppSettings["UploadPath"];
-        private readonly string NoImageUrl = "/Content/Images/indis.gif";
+        private readonly string NoImageUrl = "~/Content/Images/indis.gif";
 
         #endregion
 
@@ -314,6 +314,11 @@ namespace HGenealogy.Controllers
 
                     if (string.IsNullOrEmpty(item.ImageUrl))
                         item.ImageUrl = NoImageUrl;
+                    else
+                    {
+                        if (!item.ImageUrl.StartsWith("~"))
+                            item.ImageUrl = "~" + item.ImageUrl;
+                    }
 
                     if (item.CurrentAddress != null)
                     {
@@ -331,7 +336,7 @@ namespace HGenealogy.Controllers
             
             ViewBag.Title = "通訊錄";
             ViewBag.currentPedigreeId = currentPedigreeId;
-            ViewBag.currentPedigreeTitle = pedigreeMeta.Title; ;
+            ViewBag.currentPedigreeTitle = pedigreeMeta.Title;
 
             return View(queryModel);
         }
@@ -1230,13 +1235,21 @@ namespace HGenealogy.Controllers
             List<SelectListItem> familyMemberSelectList = new List<SelectListItem>();
             
             int currentPedigreeId = 0;
+            string currentPedigreeName = "";
+
             if (Session["currentPedigreeId"] != null)
+            {
                 int.TryParse(Session["currentPedigreeId"].ToString(), out currentPedigreeId);
-                        
+                var pedigreeMeta = _pedigreeMetaService.GetById(currentPedigreeId);
+                if (pedigreeMeta != null)
+                {
+                    currentPedigreeName = pedigreeMeta.Title;
+                }
+            }           
             ViewBag.currentPedigreeId = currentPedigreeId;
             ViewBag.AvailablePedigreeSelectList = _pedigreeMetaService.GetAvailablePedigreeSelectList(currentPedigreeId);
             ViewBag.FamilyMemberSelectList = _familyMemberService.GetFamilyMembersSelectList(currentPedigreeId);
-
+            ViewBag.currentPedigreeTitle = currentPedigreeName;
             ViewBag.Title = "家庭樹";
 
 

@@ -33,9 +33,6 @@
                         <a href='@url' class="btn btn-default">
                             <span class="glyphicon glyphicon-edit"></span> 修改
                         </a>
-                        <a href=# class="btn btn-default">
-                            <span class="glyphicon glyphicon-edit"></span> 自動譜序產生(客家)
-                        </a>
                     </div>
                 </div>
 
@@ -251,18 +248,23 @@
             else if (currentInfoType == "Event")
             {
                 <div class="form-group row">
-                    <div class="col-md-10">
+                    <div class="col-md-9">
                         <h3>@tilte</h3>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         @{
                 var url = Url.Action("CreatePedigreeEvent", new { pedigreeID = currentPedigreeID, infoType = currentInfoType });
                         }
                         <a href='@url' class="btn btn-default">
                             <span class="glyphicon glyphicon-plus"></span> 新增
                         </a>
+                        <input type="button" value="時空紀事地圖" class="btn btn-default pull-right" 
+                               onclick="location.href='@Url.Action("TimeMapA", "PedigreeInfo")'" />
+
                     </div>
                 </div>
+               
+                
                 <div class="pedigreeInfo-list">
                     @for (int i = 0; i < Model.pedigreeEventList.Count; i++)
                     {
@@ -287,7 +289,23 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <span>開始日期:</span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        @item.EventDateStartOnUtc
+                                    </div>
+                                    <div class="col-md-2">
+                                        <span>結束日期:</span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        @item.EventDateEndOnUtc
+                                    </div>
+                                </div>
                             </div>
+                           
+
                             <div id="@collapseId" class="panel-collapse collapse in">
                                 <div class="panel-body">
                                     @Html.Raw(item.EventContent)
@@ -306,7 +324,7 @@
                     <div class="col-md-3 ">
                         @if (currentInfoType == "Preface")
                         {
-                            <input type="button" value="自動產生譜序" class="btn btn-default pull-right" />
+                        <input type="button" value="自動產生譜序" class="btn btn-default pull-right" />
                         }
                         <input type="button" value="新增" class="btn btn-default pull-right" onclick="location.href='@Url.Action("Create", new { pedigreeID = currentPedigreeID, infoType = currentInfoType })'" />
 
@@ -322,27 +340,27 @@
                         }
                         var collapseId = string.Concat("collapse", i.ToString());
                         var collapseHref = string.Concat("#collapse", i.ToString());
-                        <div class="panel panel-info">
-                            <div class="panel-heading">
-                                <h4 class="panel-title"></h4>
-                                <div class="row">
-                                    <div class="col-md-10">
-                                        <a data-toggle="collapse" href="@collapseHref">@item.InfoTitle</a>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <div class="buttons">
-                                            <input type="button" class="btn btn-info" onclick="location.href='@Url.Action("Edit", new { id = item .Id})'" value='修改' />
-                                            <input type="button" class="btn btn-danger" value='刪除' />
-                                        </div>
-                                    </div>
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h4 class="panel-title"></h4>
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <a data-toggle="collapse" href="@collapseHref">@item.InfoTitle</a>
                                 </div>
-                            </div>
-                            <div id="@collapseId" class="panel-collapse collapse in">
-                                <div class="panel-body">
-                                    @Html.Raw(item.InfoContent)
+                                <div class="col-md-2">
+                                    <div class="buttons">
+                                        <input type="button" class="btn btn-info" onclick="location.href='@Url.Action("Edit", new { id = item .Id})'" value='修改' />
+                                        <input type="button" class="btn btn-danger" value='刪除' />
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        <div id="@collapseId" class="panel-collapse collapse in">
+                            <div class="panel-body">
+                                @Html.Raw(item.InfoContent)
+                            </div>
+                        </div>
+                    </div>
                     }
                 </div>
             }

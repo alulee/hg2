@@ -3,8 +3,8 @@
 @model PedigreeMetaModel
 
 @{
-    string currentPedigreeName = Model.Title;
-    string currentPedigreeId = Model.Id.ToString();    
+    string currentPedigreeName = Model == null ? "" : Model.Title;
+    string currentPedigreeId = Model == null ? "" : Model.Id.ToString();    
     IEnumerable<SelectListItem> AvailablePedigreeList = ViewBag.AvailablePedigreeSelectList == null ? null : (IEnumerable<SelectListItem>)ViewBag.AvailablePedigreeSelectList;
   }
 
@@ -53,7 +53,7 @@
                 </li>
             </ul>
         </li>
-        <li><a href="#">時間地圖</a></li>
+        <li><a href="~/PedigreeInfo/TimeMapA">時空紀事地圖</a></li>
         <li><a href="~/VisualGenealogy">家族分佈</a></li>
     </ul>
      

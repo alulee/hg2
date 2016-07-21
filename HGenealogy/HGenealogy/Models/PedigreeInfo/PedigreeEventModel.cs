@@ -17,10 +17,14 @@ namespace HGenealogy.Models.PedigreeInfo
         [DisplayName("內容")]
         [Required]
         public string EventContent { get; set; }
-        [DisplayName("日期")]
+        [DisplayName("開始日期")]
         [Required]
         [DataType(DataType.Date)]
-        public System.DateTime EventDateOnUtc { get; set; }
+        public System.DateTime EventDateStartOnUtc { get; set; }
+        [DisplayName("結束日期")]
+        [Required]
+        [DataType(DataType.Date)]
+        public System.DateTime EventDateEndOnUtc { get; set; }
         [DisplayName("地點")]
         [Required]
         public string EventPlace { get; set; }
@@ -34,5 +38,11 @@ namespace HGenealogy.Models.PedigreeInfo
         public System.DateTime UpdatedOnUtc { get; set; }
         public string CreatedWho { get; set; }
         public string UpdatedWho { get; set; }
+    }
+
+    public class TimeMapOptions
+    {
+        public string infoHtml { get; set; }
+        public string theme { get; set; }
     }
 }

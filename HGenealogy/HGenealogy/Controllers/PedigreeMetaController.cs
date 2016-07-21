@@ -14,7 +14,7 @@ namespace HGenealogy.Controllers
     public class PedigreeMetaController : Controller
     {
         private readonly IPedigreeMetaService _pedigreeMetaService;
-        private readonly string NoImageUrl = "/Content/Images/pedi.gif";
+        private readonly string NoImageUrl = "~/Content/Images/pedi.gif";
         //private readonly IPedigreeInfoService _hGPedigreeInfoService;
 
         public PedigreeMetaController(
@@ -79,6 +79,23 @@ namespace HGenealogy.Controllers
                     .ForMember(org => org.Image, y => y.MapFrom(s => string.IsNullOrWhiteSpace(s.Image) ? NoImageUrl : s.Image))
                     );
             var resultList = Mapper.Map<List<PedigreeMeta>, List<PedigreeMetaModel>>(result);
+
+            foreach (var item in resultList)
+            {
+                try
+                {
+                    if (string.IsNullOrEmpty(item.Image))
+                    {
+                        item.Image = NoImageUrl;
+                    }
+                    else
+                    {
+                        if (!item.Image.StartsWith("~/"))
+                            item.Image = "~/" + item.Image;
+                    }
+                }
+                catch { }
+            }
 
             PedigreeMetaSimpleQueryModel model = new PedigreeMetaSimpleQueryModel();
             model.PedigreeMetaList = resultList;

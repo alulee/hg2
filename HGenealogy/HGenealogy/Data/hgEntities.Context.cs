@@ -32,7 +32,6 @@ namespace HGenealogy.Data
         public virtual DbSet<Language> Languages { get; set; }
         public virtual DbSet<Menu> Menus { get; set; }
         public virtual DbSet<News> News { get; set; }
-        public virtual DbSet<PedigreeEvent> PedigreeEvents { get; set; }
         public virtual DbSet<PedigreeInfo> PedigreeInfoes { get; set; }
         public virtual DbSet<PedigreeMeta> PedigreeMetas { get; set; }
         public virtual DbSet<StateProvince> StateProvinces { get; set; }
@@ -41,5 +40,6 @@ namespace HGenealogy.Data
         public virtual DbSet<FamilyMember> FamilyMembers { get; set; }
         public virtual DbSet<FamilyMember_Picture_Mapping> FamilyMember_Picture_Mapping { get; set; }
         public virtual DbSet<FamilyMemberRelation> FamilyMemberRelations { get; set; }
+        public virtual DbSet<PedigreeEvent> PedigreeEvents { get; set; }
     }
 }

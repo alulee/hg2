@@ -4,7 +4,7 @@
 @{
     Layout = "~/Views/Shared/_LayoutFull.cshtml";
 }
- 
+
 @{
     ViewBag.Title = "家庭樹";
     //string currentPedigreeName = ViewBag.currentPedigreeName;
@@ -17,79 +17,99 @@
 {
     <script src="~/Scripts/map/d3/d3.js"></script>
     <style type="text/css">
-    .node {
-        cursor: pointer;
-    }
+        .node {
+            cursor: pointer;
+        }
 
-    .overlay {
-        background-color: #EEE;
-    }
+        .overlay {
+            background-color: #EEE;
+        }
 
-    .node circle {
-        fill: #fff;
-        stroke: steelblue;
-        stroke-width: 1.5px;
-    }
+        .node circle {
+            fill: #fff;
+            stroke: steelblue;
+            stroke-width: 1.5px;
+        }
 
-    .node text {
-        font-size: 10px;
-        font-family: sans-serif;
-    }
+        .node text {
+            font-size: 10px;
+            font-family: sans-serif;
+        }
 
-    .link {
-        fill: none;
-        stroke: #ccc;
-        stroke-width: 1.5px;
-    }
+        .link {
+            fill: none;
+            stroke: #ccc;
+            stroke-width: 1.5px;
+        }
 
-    .templink {
-        fill: none;
-        stroke: red;
-        stroke-width: 3px;
-    }
+        .templink {
+            fill: none;
+            stroke: red;
+            stroke-width: 3px;
+        }
 
-    .ghostCircle.show {
-        display: block;
-    }
+        .ghostCircle.show {
+            display: block;
+        }
 
-    .ghostCircle, .activeDrag .ghostCircle {
-        display: none;
-    }
-</style>
+        .ghostCircle, .activeDrag .ghostCircle {
+            display: none;
+        }
+    </style>
 
 }
-<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script> 
+<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+
  
-<div class="container">
-    <h2>ViewBag.Title</h2>
-    <nav class="navbar navbar-default pedigree-choose" role="navigation">
-        <div class="container-fluid">
-            <div class="collapse navbar-collapse">
+<hr />
 
-                <ul class="nav navbar-nav">
-                    <li>
-                        族譜:
-                        @Html.DropDownList("PedigreeDDL", AvailablePedigreeList)
-                    </li>
-                    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
-                    <li>
-                        家族成員:
-                        @Html.DropDownList("FamilyMemberDDL", FamilyMemberList)
-                    </li>
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-md-8">
+            <h2>@ViewBag.Title</h2>
+        </div>
+       
+    </div>
 
-                </ul>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <nav class="navbar navbar-default pedigree-choose" role="navigation">
+                        <div class="container-fluid">
+                            <div class="collapse navbar-collapse">
+
+                                <ul class="nav navbar-nav">
+                                    <li>
+                                        族譜:
+                                        @Html.DropDownList("PedigreeDDL", AvailablePedigreeList)
+                                    </li>
+                                    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                                    <li>
+                                        家族成員:
+                                        @Html.DropDownList("FamilyMemberDDL", FamilyMemberList)
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div id="tree-container"></div>
+                    </div>
+                </div>
             </div>
         </div>
-    </nav>
+    </div>
 </div>
 
-<div id="tree-container">
- 
-</div>
+
 <div style="display: none;" id="getFamiliesTreeJsonUrl">
     @Url.Action("GetFamiliesTreeJson", "FamilyMembers")
 </div>
- <div style="display: none;" id="getFamiliesJsonUrl">
+<div style="display: none;" id="getFamiliesJsonUrl">
     @Url.Action("GetFamiliesJson", "FamilyMembers")
 </div>
 <script src="~/Scripts/project.d3.dndtree.js"></script>

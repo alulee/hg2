@@ -14,6 +14,7 @@ namespace HGenealogy.Controllers
     {
         private readonly INewsService _newsService;
         private readonly IPedigreeMetaService _pedigreeMetaService;
+        private readonly string NoImageUrl = "~/Content/Images/pedi.gif";
 
         public HomeController(
             INewsService newsService,
@@ -73,6 +74,22 @@ namespace HGenealogy.Controllers
                     );
             var resultList = Mapper.Map<List<PedigreeMeta>, List<PedigreeMetaModel>>(result);
 
+            foreach (var item in resultList)
+            {
+                try
+                {
+                    if (string.IsNullOrEmpty(item.Image))
+                    {
+                        item.Image = NoImageUrl;
+                    }
+                    else
+                    {
+                        if (!item.Image.StartsWith("~/"))
+                            item.Image =  "~/" + item.Image;
+                    }
+                }
+                catch { }
+            }
             return resultList;
         }
     }

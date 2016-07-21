@@ -194,7 +194,8 @@
           <Property Name="PedigreeID" Type="int" Nullable="false" />
           <Property Name="EventTitle" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="EventContent" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="EventDateOnUtc" Type="datetime" Nullable="false" />
+          <Property Name="EventDateStartOnUtc" Type="datetime" />
+          <Property Name="EventDateEndOnUtc" Type="datetime" />
           <Property Name="EventPlace" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="Longitude" Type="decimal" Precision="18" Scale="5" />
           <Property Name="Latitude" Type="decimal" Precision="18" Scale="5" />
@@ -312,7 +313,6 @@
           <EntitySet Name="Languages" EntityType="hDatabaseModel.Language" />
           <EntitySet Name="Menus" EntityType="hDatabaseModel.Menu" />
           <EntitySet Name="News" EntityType="hDatabaseModel.News" />
-          <EntitySet Name="PedigreeEvents" EntityType="hDatabaseModel.PedigreeEvent" />
           <EntitySet Name="PedigreeInfoes" EntityType="hDatabaseModel.PedigreeInfo" />
           <EntitySet Name="PedigreeMetas" EntityType="hDatabaseModel.PedigreeMeta" />
           <EntitySet Name="StateProvinces" EntityType="hDatabaseModel.StateProvince" />
@@ -321,6 +321,7 @@
           <EntitySet Name="FamilyMembers" EntityType="hDatabaseModel.FamilyMember" />
           <EntitySet Name="FamilyMember_Picture_Mapping" EntityType="hDatabaseModel.FamilyMember_Picture_Mapping" />
           <EntitySet Name="FamilyMemberRelations" EntityType="hDatabaseModel.FamilyMemberRelation" />
+          <EntitySet Name="PedigreeEvents" EntityType="hDatabaseModel.PedigreeEvent" />
         </EntityContainer>
         <EntityType Name="Address">
           <Key>
@@ -435,24 +436,6 @@
           <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="CreatedOnUtc" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="UpdatedOnUtc" Type="DateTime" Nullable="false" Precision="7" />
-          <Property Name="CreatedWho" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="UpdatedWho" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="PedigreeEvent">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PedigreeID" Type="Int32" Nullable="false" />
-          <Property Name="EventTitle" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="EventContent" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="EventDateOnUtc" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="EventPlace" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="Longitude" Type="Decimal" Precision="18" Scale="5" />
-          <Property Name="Latitude" Type="Decimal" Precision="18" Scale="5" />
-          <Property Name="MetaKeywords" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedOnUtc" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UpdatedOnUtc" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="CreatedWho" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="UpdatedWho" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
         </EntityType>
@@ -599,6 +582,25 @@
           <Property Name="UpdatedWho" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="LastChanged" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
+        <EntityType Name="PedigreeEvent">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PedigreeID" Type="Int32" Nullable="false" />
+          <Property Name="EventTitle" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="EventContent" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EventDateStartOnUtc" Type="DateTime" Precision="3" />
+          <Property Name="EventDateEndOnUtc" Type="DateTime" Precision="3" />
+          <Property Name="EventPlace" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Longitude" Type="Decimal" Precision="18" Scale="5" />
+          <Property Name="Latitude" Type="Decimal" Precision="18" Scale="5" />
+          <Property Name="MetaKeywords" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedOnUtc" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedOnUtc" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedWho" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedWho" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -724,25 +726,6 @@
                 <ScalarProperty Name="StartDate" ColumnName="StartDate" />
                 <ScalarProperty Name="Content" ColumnName="Content" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PedigreeEvents">
-            <EntityTypeMapping TypeName="hDatabaseModel.PedigreeEvent">
-              <MappingFragment StoreEntitySet="PedigreeEvent">
-                <ScalarProperty Name="UpdatedWho" ColumnName="UpdatedWho" />
-                <ScalarProperty Name="CreatedWho" ColumnName="CreatedWho" />
-                <ScalarProperty Name="UpdatedOnUtc" ColumnName="UpdatedOnUtc" />
-                <ScalarProperty Name="CreatedOnUtc" ColumnName="CreatedOnUtc" />
-                <ScalarProperty Name="MetaKeywords" ColumnName="MetaKeywords" />
-                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
-                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
-                <ScalarProperty Name="EventPlace" ColumnName="EventPlace" />
-                <ScalarProperty Name="EventDateOnUtc" ColumnName="EventDateOnUtc" />
-                <ScalarProperty Name="EventContent" ColumnName="EventContent" />
-                <ScalarProperty Name="EventTitle" ColumnName="EventTitle" />
-                <ScalarProperty Name="PedigreeID" ColumnName="PedigreeID" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -894,6 +877,26 @@
                 <ScalarProperty Name="RelationType" ColumnName="RelationType" />
                 <ScalarProperty Name="RelatedFamilyMemberId" ColumnName="RelatedFamilyMemberId" />
                 <ScalarProperty Name="FamilyMemberId" ColumnName="FamilyMemberId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PedigreeEvents">
+            <EntityTypeMapping TypeName="hDatabaseModel.PedigreeEvent">
+              <MappingFragment StoreEntitySet="PedigreeEvent">
+                <ScalarProperty Name="UpdatedWho" ColumnName="UpdatedWho" />
+                <ScalarProperty Name="CreatedWho" ColumnName="CreatedWho" />
+                <ScalarProperty Name="UpdatedOnUtc" ColumnName="UpdatedOnUtc" />
+                <ScalarProperty Name="CreatedOnUtc" ColumnName="CreatedOnUtc" />
+                <ScalarProperty Name="MetaKeywords" ColumnName="MetaKeywords" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="EventPlace" ColumnName="EventPlace" />
+                <ScalarProperty Name="EventDateEndOnUtc" ColumnName="EventDateEndOnUtc" />
+                <ScalarProperty Name="EventDateStartOnUtc" ColumnName="EventDateStartOnUtc" />
+                <ScalarProperty Name="EventContent" ColumnName="EventContent" />
+                <ScalarProperty Name="EventTitle" ColumnName="EventTitle" />
+                <ScalarProperty Name="PedigreeID" ColumnName="PedigreeID" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

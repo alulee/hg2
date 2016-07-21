@@ -18,7 +18,8 @@ namespace HGenealogy.Data
         public int PedigreeID { get; set; }
         public string EventTitle { get; set; }
         public string EventContent { get; set; }
-        public System.DateTime EventDateOnUtc { get; set; }
+        public Nullable<System.DateTime> EventDateStartOnUtc { get; set; }
+        public Nullable<System.DateTime> EventDateEndOnUtc { get; set; }
         public string EventPlace { get; set; }
         public Nullable<decimal> Longitude { get; set; }
         public Nullable<decimal> Latitude { get; set; }

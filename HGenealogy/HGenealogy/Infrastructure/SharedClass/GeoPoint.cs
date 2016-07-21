@@ -80,6 +80,11 @@ namespace HGenealogy.SharedClass
 
     }
 
+    public class GeoPoint2
+    {
+        public decimal? lat { get; set; }
+        public decimal? lon { get; set; }
+    }
     public class GeoPoint
     {
         public double latitude { get; set; }

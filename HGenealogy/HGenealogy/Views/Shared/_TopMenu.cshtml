@@ -6,7 +6,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="logo1" href="/"><img src="~/Content/Images/logo.png" alt="hg" height="60" width="295"></a>
+            <a class="logo1" href="~/"><img src="~/Content/Images/logo.png" alt="hg" height="60" width="295"></a>
 
             <div class="btn-group">
                 <button type="button" class="btn btn-info dropdown-toggle largefont" data-toggle="dropdown" aria-expanded="false">
@@ -23,8 +23,9 @@
                     <li class="largefont">
                         @Html.ActionLink("家族分佈", "Index", "VisualGenealogy")
                     </li>
-
-                    <li class="largefont"><a href="#">時間地圖</a></li>
+                    <li class="largefont">
+                        @Html.ActionLink("時空紀事地圖", "TimeMapA", "PedigreeInfo")
+                    </li> 
                 </ul>
             </div>
 

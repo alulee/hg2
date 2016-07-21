@@ -12,7 +12,6 @@
         <EntityTypeShape EntityType="hDatabaseModel.Language" Width="1.5" PointX="8.75" PointY="4.75" />
         <EntityTypeShape EntityType="hDatabaseModel.Menu" Width="1.5" PointX="8.75" PointY="8.75" />
         <EntityTypeShape EntityType="hDatabaseModel.News" Width="1.5" PointX="10.75" PointY="0.75" />
-        <EntityTypeShape EntityType="hDatabaseModel.PedigreeEvent" Width="1.5" PointX="10.75" PointY="4.75" />
         <EntityTypeShape EntityType="hDatabaseModel.PedigreeInfo" Width="1.5" PointX="10.75" PointY="9.75" />
         <EntityTypeShape EntityType="hDatabaseModel.PedigreeMeta" Width="1.5" PointX="0.75" PointY="11.75" />
         <EntityTypeShape EntityType="hDatabaseModel.StateProvince" Width="1.5" PointX="12.75" PointY="0.75" />
@@ -21,6 +20,7 @@
         <EntityTypeShape EntityType="hDatabaseModel.FamilyMember" Width="1.5" PointX="7.375" PointY="12.75" />
         <EntityTypeShape EntityType="hDatabaseModel.FamilyMember_Picture_Mapping" Width="1.5" PointX="5.375" PointY="8.75" />
         <EntityTypeShape EntityType="hDatabaseModel.FamilyMemberRelation" Width="1.5" PointX="13.375" PointY="6.75" />
+        <EntityTypeShape EntityType="hDatabaseModel.PedigreeEvent" Width="1.5" PointX="0.75" PointY="6.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
