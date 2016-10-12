@@ -93,11 +93,11 @@ namespace HGenealogy.Controllers
             if (newsEntity.Id == 0)//新增
             {
                 newsEntity.CreatedOnUtc = System.DateTime.Now;
-                newsEntity.CreatedWho = "???";
+                newsEntity.CreatedWho = "";
             }
 
             newsEntity.UpdatedOnUtc = System.DateTime.Now;
-            newsEntity.UpdatedWho = "???";
+            newsEntity.UpdatedWho = "";
 
             if (newsEntity.Id == 0)//新增
                 _newsService.Insert(newsEntity);

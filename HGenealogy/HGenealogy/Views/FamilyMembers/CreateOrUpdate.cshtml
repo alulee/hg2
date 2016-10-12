@@ -3,7 +3,7 @@
 @model FamilyMemberViewModel
 
 
-@ViewBag.Validation
+@*@ViewBag.Validation*@
 @foreach (ModelState modelState in ViewData.ModelState.Values)
 {
     foreach (ModelError error in modelState.Errors)
@@ -28,6 +28,9 @@
     @Html.HiddenFor(model => model.UpdatedOnUtc)
     @Html.HiddenFor(model => model.CreatedWho)
     @Html.HiddenFor(model => model.UpdatedWho)
+    @Html.HiddenFor(model => model.CurrentPedigreeMeta.Editor)
+    @Html.HiddenFor(model => model.CurrentPedigreeMeta.FamilyName)
+    @Html.HiddenFor(model => model.CurrentPedigreeMeta.Description)
 
     <div id="page-wrapper">
         <div class="row">
@@ -38,7 +41,7 @@
 
         <div class="panel panel-info">
             <div class="panel-heading">
-                <h4>@Model.FamilyName @Model.GivenName </h4>
+                <h4>成員姓名：@Model.FamilyName @Model.GivenName </h4>
             </div>
             <div class="panel-body">
 
@@ -72,8 +75,7 @@
                 </div>
 
                 <div class="dfp-input col-sm-4">
-                    <label for="Title">父親</label>
-                    <span class="dfp-form-required">*</span>
+                    <label for="Title">父親</label>      
                     @Html.DropDownList("FatherMemberId", (IEnumerable<SelectListItem>)Model.AvailableFatherMemberList, "", new { @class = "ddl-input" })
                 </div>
 
@@ -83,7 +85,6 @@
                 </div>
                 <div class="dfp-input col-sm-4">
                     <label for="Title">配偶</label>
-                    <span class="dfp-form-required">*</span>
                     @Html.DropDownList("MateMemberId", (IEnumerable<SelectListItem>)Model.AvailableMateMemberList, "", new { @class = "ddl-input" })
                 </div>
 
@@ -97,14 +98,14 @@
                     @Html.LabelFor(model => model.FamilyName, htmlAttributes: new { @for = "Title" })
                     <span class="dfp-form-required">*</span>
                     @Html.EditorFor(model => model.FamilyName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                    @Html.ValidationMessageFor(model => model.FamilyName, "", new { @class = "text-danger" })
+                    @Html.ValidationMessageFor(model => model.FamilyName, "必要輸入", new { @class = "text-danger" })
                 </div>
 
                 <div class="dfp-input col-sm-4">
                     @Html.LabelFor(model => model.GivenName, htmlAttributes: new { @for = "Title" })
                     <span class="dfp-form-required">*</span>
                     @Html.EditorFor(model => model.GivenName, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.GivenName, "", new { @class = "text-danger" })
+                    @Html.ValidationMessageFor(model => model.GivenName, "必要輸入", new { @class = "text-danger" })
                 </div>
 
                 <div class="clearfix"> </div>
@@ -124,7 +125,7 @@
                 </div>
                 <div class="dfp-input col-sm-12">
                     @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                    @Html.ValidationMessageFor(model => model.Description, "必要輸入", new { @class = "text-danger" })
                 </div>
 
                 <div class="clearfix"> </div>
@@ -176,8 +177,7 @@
                     <label for="Title">目前居住地址</label>
                 </div>
                 <div class="dfp-input col-sm-4">
-                    <label for="Title">國家</label>
-                    <span class="dfp-form-required">*</span>
+                    <label for="Title">國家</label>                    
                     @Html.DropDownList("CountryName", (IEnumerable<SelectListItem>)Model.AvailableCountries, "", new { @class = "country-input", id = "Countries" })
                 </div>
 

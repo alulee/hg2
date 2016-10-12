@@ -75,7 +75,7 @@ namespace HGenealogy.Controllers
 
         [NonAction]
         protected virtual void PrepareFamilyMemberViewModel(FamilyMemberViewModel model)
-        {            
+        {
             if (model.CurrentAddressId != 0)
             {
                 var address = _addressService.GetById(model.CurrentAddressId);
@@ -185,7 +185,7 @@ namespace HGenealogy.Controllers
             }
 
             #region 讀取目前選取的族譜
-            if (model.IsLoadCurrentPedigreeMeta)
+            if (1 == 1)
             {
                 int currentPedigreeMetaId = Session["currentPedigreeId"] == null ? 0 : Convert.ToInt16(Session["currentPedigreeId"]);
                 if (currentPedigreeMetaId != 0)
@@ -198,10 +198,11 @@ namespace HGenealogy.Controllers
                     }
                 }
             }
+
             #endregion
 
             #region 載入目前選定族譜的所有家族成員
-            
+
             if (model.IsLoadPedigreeMembers)
             {
                 int currentPedigreeMetaId = Session["currentPedigreeId"] == null ? 0 : Convert.ToInt16(Session["currentPedigreeId"]);
@@ -213,7 +214,7 @@ namespace HGenealogy.Controllers
                 }
 
                 var selectitem = model.AvailableFatherMemberList.Where(x => x.Value == model.FatherMemberId.ToString()).FirstOrDefault();
-                if(selectitem !=null)
+                if (selectitem != null)
                 {
                     selectitem.Selected = true;
                 }
@@ -228,7 +229,7 @@ namespace HGenealogy.Controllers
                     selectitem.Selected = true;
                 }
             }
-            
+
             #endregion
         }
 
@@ -464,6 +465,8 @@ namespace HGenealogy.Controllers
             familyMemberViewModel.PedigreeId = currentPedigreeId;
 
             ViewBag.Title = "建立新的家族成員";
+            ModelState.Clear();
+            ViewData.ModelState.Clear();
             return View("CreateOrUpdate", familyMemberViewModel);
         }
  
@@ -500,12 +503,11 @@ namespace HGenealogy.Controllers
             PrepareFamilyMemberViewModel(familyMemberViewModel);
 
             ViewBag.Title = "修改家族成員資料";
+            ModelState.Clear();
+            ViewData.ModelState.Clear();
             return View("CreateOrUpdate", familyMemberViewModel);       
         }
-
-        // POST: FamilyMembers/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult SaveFamilyMember(FamilyMemberViewModel editfamilyMember, bool isAutoGenerateParents=false)
@@ -525,7 +527,10 @@ namespace HGenealogy.Controllers
                     familyMember.HakkaName = familyMember.HakkaName ?? "";
                     familyMember.Email = familyMember.Email ?? "";
                     familyMember.Phone = familyMember.Phone ?? "";
-                    familyMember.MobilePhone = familyMember.MobilePhone ?? ""; 
+                    familyMember.MobilePhone = familyMember.MobilePhone ?? "";
+                    familyMember.Title = familyMember.Title ?? "";
+                    if (familyMember.FatherMemberId == null)
+                        familyMember.FatherMemberId = 0; 
 
                     if (familyMember.Id == 0)
                     {
@@ -533,7 +538,6 @@ namespace HGenealogy.Controllers
                         familyMember.CreatedWho = "sa";
                         familyMember.UpdatedWho = "sa";
                         _familyMemberService.Insert(familyMember);
- 
                     }
                     else
                     {
@@ -649,16 +653,20 @@ namespace HGenealogy.Controllers
                 return HttpNotFound();
             }
             return View(familyMember);
-        }
+        }       
 
         // POST: FamilyMembers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            FamilyMember familyMember = this._familyMemberService.GetById(id);
-            //db.FamilyMembers.Remove(familyMember);
-            //db.SaveChanges();
+            FamilyMember familyMember = this._familyMemberService.GetById(id);             
+            if (familyMember == null)
+            {
+                return RedirectToAction("Index");
+            }
+            _familyMemberService.Delete(familyMember);
+
             return RedirectToAction("Index");
         }       
  
@@ -779,6 +787,20 @@ namespace HGenealogy.Controllers
             return RedirectToAction("Meta", "FamilyMembers", new { familyMemberid = model.FamilyMemberId });
         }
 
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult DeleteFamilyMemberInfo(int id)
+        {
+            var familyMemberid = 0;
+            var familyMemberInfo = _familyMemberInfoService.GetById(id);
+            if (familyMemberInfo != null)
+            {
+                familyMemberid = familyMemberInfo.FamilyMemberId;
+                _familyMemberInfoService.Delete(familyMemberInfo);                
+            }
+
+            return RedirectToAction("Meta", "FamilyMembers", new { familyMemberid = familyMemberid });
+        }
 
         #endregion
 

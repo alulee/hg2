@@ -18,6 +18,7 @@ namespace HGenealogy.Services.Interface
         PedigreeMeta GetById(int id);
         void Insert(PedigreeMeta entity);
         void Update(PedigreeMeta entity);
+        void Delete(PedigreeMeta entity);
         List<SelectListItem> GetAvailablePedigreeSelectList(int currentPedigreeId = 0);
     }
 }

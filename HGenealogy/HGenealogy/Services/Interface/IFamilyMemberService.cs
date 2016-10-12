@@ -17,6 +17,7 @@ namespace HGenealogy.Services.Interface
         FamilyMember GetById(int id);
         void Insert(FamilyMember entity);
         void Update(FamilyMember entity);
+        void Delete(FamilyMember entity);
         List<FamilyMember> GetList(Expression<Func<FamilyMember, bool>> filter);
         List<SelectListItem> GetFamilyMembersSelectList(int pedigreeId);
         List<FamilyMember> GetFamilyMemberList(FamilyMemberSimpleQueryModel queryModel);

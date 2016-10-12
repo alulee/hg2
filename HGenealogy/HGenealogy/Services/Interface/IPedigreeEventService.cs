@@ -14,5 +14,6 @@ namespace HGenealogy.Services.Interface
         PedigreeEvent GetById(int id);
         void Insert(PedigreeEvent entity);
         void Update(PedigreeEvent entity);
+        void Delete(PedigreeEvent entity);
     }
 }

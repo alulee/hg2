@@ -189,11 +189,11 @@ namespace HGenealogy.Controllers
             if (pedigreeInfo.Id == 0)//新增
             {
                 pedigreeInfo.CreatedOnUtc = System.DateTime.Now;
-                pedigreeInfo.CreatedWho = "???";
+                pedigreeInfo.CreatedWho = "";
             }
 
             pedigreeInfo.UpdatedOnUtc = System.DateTime.Now;
-            pedigreeInfo.UpdatedWho = "???";
+            pedigreeInfo.UpdatedWho = "";
 
             if (pedigreeInfo.Id == 0)//新增
                 _pedigreeInfoService.Insert(pedigreeInfo);
@@ -214,7 +214,7 @@ namespace HGenealogy.Controllers
             if (pedigreeEvent.Id == 0)//新增
             {
                 pedigreeEvent.CreatedOnUtc = System.DateTime.Now;
-                pedigreeEvent.CreatedWho = "???";
+                pedigreeEvent.CreatedWho = "";
             }
 
             if (string.IsNullOrWhiteSpace(pedigreeEvent.EventPlace))
@@ -235,7 +235,7 @@ namespace HGenealogy.Controllers
             //}
 
             pedigreeEvent.UpdatedOnUtc = System.DateTime.Now;
-            pedigreeEvent.UpdatedWho = "???";
+            pedigreeEvent.UpdatedWho = "";
 
             if (pedigreeEvent.Id == 0)//新增
                 _pedigreeEventService.Insert(pedigreeEvent);
@@ -244,6 +244,32 @@ namespace HGenealogy.Controllers
 
             return RedirectToAction("Index", "PedigreeInfo", new { pedigreeID = model.PedigreeID, infoType = "Event" });
         }
+
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult DeletePedigreeInfo(int id)
+        {
+            var pedigreeInfo = _pedigreeInfoService.GetById(id);
+            var pedigreeID = pedigreeInfo.PedigreeID;
+            var infoType = pedigreeInfo.InfoType;
+
+            _pedigreeInfoService.Delete(pedigreeInfo);
+
+            return RedirectToAction("Index", "PedigreeInfo", new { pedigreeID = pedigreeID, infoType = infoType });
+        }
+
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult DeletePedigreeEvent(int id)
+        {
+            var pedigreeEvent = _pedigreeEventService.GetById(id);
+            var pedigreeID = pedigreeEvent.PedigreeID;
+
+            _pedigreeEventService.Delete(pedigreeEvent);
+
+            return RedirectToAction("Index", "PedigreeInfo", new { pedigreeID = pedigreeID, infoType = "Event" });
+ 
+        }  
 
         [HttpPost]
         public JsonResult GetEventPlaceRelation(string eventPlace)
@@ -300,6 +326,8 @@ namespace HGenealogy.Controllers
         /// <returns></returns>
         public ActionResult GetEventTimeMapJson(int pedigreeId)
         {
+            Response.AddHeader("Access-Control-Allow-Origin", "*");
+
             var eventlist = this.GetPedigreeEventList(pedigreeId);
             if (eventlist != null)
             {

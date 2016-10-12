@@ -9,225 +9,229 @@
     string infoTypeC = infoTypeDic.Where(p => p.Key == currentInfoType).FirstOrDefault().Value;
 }
 
-<div>
-    <ul class="nav nav-tabs nav-tabs-justified ">
-        <li class="active "><a data-toggle="tab" href="#home">@infoTypeC</a></li>
-        @*<li><a data-toggle="tab" href="#menu1">Menu 1</a></li>
-            <li><a data-toggle="tab" href="#menu2">Menu 2</a></li>
-            <li><a data-toggle="tab" href="#menu3">Menu 3</a></li>*@
-    </ul>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
 
-    <div class="tab-content pedigree-info-list-page">
-        <div id="home" class="tab-pane fade in active">
-            @if (currentInfoType == "Meta")
+    <div>
+        <ul class="nav nav-tabs nav-tabs-justified ">
+            <li class="active "><a data-toggle="tab" href="#home">@infoTypeC</a></li>
+            @*<li><a data-toggle="tab" href="#menu1">Menu 1</a></li>
+                <li><a data-toggle="tab" href="#menu2">Menu 2</a></li>
+                <li><a data-toggle="tab" href="#menu3">Menu 3</a></li>*@
+        </ul>
+
+        <div class="tab-content pedigree-info-list-page">
+            <div id="home" class="tab-pane fade in active">
+                @if (currentInfoType == "Meta")
             {
 
-                <div class="row">
-                    <div class="col-md-8">
-                        <h3>@tilte</h3>
-                    </div>
-                    <div class="col-md-4">
-                        @{
-                var url = Url.Action("Edit", "PedigreeMeta", new { id = Model.Id });
-                        }
-                        <a href='@url' class="btn btn-default">
-                            <span class="glyphicon glyphicon-edit"></span> 修改
-                        </a>
-                    </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <h3>@tilte</h3>
                 </div>
+                <div class="col-md-4">
+                    @{
+                var url = Url.Action("Edit", "PedigreeMeta", new { id = Model.Id });
+                    }
+                    <a href='@url' class="btn btn-default">
+                        <span class="glyphicon glyphicon-edit"></span> 修改
+                    </a>
+                </div>
+            </div>
 
-                <div class="panel panel-info">
-                    <div class="panel-heading ">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" href="#collapse1">基本資料</a>
-                        </h4>
-                    </div>
-                    <div id="collapse1" class="panel-collapse collapse in">
-                        <div class="panel-body ">
-                            <div class="row">
-                                <div class="col-md-2 text-right">
-                                    @Html.DisplayNameFor(m => m.Title):
-                                </div>
-                                <div class="col-md-4">
-                                    @Html.DisplayFor(m => m.Title)
-                                </div>
-                                <div class="col-md-2 text-right">
-                                    @Html.DisplayNameFor(m => m.Editor):
-                                </div>
-                                <div class="col-md-4">
-                                    @Html.DisplayFor(m => m.Editor)
-                                </div>
+            <div class="panel panel-info">
+                <div class="panel-heading ">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#collapse1">基本資料</a>
+                    </h4>
+                </div>
+                <div id="collapse1" class="panel-collapse collapse in">
+                    <div class="panel-body ">
+                        <div class="row">
+                            <div class="col-md-2 text-right">
+                                @Html.DisplayNameFor(m => m.Title):
                             </div>
-                            <div class="row">
-                                <div class="col-md-2 text-right">
-                                    @Html.DisplayNameFor(m => m.Description):
-                                </div>
-                                <div class="col-md-10">
-                                    @Html.DisplayFor(m => m.Description)
-                                </div>
+                            <div class="col-md-4">
+                                @Html.DisplayFor(m => m.Title)
                             </div>
-                            <div class="row">
-                                <div class="col-md-2 text-right">
-                                    @Html.DisplayNameFor(m => m.Image):
-                                </div>
-                                <div class="col-md-10">
-                                    @{
+                            <div class="col-md-2 text-right">
+                                @Html.DisplayNameFor(m => m.Editor):
+                            </div>
+                            <div class="col-md-4">
+                                @Html.DisplayFor(m => m.Editor)
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 text-right">
+                                @Html.DisplayNameFor(m => m.Description):
+                            </div>
+                            <div class="col-md-10">
+                                @Html.DisplayFor(m => m.Description)
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 text-right">
+                                @Html.DisplayNameFor(m => m.Image):
+                            </div>
+                            <div class="col-md-10">
+                                @{
                 if (string.IsNullOrEmpty(Model.Image))
                 {
-                    <img src="" width="300" height="300">
+                                    <img src="" width="300" height="300">
                 }
                 else
                 {
-                    <img src="@Url.Content(Model.Image)" width="300" height="300">
+                                    <img src="@Url.Content(Model.Image)" width="300" height="300">
                 }
-                                    }
-                                </div>
+                                }
                             </div>
-                            <div class="row">
-                                <div class="col-md-2 text-right">
-                                    @Html.DisplayNameFor(m => m.PublishDate):
-                                </div>
-                                <div class="col-md-10">
-                                    @Html.DisplayFor(m => m.PublishDate)
-                                </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 text-right">
+                                @Html.DisplayNameFor(m => m.PublishDate):
                             </div>
-                            <div class="row">
-                                <div class="col-md-2 text-right">
-                                    @Html.DisplayNameFor(m => m.Volumes):
-                                </div>
-                                <div class="col-md-4">
-                                    @Html.DisplayFor(m => m.Volumes)
-                                </div>
-                                <div class="col-md-2 text-right">
-                                    @Html.DisplayNameFor(m => m.Pages):
-                                </div>
-                                <div class="col-md-4">
-                                    @Html.DisplayFor(m => m.Pages)
-                                </div>
+                            <div class="col-md-10">
+                                @Html.DisplayFor(m => m.PublishDate)
                             </div>
-                            <div class="row">
-                                <div class="col-md-2 text-right">
-                                    @Html.DisplayNameFor(m => m.FamilyName):
-                                </div>
-                                <div class="col-md-4">
-                                    @Html.DisplayFor(m => m.FamilyName)
-                                </div>
-                                <div class="col-md-2 text-right">
-                                    @Html.DisplayNameFor(m => m.OriginalAncestor):
-                                </div>
-                                <div class="col-md-4">
-                                    @Html.DisplayFor(m => m.OriginalAncestor)
-                                </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 text-right">
+                                @Html.DisplayNameFor(m => m.Volumes):
+                            </div>
+                            <div class="col-md-4">
+                                @Html.DisplayFor(m => m.Volumes)
+                            </div>
+                            <div class="col-md-2 text-right">
+                                @Html.DisplayNameFor(m => m.Pages):
+                            </div>
+                            <div class="col-md-4">
+                                @Html.DisplayFor(m => m.Pages)
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 text-right">
+                                @Html.DisplayNameFor(m => m.FamilyName):
+                            </div>
+                            <div class="col-md-4">
+                                @Html.DisplayFor(m => m.FamilyName)
+                            </div>
+                            <div class="col-md-2 text-right">
+                                @Html.DisplayNameFor(m => m.OriginalAncestor):
+                            </div>
+                            <div class="col-md-4">
+                                @Html.DisplayFor(m => m.OriginalAncestor)
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" href="#collapse2">入臺資料</a>
-                        </h4>
-                    </div>
-                    <div id="collapse2" class="panel-collapse collapse in">
-                        <div class="panel-body">
-                            <div class="row">
-                                <div class="col-md-2 text-right">
-                                    @Html.DisplayNameFor(m => m.DateMoveToTaiwan):
-                                </div>
-                                <div class="col-md-4">
-                                    @Html.DisplayFor(m => m.DateMoveToTaiwan)
-                                </div>
-                                <div class="col-md-2 text-right">
-                                    @Html.DisplayNameFor(m => m.AncestorToTaiwan):
-                                </div>
-                                <div class="col-md-4">
-                                    @Html.DisplayFor(m => m.AncestorToTaiwan)
-                                </div>
+            </div>
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#collapse2">來臺資料</a>
+                    </h4>
+                </div>
+                <div id="collapse2" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-2 text-right">
+                                @Html.DisplayNameFor(m => m.DateMoveToTaiwan):
                             </div>
-                            <div class="row">
-                                <div class="col-md-2 text-right">
-                                    @Html.DisplayNameFor(m => m.OriginalAddress):
-                                </div>
-                                <div class="col-md-4">
-                                    @Html.DisplayFor(m => m.OriginalAddress)
-                                </div>
-                                <div class="col-md-2 text-right">
-                                    @Html.DisplayNameFor(m => m.TotalGenerations):
-                                </div>
-                                <div class="col-md-4">
-                                    @Html.DisplayFor(m => m.TotalGenerations)
-                                </div>
+                            <div class="col-md-4">
+                                @Html.DisplayFor(m => m.DateMoveToTaiwan)
                             </div>
-                            <div class="row">
-                                <div class="col-md-2 text-right">
-                                    @Html.DisplayNameFor(m => m.GenerationToTaiwan):
-                                </div>
-                                <div class="col-md-4">
-                                    @Html.DisplayFor(m => m.GenerationToTaiwan)
-                                </div>
-                                <div class="col-md-2 text-right">
-                                    @Html.DisplayNameFor(m => m.LivingAreaInTaiwan):
-                                </div>
-                                <div class="col-md-4">
-                                    @Html.DisplayFor(m => m.LivingAreaInTaiwan)
-                                </div>
+                            <div class="col-md-2 text-right">
+                                @Html.DisplayNameFor(m => m.AncestorToTaiwan):
                             </div>
-                            <div class="row">
-                                <div class="col-md-2 text-right">
-                                    @Html.DisplayNameFor(m => m.OriginalCollector):
-                                </div>
-                                <div class="col-md-4">
-                                    @Html.DisplayFor(m => m.OriginalCollector)
-                                </div>
-                                <div class="col-md-2 text-right">
-                                    @Html.DisplayNameFor(m => m.TangName):
-                                </div>
-                                <div class="col-md-4">
-                                    @Html.DisplayFor(m => m.TangName)
-                                </div>
+                            <div class="col-md-4">
+                                @Html.DisplayFor(m => m.AncestorToTaiwan)
                             </div>
-                            <div class="row">
-                                <div class="col-md-2 text-right">
-                                    @Html.DisplayNameFor(m => m.ContentNotes):
-                                </div>
-                                <div class="col-md-10">
-                                    @Html.DisplayFor(m => m.ContentNotes)
-                                </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 text-right">
+                                @Html.DisplayNameFor(m => m.OriginalAddress):
                             </div>
-                            <div class="row">
-                                <div class="col-md-2 text-right">
-                                    @Html.DisplayNameFor(m => m.IsPublic):
-                                </div>
-                                <div class="col-md-10">
-                                    @Html.DisplayFor(m => m.IsPublic)
-                                </div>
+                            <div class="col-md-4">
+                                @Html.DisplayFor(m => m.OriginalAddress)
+                            </div>
+                            <div class="col-md-2 text-right">
+                                @Html.DisplayNameFor(m => m.TotalGenerations):
+                            </div>
+                            <div class="col-md-4">
+                                @Html.DisplayFor(m => m.TotalGenerations)
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 text-right">
+                                @Html.DisplayNameFor(m => m.GenerationToTaiwan):
+                            </div>
+                            <div class="col-md-4">
+                                @Html.DisplayFor(m => m.GenerationToTaiwan)
+                            </div>
+                            <div class="col-md-2 text-right">
+                                @Html.DisplayNameFor(m => m.LivingAreaInTaiwan):
+                            </div>
+                            <div class="col-md-4">
+                                @Html.DisplayFor(m => m.LivingAreaInTaiwan)
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 text-right">
+                                @Html.DisplayNameFor(m => m.OriginalCollector):
+                            </div>
+                            <div class="col-md-4">
+                                @Html.DisplayFor(m => m.OriginalCollector)
+                            </div>
+                            <div class="col-md-2 text-right">
+                                @Html.DisplayNameFor(m => m.TangName):
+                            </div>
+                            <div class="col-md-4">
+                                @Html.DisplayFor(m => m.TangName)
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 text-right">
+                                @Html.DisplayNameFor(m => m.ContentNotes):
+                            </div>
+                            <div class="col-md-10">
+                                @Html.DisplayFor(m => m.ContentNotes)
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 text-right">
+                                @Html.DisplayNameFor(m => m.IsPublic):
+                            </div>
+                            <div class="col-md-10">
+                                @Html.DisplayFor(m => m.IsPublic)
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" href="#collapse3">其他</a>
-                        </h4>
-                    </div>
-                    <div id="collapse3" class="panel-collapse collapse in">
-                        <div class="panel-body">
-                            <div class="row">
-                                <div class="col-md-2 text-right">
-                                    @Html.DisplayNameFor(m => m.CreatedOnUtc):
-                                </div>
-                                <div class="col-md-4">
-                                    @Html.DisplayFor(m => m.CreatedOnUtc)
-                                </div>
-                                <div class="col-md-2 text-right">
-                                    @Html.DisplayNameFor(m => m.UpdatedOnUtc):
-                                </div>
-                                <div class="col-md-4">
-                                    @Html.DisplayFor(m => m.UpdatedOnUtc)
-                                </div>
+            </div>
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#collapse3">其他</a>
+                    </h4>
+                </div>
+                <div id="collapse3" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-2 text-right">
+                                @Html.DisplayNameFor(m => m.CreatedOnUtc):
                             </div>
-                            <div class="row">
+                            <div class="col-md-4">
+                                @Html.DisplayFor(m => m.CreatedOnUtc)
+                            </div>
+                            <div class="col-md-2 text-right">
+                                @Html.DisplayNameFor(m => m.UpdatedOnUtc):
+                            </div>
+                            <div class="col-md-4">
+                                @Html.DisplayFor(m => m.UpdatedOnUtc)
+                            </div>
+                        </div>
+                        @*<div class="row">
                                 <div class="col-md-2 text-right">
                                     @Html.DisplayNameFor(m => m.CreatedWho):
                                 </div>
@@ -240,33 +244,33 @@
                                 <div class="col-md-4">
                                     @Html.DisplayFor(m => m.UpdatedWho)
                                 </div>
-                            </div>
-                        </div>
+                            </div>*@
                     </div>
                 </div>
+            </div>
             }
             else if (currentInfoType == "Event")
             {
-                <div class="form-group row">
-                    <div class="col-md-9">
-                        <h3>@tilte</h3>
-                    </div>
-                    <div class="col-md-3">
-                        @{
-                var url = Url.Action("CreatePedigreeEvent", new { pedigreeID = currentPedigreeID, infoType = currentInfoType });
-                        }
-                        <a href='@url' class="btn btn-default">
-                            <span class="glyphicon glyphicon-plus"></span> 新增
-                        </a>
-                        <input type="button" value="時空紀事地圖" class="btn btn-default pull-right" 
-                               onclick="location.href='@Url.Action("TimeMapA", "PedigreeInfo")'" />
-
-                    </div>
+            <div class="form-group row">
+                <div class="col-md-9">
+                    <h3>@tilte</h3>
                 </div>
-               
-                
-                <div class="pedigreeInfo-list">
-                    @for (int i = 0; i < Model.pedigreeEventList.Count; i++)
+                <div class="col-md-3">
+                    @{
+                var url = Url.Action("CreatePedigreeEvent", new { pedigreeID = currentPedigreeID, infoType = currentInfoType });
+                    }
+                    <a href='@url' class="btn btn-default">
+                        <span class="glyphicon glyphicon-plus"></span> 新增
+                    </a>
+                    <input type="button" value="時空紀事地圖" class="btn btn-default pull-right"
+                           onclick="location.href='@Url.Action("TimeMapA", "PedigreeInfo")'" />
+
+                </div>
+            </div>
+
+
+            <div class="pedigreeInfo-list">
+                @for (int i = 0; i < Model.pedigreeEventList.Count; i++)
                     {
                         var item = Model.pedigreeEventList[i];
                         if (item.Id == 0)
@@ -275,63 +279,63 @@
                         }
                         var collapseId = string.Concat("collapse", i.ToString());
                         var collapseHref = string.Concat("#collapse", i.ToString());
-                        <div class="panel panel-info">
-                            <div class="panel-heading">
-                                <h4 class="panel-title"></h4>
-                                <div class="row">
-                                    <div class="col-md-10">
-                                        <a data-toggle="collapse" href="@collapseHref">@item.EventTitle</a>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <div class="buttons">
-                                            <input type="button" class="btn btn-info" onclick="location.href='@Url.Action("EditPedigreeEvent", new { id = item.Id })'" value='修改' />
-                                            <input type="button" class="btn btn-danger" value='刪除' />
-                                        </div>
-                                    </div>
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h4 class="panel-title"></h4>
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <a data-toggle="collapse" href="@collapseHref">@item.EventTitle</a>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-2">
-                                        <span>開始日期:</span>
-                                    </div>
-                                    <div class="col-md-4">
-                                        @item.EventDateStartOnUtc
-                                    </div>
-                                    <div class="col-md-2">
-                                        <span>結束日期:</span>
-                                    </div>
-                                    <div class="col-md-4">
-                                        @item.EventDateEndOnUtc
+                                <div class="col-md-2">
+                                    <div class="buttons">
+                                        <input type="button" class="btn btn-info" onclick="location.href='@Url.Action("EditPedigreeEvent", new { id = item.Id })'" value='修改' />
+                                        <input type="button" class="btn btn-danger" onclick="deletePedigreeEvent(@item.Id)" value='刪除' />
                                     </div>
                                 </div>
                             </div>
-                           
-
-                            <div id="@collapseId" class="panel-collapse collapse in">
-                                <div class="panel-body">
-                                    @Html.Raw(item.EventContent)
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <span>開始日期:</span>
+                                </div>
+                                <div class="col-md-4">
+                                    @item.EventDateStartOnUtc
+                                </div>
+                                <div class="col-md-2">
+                                    <span>結束日期:</span>
+                                </div>
+                                <div class="col-md-4">
+                                    @item.EventDateEndOnUtc
                                 </div>
                             </div>
                         </div>
+
+
+                        <div id="@collapseId" class="panel-collapse collapse in">
+                            <div class="panel-body">
+                                @Html.Raw(item.EventContent)
+                            </div>
+                        </div>
+                    </div>
                     }
-                </div>
+            </div>
             }
             else
             {
-                <div class="form-group row">
-                    <div class="col-md-9">
-                        <h3>@tilte</h3>
-                    </div>
-                    <div class="col-md-3 ">
-                        @if (currentInfoType == "Preface")
+            <div class="form-group row">
+                <div class="col-md-9">
+                    <h3>@tilte</h3>
+                </div>
+                <div class="col-md-3 ">
+                    @if (currentInfoType == "Preface")
                         {
                         <input type="button" value="自動產生譜序" class="btn btn-default pull-right" />
                         }
-                        <input type="button" value="新增" class="btn btn-default pull-right" onclick="location.href='@Url.Action("Create", new { pedigreeID = currentPedigreeID, infoType = currentInfoType })'" />
+                    <input type="button" value="新增" class="btn btn-default pull-right" onclick="location.href='@Url.Action("Create", new { pedigreeID = currentPedigreeID, infoType = currentInfoType })'" />
 
-                    </div>
                 </div>
-                <div class="pedigreeInfo-list">
-                    @for (int i = 0; i < Model.pedigreeInfoList.Count; i++)
+            </div>
+            <div class="pedigreeInfo-list">
+                @for (int i = 0; i < Model.pedigreeInfoList.Count; i++)
                     {
                         var item = Model.pedigreeInfoList[i];
                         if (item.Id == 0)
@@ -350,7 +354,7 @@
                                 <div class="col-md-2">
                                     <div class="buttons">
                                         <input type="button" class="btn btn-info" onclick="location.href='@Url.Action("Edit", new { id = item .Id})'" value='修改' />
-                                        <input type="button" class="btn btn-danger" value='刪除' />
+                                        <input type="button" class="btn btn-danger" onclick="deletePedigreeInfo(@item.Id)" value='刪除' />
                                     </div>
                                 </div>
                             </div>
@@ -362,10 +366,61 @@
                         </div>
                     </div>
                     }
-                </div>
+            </div>
             }
 
 
+            </div>
         </div>
     </div>
-</div>
+
+}
+
+
+<script>
+
+    function deletePedigreeInfo(id) {
+
+        var r = confirm("確認刪除?");
+        if (r == true) {
+            $.ajax({
+                url: '@Url.Action("DeletePedigreeInfo")',
+                type: 'POST',
+                data: {
+                    id : id
+                },
+                success: function (response) {
+                    //alert('刪除成功');
+                    document.location.reload();
+                },
+                error: function (response) {
+                    alert('刪除失敗: ' + response.status + ' ' + response.statusText);
+                }
+            });
+
+        }
+    }
+
+    function deletePedigreeEvent(id) {
+
+        var r = confirm("確認刪除?");
+        if (r == true) {
+            $.ajax({
+                url: '@Url.Action("DeletePedigreeEvent")',
+                type: 'POST',
+                data: {
+                    id : id
+                },
+                success: function (response) {
+                    //alert('刪除成功');
+                    document.location.reload();
+                },
+                error: function (response) {
+                    alert('刪除失敗: ' + response.status + ' ' + response.statusText);
+                }
+            });
+
+        }
+    }
+
+</script>

@@ -30,8 +30,8 @@
                                 </div>
                                 <div class="col-md-2">
                                     <div class="buttons">
-                                        <input type="button" class="btn btn-sm btn-info" onclick="location.href='@Url.Action("Edit", new { id = item .Id})'" value='修改' />
-                                        <input type="button" class="btn btn-sm btn-danger" value='刪除' />
+                                        <input type="button" class="btn btn-sm btn-info" onclick="location.href='@Url.Action("Edit", new { id = item.Id})'" value='修改' />
+                                        <input type="button" class="btn btn-sm btn-danger" onclick="deleteFamilyMemberInfo(@item.Id)" value='刪除' />
                                     </div>
                                 </div>
                             </div>
@@ -53,3 +53,29 @@
     </div>
  
 
+
+<script>
+
+    function deleteFamilyMemberInfo(id) {
+
+        var r = confirm("確認刪除?");
+        if (r == true) {
+            $.ajax({
+                url: '@Url.Action("DeleteFamilyMemberInfo")',
+                type: 'POST',
+                data: {
+                    id: id
+                },
+                success: function (response) {
+                    //alert('刪除成功');
+                    document.location.reload();
+                },
+                error: function (response) {
+                    alert('刪除失敗: ' + response.status + ' ' + response.statusText);
+                }
+            });
+
+        }
+    }
+ 
+</script>

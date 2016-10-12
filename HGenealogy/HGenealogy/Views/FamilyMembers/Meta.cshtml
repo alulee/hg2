@@ -107,7 +107,7 @@
             <div class="float-right">
                 <div class="buttons">
                     <input type="button" class="btn btn-info" onclick="location.href='@Url.Action("Edit", new { id = currentFamilyMemberId})'" value='修改' />
-                    <input type="button" class="btn btn-danger" value='刪除' />
+                    <input type="button" class="btn btn-danger" onclick="location.href='@Url.Action("Delete", new { id = currentFamilyMemberId})'"  value='刪除' />
                 </div>
             </div>
 

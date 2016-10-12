@@ -93,6 +93,7 @@ namespace HGenealogy.Models.FamilyMember
         public int MateMemberId { get; set; }
         public string GGrandFatherName { get; set; }
         public string GrandFatherName { get; set; }
+       [DisplayName("父親")]
         public string FatherName { get; set; }
         public string MotherName { get; set; }
         public string WifeName { get; set; }

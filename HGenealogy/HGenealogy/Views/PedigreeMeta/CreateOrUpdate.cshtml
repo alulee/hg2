@@ -29,10 +29,18 @@
                 <label for="Title">族譜名稱</label>
                 <span class="dfp-form-required">*</span>
             </div>
-
             <div class="dfp-input col-sm-4">
                 @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+            </div>
+            <div class="clearfix"> </div>
+            <div class="dfp-form-title">
+                <label for="Editor">姓氏</label>
+                <span class="dfp-form-required">*</span>
+            </div>
+            <div class="dfp-input col-sm-4">
+                @Html.EditorFor(model => model.FamilyName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.FamilyName, "", new { @class = "text-danger" })
             </div>
             <div class="clearfix"> </div>
             <div class="dfp-form-title">
@@ -63,16 +71,16 @@
             <div class="clearfix"> </div>
 
             <h2 class="form-title">
-                <span>入臺資料</span>
+                <span>來臺資料</span>
             </h2>
             <div class="dfp-input col-sm-4">
-                <label for="DateMoveToTaiwan">入臺年代</label>
+                <label for="DateMoveToTaiwan">來臺年代</label>
                 @Html.EditorFor(model => model.DateMoveToTaiwan, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.DateMoveToTaiwan, "", new { @class = "text-danger" })
             </div>
 
             <div class="dfp-input col-sm-4">
-                <label for="AncestorToTaiwan">入臺祖</label>
+                <label for="AncestorToTaiwan">來臺祖</label>
                 @Html.EditorFor(model => model.AncestorToTaiwan, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.AncestorToTaiwan, "", new { @class = "text-danger" })
             </div>
@@ -91,13 +99,13 @@
             </div>
             <div class="clearfix"> </div>
             <div class="dfp-input col-sm-4">
-                <label for="GenerationToTaiwan">入臺世代</label>
+                <label for="GenerationToTaiwan">來臺世代</label>
                 @Html.EditorFor(model => model.GenerationToTaiwan, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.GenerationToTaiwan, "", new { @class = "text-danger" })
             </div>
 
             <div class="dfp-input col-sm-4">
-                <label for="LivingAreaInTaiwan">入臺包含地區</label>
+                <label for="LivingAreaInTaiwan">來臺包含地區</label>
                 @Html.EditorFor(model => model.LivingAreaInTaiwan, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.LivingAreaInTaiwan, "", new { @class = "text-danger" })
             </div>

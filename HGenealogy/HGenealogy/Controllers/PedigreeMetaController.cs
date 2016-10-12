@@ -8,6 +8,7 @@ using HGenealogy.Services.Interface;
 using AutoMapper;
 using HGenealogy.Data;
 using HGenealogy.Models;
+using System.Net;
 
 namespace HGenealogy.Controllers
 {
@@ -120,8 +121,42 @@ namespace HGenealogy.Controllers
             var model = Mapper.Map<PedigreeMeta, PedigreeMetaModel>(hGPedigreeMeta);
 
             ViewBag.Title = "修改您的族譜";
+            ModelState.Clear();
             return View("CreateOrUpdate", model);
         }
+        
+        public ActionResult Delete(int id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var hGPedigreeMeta = this._pedigreeMetaService.GetById(id);
+            if (hGPedigreeMeta == null)
+            {
+                return HttpNotFound();
+            }
+
+            Mapper.Initialize(p => p.CreateMap<PedigreeMeta, PedigreeMetaModel>());
+            var model = Mapper.Map<PedigreeMeta, PedigreeMetaModel>(hGPedigreeMeta);
+
+            return View(model);
+        }
+
+        
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            var hGPedigreeMeta = this._pedigreeMetaService.GetById(id);
+            if (hGPedigreeMeta == null)
+            {
+                return HttpNotFound();
+            }
+            _pedigreeMetaService.Delete(hGPedigreeMeta);
+
+            return RedirectToAction("Index");
+        }   
 
         [HttpPost]
         public ActionResult SaveHGPedigreeMeta(PedigreeMetaModel model)
@@ -132,7 +167,7 @@ namespace HGenealogy.Controllers
 
             if (model.Id == 0)//新增
             {
-                //pedigreeMeta.Editor = "???";
+                //pedigreeMeta.Editor = "";
                 //pedigreeMeta.Volumes = 0;
                 //pedigreeMeta.Pages = 0;
                 //pedigreeMeta.FamilyName = "abc";
@@ -142,15 +177,27 @@ namespace HGenealogy.Controllers
                 //pedigreeMeta.GenerationToTaiwan = 0;
                 //pedigreeMeta.IsPublic = false;
                 pedigreeMeta.CreatedOnUtc = System.DateTime.Now;
-                pedigreeMeta.CreatedWho = "???";
-            }
-            if (string.IsNullOrWhiteSpace(pedigreeMeta.FamilyName))
-                pedigreeMeta.FamilyName = "";
+                pedigreeMeta.CreatedWho = "";
+            }            
             if (string.IsNullOrWhiteSpace(pedigreeMeta.AncestorToTaiwan))
                 pedigreeMeta.AncestorToTaiwan = "";
+            if (string.IsNullOrWhiteSpace(pedigreeMeta.OriginalAncestor))
+                pedigreeMeta.OriginalAncestor = "";
+            if (string.IsNullOrWhiteSpace(pedigreeMeta.OriginalAddress))
+                pedigreeMeta.OriginalAddress = "";
+            if (string.IsNullOrWhiteSpace(pedigreeMeta.LivingAreaInTaiwan))
+                pedigreeMeta.LivingAreaInTaiwan = "";
+            if (string.IsNullOrWhiteSpace(pedigreeMeta.OriginalCollector))
+                pedigreeMeta.OriginalCollector = "";
+            if (string.IsNullOrWhiteSpace(pedigreeMeta.ContentNotes))
+                pedigreeMeta.ContentNotes = "";
+            if (string.IsNullOrWhiteSpace(pedigreeMeta.TangName))
+                pedigreeMeta.TangName = "";
+            if (string.IsNullOrWhiteSpace(pedigreeMeta.CreatedWho))
+                pedigreeMeta.CreatedWho = "";
 
             pedigreeMeta.UpdatedOnUtc = System.DateTime.Now;
-            pedigreeMeta.UpdatedWho = "???";
+            pedigreeMeta.UpdatedWho = "";
 
             if (pedigreeMeta.Id == 0)//新增
                 _pedigreeMetaService.Insert(pedigreeMeta);

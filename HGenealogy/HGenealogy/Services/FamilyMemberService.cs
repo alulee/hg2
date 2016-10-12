@@ -43,6 +43,12 @@ namespace HGenealogy.Services
             _familyMemberRepository.SaveChanges();
         }
 
+        public void Delete(FamilyMember entity)
+        {
+            _familyMemberRepository.Delete(entity);
+            _familyMemberRepository.SaveChanges();
+        }
+
         public void CommitChanges()
         {
             _familyMemberRepository.SaveChanges();
@@ -219,5 +225,7 @@ namespace HGenealogy.Services
                 }
             } 
         }
+    
+    
     }
 }

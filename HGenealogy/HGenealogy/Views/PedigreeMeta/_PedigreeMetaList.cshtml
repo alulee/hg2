@@ -13,6 +13,10 @@
             <div>
                 <div class="member_intro_content">
                     <div class="row">
+                        <div class="col-md-2 text-right">@Html.DisplayNameFor(model => model.FamilyName):</div>
+                        <div class="col-md-10">@Html.DisplayFor(model => item.FamilyName)</div>
+                    </div>
+                    <div class="row">
                         <div class="col-md-2 text-right">@Html.DisplayNameFor(model => model.DateMoveToTaiwan):</div>
                         <div class="col-md-10">@Html.DisplayFor(model => item.DateMoveToTaiwan)</div>
                     </div>

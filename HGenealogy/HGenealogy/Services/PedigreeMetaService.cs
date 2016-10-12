@@ -72,6 +72,12 @@ namespace HGenealogy.Services
             _pedigreeMetaRepository.SaveChanges();
         }
 
+        public void Delete(PedigreeMeta entity)
+        {
+            _pedigreeMetaRepository.Delete(entity);
+            _pedigreeMetaRepository.SaveChanges();
+        }
+
         public List<SelectListItem> GetAvailablePedigreeSelectList(int currentPedigreeId = 0)
         {
             List<SelectListItem> availablePedigreeList = new List<SelectListItem>();

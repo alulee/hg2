@@ -29,20 +29,21 @@ namespace HGenealogy.Models.PedigreeMeta
         [DisplayName("頁數")]
         public int Pages { get; set; }
         [DisplayName("姓氏")]
+        [Required]
         public string FamilyName { get; set; }
         [DisplayName("始祖")]
         public string OriginalAncestor { get; set; }
-        [DisplayName("入臺年代")]
+        [DisplayName("來臺年代")]
         public string DateMoveToTaiwan { get; set; }
-        [DisplayName("入臺祖")]
+        [DisplayName("來臺祖")]
         public string AncestorToTaiwan { get; set; }
         [DisplayName("原籍")]
         public string OriginalAddress { get; set; }
         [DisplayName("世代數")]
         public int TotalGenerations { get; set; }
-        [DisplayName("入臺世代")]
+        [DisplayName("來臺世代")]
         public int GenerationToTaiwan { get; set; }
-        [DisplayName("入臺包含地區")]
+        [DisplayName("來臺包含地區")]
         public string LivingAreaInTaiwan { get; set; }
         [DisplayName("原件珍藏者(單位)")]
         public string OriginalCollector { get; set; }
@@ -52,9 +53,13 @@ namespace HGenealogy.Models.PedigreeMeta
         public string TangName { get; set; }
         [DisplayName("是否公開")]
         public bool IsPublic { get; set; }
+        [DisplayName("建立日期")]
         public DateTime CreatedOnUtc { get; set; }
+        [DisplayName("修改日期")]
         public DateTime UpdatedOnUtc { get; set; }
+        [DisplayName("建立人")]
         public string CreatedWho { get; set; }
+        [DisplayName("修改人")]
         public string UpdatedWho { get; set; }
     }
 }
